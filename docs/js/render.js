@@ -4,7 +4,7 @@
 // number, and then the sprites are drawn at one shared whole-number scale.
 
 import * as R from "./rules.js";
-import { artKind, artUrl, gameName, isModern, monName, toast } from "./ui.js";
+import { artKind, artUrl, esc, gameName, isModern, modal, monName, toast } from "./ui.js";
 
 const MARGIN = 8, COL_GAP = 4, ROW_GAP = 22, GRID_GAP = 14;
 const INK = "#383840", INK_SHADOW = "#d0d0d8", INK_LIGHT = "#686870";
@@ -623,4 +623,30 @@ export async function saveGraphic(session, kind) {
   a.remove();
   setTimeout(() => URL.revokeObjectURL(url), 10000);
   toast("Picture saved");
+}
+
+/** Show the picture full-size, with the same Copy and Save options. */
+export async function viewGraphic(session, kind) {
+  let blob;
+  try {
+    blob = await prepareGraphic(session, kind);
+  } catch (err) {
+    toast(`Couldn't draw the picture: ${err.message}`);
+    return;
+  }
+  document.getElementById("toast").hidden = true; // clear any earlier message
+  const url = URL.createObjectURL(blob);
+  const touch = matchMedia("(pointer: coarse)").matches;
+  const done = modal(`<h2>${esc(NOUN[kind])}</h2>
+    <img class="graphic" src="${url}" alt="${esc(NOUN[kind])} picture">
+    ${touch ? `<p class="muted" style="text-align:center"><small>Or press and hold the picture to save it.</small></p>` : ""}
+    <div class="btn-row">
+      <button class="primary" id="view-copy">📋 Copy</button>
+      <button id="view-save">💾 Save image</button>
+    </div>
+    <div class="btn-row" style="margin-top:8px"><button data-value="close">Close</button></div>`);
+  document.getElementById("view-copy").addEventListener("click", () => shareGraphic(session, kind));
+  document.getElementById("view-save").addEventListener("click", () => saveGraphic(session, kind));
+  await done;
+  URL.revokeObjectURL(url);
 }

@@ -360,3 +360,6 @@ body:not([data-look="modern"]) :is(h3, small, label, input, select, textarea, bu
   .mon .species, .enc-row .where, .enc-row .what, .tag, .spr.missing) { font-size: var(--fs); }
 body:not([data-look="modern"]) h3,
 body:not([data-look="modern"]) label { color: var(--ink); }
+
+/* While a dialog is open, messages show at the top so they don't cover its buttons */
+#modal:not([hidden]) ~ #toast { top: calc(16px + env(safe-area-inset-top)); bottom: auto; }

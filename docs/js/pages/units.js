@@ -3,7 +3,7 @@
 
 import * as R from "../rules.js";
 import { cellStyle, confirmBox, esc, isModern, linkIcon, modal, monImage, monName, spriteScale, toast } from "../ui.js";
-import { prepareGraphic, saveGraphic, shareGraphic } from "../render.js";
+import { prepareGraphic, saveGraphic, shareGraphic, viewGraphic } from "../render.js";
 
 /** All sprite names on a page, for one shared scale. */
 function namesOf(encs) {
@@ -62,9 +62,12 @@ export async function placeNew(session, id, run = session.run) {
 }
 
 const SHARE_LABEL = { team: "Share team", box: "Share box", graveyard: "Share graveyard" };
+const VIEW_LABEL = { team: "View team image", box: "View box image", graveyard: "View graveyard image" };
 
 function graphicButton(kind) {
-  return `<div class="btn-row" style="margin-bottom:12px">
+  return `<div class="btn-row" style="margin-bottom:8px">
+    <button data-view="${kind}">🖼 ${VIEW_LABEL[kind]}</button></div>
+    <div class="btn-row" style="margin-bottom:12px">
     <button class="primary" data-share="${kind}" title="Copies the picture and a post to paste into a chat">📋 ${SHARE_LABEL[kind]}</button>
     <button data-save="${kind}">💾 Save image</button></div>`;
 }
@@ -76,6 +79,7 @@ function bindGraphic(root, session) {
   prepareGraphic(session, kind); // draw ahead so the buttons work instantly
   share.addEventListener("click", () => shareGraphic(session, kind));
   root.querySelector("[data-save]").addEventListener("click", () => saveGraphic(session, kind));
+  root.querySelector("[data-view]").addEventListener("click", () => viewGraphic(session, kind));
 }
 
 // --- Team ---------------------------------------------------------------------
