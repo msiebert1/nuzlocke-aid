@@ -1,7 +1,7 @@
 // List tab: every logged encounter with status and place; tap one to edit.
 
-import * as R from "../rules.js";
-import { closeModal, confirmBox, esc, modal, monImage, monName, toast } from "../ui.js";
+import * as R from "../rules.js?v=779ab299";
+import { closeModal, confirmBox, esc, modal, monImage, monName, toast } from "../ui.js?v=779ab299";
 
 const PLACE_LABEL = { party: "Party", box: "Box", grave: "Graveyard", none: "" };
 

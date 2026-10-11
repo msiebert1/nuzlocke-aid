@@ -1,7 +1,7 @@
 // Landing page: Professor Oak with two random Pokémon, start or continue a run.
 
-import { store, recentRuns, forgetRun } from "../store.js";
-import { applyTheme, esc, loadGame, loadStyles, sprite } from "../ui.js";
+import { store, recentRuns, forgetRun } from "../store.js?v=779ab299";
+import { applyTheme, esc, loadGame, loadStyles, sprite } from "../ui.js?v=779ab299";
 
 const DS_GAMES = ["dp", "pt", "hgss", "b2w2"];
 

@@ -92,7 +92,13 @@ app icon.
 ```bash
 python3 -m http.server -d docs 8000        # then open http://localhost:8000
 npm test                                   # rules + data tests (needs Node 20+)
+python3 tools/stamp_version.py             # before committing a site change (see below)
 ```
+
+`tools/stamp_version.py` tags the site's scripts and stylesheet with a hash of
+the code (`app.js?v=1a2b3c4d`), so phones load an update as soon as it's
+published instead of reusing cached copies. Run it after editing anything in
+`docs/js` or `docs/app.css`.
 
 Rebuilding the data and art (downloads from Bulbapedia, PokeAPI and
 Bulbagarden Archives, cached in `.artwork_cache/`):
