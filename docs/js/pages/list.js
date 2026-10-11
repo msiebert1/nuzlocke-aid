@@ -1,7 +1,7 @@
 // List tab: every logged encounter with status and place; tap one to edit.
 
-import * as R from "../rules.js?v=632c1a70";
-import { closeModal, confirmBox, esc, modal, monImage, monName, toast } from "../ui.js?v=632c1a70";
+import * as R from "../rules.js?v=9ac6b15c";
+import { closeModal, confirmBox, esc, modal, monImage, monName, removeEncounter, toast } from "../ui.js?v=9ac6b15c";
 
 const PLACE_LABEL = { party: "Party", box: "Box", grave: "Graveyard", none: "" };
 
@@ -18,8 +18,9 @@ export function render(session) {
   if (!encs.length) return `<div class="box"><h2>Encounters</h2><p>Nothing logged yet.</p></div>`;
   const caught = encs.filter((e) => R.isUsable(run, e)).length;
   return `<div class="box"><h2>Encounters</h2>
-    <p class="muted"><small>${encs.length} locations logged · ${caught} usable · tap one to edit</small></p>
+    <p class="muted"><small>${encs.length} locations logged · ${caught} usable · tap one to edit, ✕ to remove</small></p>
     ${encs.map((e) => `<div class="enc-row" data-edit="${esc(e.id)}" role="button" tabindex="0">
+      <button type="button" class="small remove" data-remove="${esc(e.id)}" aria-label="Remove the ${esc(e.location)} encounter">✕</button>
       <div class="where">${esc(e.location)}
         ${PLACE_LABEL[e.place] ? `<br><span class="tag">${PLACE_LABEL[e.place]}</span>` : ""}</div>
       <div class="what">${run.players.map((p, i) => {
@@ -36,6 +37,10 @@ export function render(session) {
 export function bind(root, session) {
   root.querySelectorAll("[data-edit]").forEach((row) =>
     row.addEventListener("click", () => edit(session, row.dataset.edit)));
+  root.querySelectorAll("[data-remove]").forEach((b) => b.addEventListener("click", (e) => {
+    e.stopPropagation(); // not the row's edit
+    removeEncounter(session, b.dataset.remove, R.deleteEncounter);
+  }));
 }
 
 async function edit(session, id) {

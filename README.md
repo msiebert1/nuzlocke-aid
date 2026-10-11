@@ -89,7 +89,11 @@ app icon.
   caught as.
 - **Team / Box / Grave:** move Pokémon between them; a faint takes the whole
   soul-linked pair to the graveyard. Each has a graphic button to share an image.
-- **List:** every encounter; tap one to fix a mistake.
+- **List:** every encounter; tap one to fix a mistake, or ✕ to remove it.
+- **Removing a mistake:** tap **Undo** on the message right after logging,
+  tap the Pokémon on the Team or Box page → **Remove encounter**, or use ✕ on
+  the List page. The whole encounter (both players' in a soul link) is
+  deleted and its location goes back on the list.
 
 ## Development
 

@@ -384,3 +384,14 @@ body:not([data-look="modern"]) .tap-hint small {
 }
 .evolve-options { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 8px; }
 .evolve-options button { justify-content: flex-start; gap: 8px; }
+
+/* Message bar button (Undo) */
+#toast { display: flex; align-items: center; gap: 12px; }
+#toast[hidden] { display: none; }
+#toast .toast-action, body[data-look] #toast .toast-action {
+  all: unset; cursor: pointer; font-weight: 700; color: #ffd166; padding: 6px 4px; white-space: nowrap;
+}
+/* Remove buttons */
+.enc-row .remove { flex: none; min-height: 34px; width: 34px; padding: 0; color: #c03030; }
+button.danger { color: #c03030; }
+body[data-look="modern"] button.danger { color: #ff7a7a; }

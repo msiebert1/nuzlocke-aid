@@ -1,9 +1,9 @@
 // Log tab: pick the next location, each player's Pokémon, and one
 // Caught / Failed / Invalid for the whole encounter (both players in a soul link).
 
-import * as R from "../rules.js?v=632c1a70";
-import { closeModal, esc, modal, monImage, monName, toast } from "../ui.js?v=632c1a70";
-import { placeNew } from "./units.js?v=632c1a70";
+import * as R from "../rules.js?v=9ac6b15c";
+import { closeModal, esc, modal, monImage, monName, toast } from "../ui.js?v=9ac6b15c";
+import { placeNew } from "./units.js?v=9ac6b15c";
 
 const CUSTOM = "__custom__";
 const forms = new Map(); // run code -> in-progress form, kept across live updates
@@ -163,9 +163,17 @@ export function bind(root, session) {
     const where = f.location;
     const who = catches.map((c) => c.nickname || c.species).filter(Boolean).join(" & ");
     clearForm(f);
-    toast(status === "caught" ? `${who} logged at ${where}` : `${where}: ${status}`);
-    if (result.needsPlacement) await placeNew(session, result.id, result.run);
-    else session.refresh();
+    // a slip (wrong location, wrong Pokémon, stray tap) can be undone right away
+    const undo = { label: "Undo", run: async () => {
+      await session.update((r) => R.deleteEncounter(r, result.id));
+      toast(`Undone: ${where} is back on the list`);
+    } };
+    if (result.needsPlacement) {
+      await placeNew(session, result.id, result.run, undo);
+    } else {
+      toast(status === "caught" ? `${who} logged at ${where}` : `${where}: ${status}`, undo);
+      session.refresh();
+    }
   }));
 
   root.querySelectorAll("[data-place]").forEach((b) =>

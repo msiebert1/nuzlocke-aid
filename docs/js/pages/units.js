@@ -1,9 +1,9 @@
 // Team, Box and Graveyard tabs, plus the shared "where does this catch go?" step.
 // A unit is one encounter: a single Pokémon, or a soul-linked pair.
 
-import * as R from "../rules.js?v=632c1a70";
-import { cellStyle, closeModal, confirmBox, esc, isModern, linkIcon, modal, monImage, monName, spriteScale, toast } from "../ui.js?v=632c1a70";
-import { prepareGraphic, shareGraphic, viewGraphic } from "../render.js?v=632c1a70";
+import * as R from "../rules.js?v=9ac6b15c";
+import { cellStyle, closeModal, confirmBox, esc, isModern, linkIcon, modal, monImage, monName, removeEncounter, spriteScale, toast } from "../ui.js?v=9ac6b15c";
+import { prepareGraphic, shareGraphic, viewGraphic } from "../render.js?v=9ac6b15c";
 
 /** All sprite names on a page, for one shared scale. */
 function namesOf(encs) {
@@ -37,7 +37,7 @@ export function unitHTML(session, enc, scale, size, opts = {}) {
 
 /** Place a newly usable encounter: into the party if there's room, otherwise
  *  ask who to swap out (or send it to the box). */
-export async function placeNew(session, id, run = session.run) {
+export async function placeNew(session, id, run = session.run, undo = null) {
   // `run` is the freshest copy we have: right after a save, the save's own
   // result (the live update from the server may not have arrived yet)
   const enc = run.encounters.find((e) => e.id === id);
@@ -46,7 +46,7 @@ export async function placeNew(session, id, run = session.run) {
   const label = enc.catches.map(monName).join(" & ");
   if (party.length < R.PARTY_SIZE) {
     await session.update((r) => R.place(r, id, "party"));
-    toast(`${label} joined the party`);
+    toast(`${label} joined the party`, undo);
     return;
   }
   const scale = spriteScale(session.game, namesOf(party), 64);
@@ -59,10 +59,10 @@ export async function placeNew(session, id, run = session.run) {
     <div class="btn-row"><button class="primary" data-value="box">Send to box</button></div>`);
   if (choice === "box" || choice === null) {
     await session.update((r) => R.place(r, id, "box"));
-    toast(`${label} went to the box`);
+    toast(`${label} went to the box`, undo);
   } else {
     await session.update((r) => R.place(r, id, "party", choice));
-    toast(`${label} joined the party`);
+    toast(`${label} joined the party`, undo);
   }
 }
 
@@ -74,13 +74,15 @@ function graphicButton(kind) {
   return `<div class="btn-row" style="margin-bottom:${kind === "graveyard" ? 12 : 6}px">
     <button class="primary" data-share="${kind}" title="Copies the picture and a post to paste into a chat">📋 ${SHARE_LABEL[kind]}</button>
     <button data-view="${kind}">🖼 ${VIEW_LABEL[kind]}</button></div>
-    ${kind === "graveyard" ? "" : `<p class="tap-hint"><small>Tap a Pokémon to evolve it.</small></p>`}`;
+    ${kind === "graveyard" ? "" : `<p class="tap-hint"><small>Tap a Pokémon to evolve or remove it.</small></p>`}`;
 }
 
 // --- Evolving -----------------------------------------------------------------
 
-/** Ask what a Pokémon evolved into (its next stages in this game, or any
- *  other Pokémon), then evolve it. */
+const REMOVE = "__remove__";
+
+/** A Pokémon's menu: evolve it (its next stages in this game, or any other
+ *  Pokémon by name), or remove its encounter if it was logged by mistake. */
 async function evolveDialog(session, id, player) {
   const { game, run } = session;
   const enc = run.encounters.find((e) => e.id === id);
@@ -88,7 +90,8 @@ async function evolveDialog(session, id, player) {
   if (!c?.species) return;
   const options = R.evolutionOptions(c.species, game.evolutions || {}, (n) => !!game.dex[n] && game.dex[n] <= game.style.lastDex);
   const who = c.nickname ? `${c.nickname} (${c.species})` : c.species;
-  const choice = await modal(`<h2>Evolve ${esc(who)}</h2>
+  const choice = await modal(`<h2>${esc(who)}</h2>
+    <h3>Evolve</h3>
     ${options.length ? `<p>What did it evolve into?</p>
       <div class="evolve-options">${options.map((n) => `<button data-value="${esc(n)}">
         ${monImage(session, n, { scale: 1, size: 56 })}<span>${esc(n)}</span></button>`).join("")}</div>`
@@ -100,8 +103,11 @@ async function evolveDialog(session, id, player) {
         <button type="submit">Evolve</button></div>
       <datalist id="evolve-species">${game.species.map((sp) => `<option value="${esc(sp.name)}">`).join("")}</datalist>
     </form>
+    <h3 style="margin-top:16px">Logged by mistake?</h3>
+    <div class="btn-row"><button class="danger" data-value="${REMOVE}">🗑 Remove encounter</button></div>
     <div class="btn-row" style="margin-top:10px"><button data-value="">Cancel</button></div>`);
   if (!choice) return;
+  if (choice === REMOVE) return removeEncounter(session, id, R.deleteEncounter);
   const into = game.species.find((sp) => sp.name.toLowerCase() === choice.trim().toLowerCase())?.name;
   if (!into) return toast(`No Pokémon called "${choice}"`);
   await session.update((r) => R.evolveCatch(r, id, player, into));

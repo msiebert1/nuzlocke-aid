@@ -215,12 +215,40 @@ export async function confirmBox(message, yes = "Yes", no = "Cancel") {
 }
 
 let toastTimer;
-export function toast(message) {
+/** A short message at the bottom of the screen, optionally with a button:
+ *  toast("Logged", {label: "Undo", run: () => ...}). */
+export function toast(message, action = null) {
   const el = document.getElementById("toast");
-  el.textContent = message;
+  el.textContent = "";
+  el.append(Object.assign(document.createElement("span"), { textContent: message }));
+  if (action) {
+    const btn = Object.assign(document.createElement("button"), { type: "button", textContent: action.label });
+    btn.className = "toast-action";
+    btn.addEventListener("click", () => {
+      el.hidden = true;
+      action.run();
+    }, { once: true });
+    el.append(btn);
+  }
   el.hidden = false;
   clearTimeout(toastTimer);
-  toastTimer = setTimeout(() => (el.hidden = true), 2600);
+  toastTimer = setTimeout(() => (el.hidden = true), action ? 6000 : 2600);
+}
+
+/** Remove an encounter after asking; its location goes back on the list. */
+export async function removeEncounter(session, id, removeRule) {
+  const enc = session.run.encounters.find((e) => e.id === id);
+  if (!enc) return false;
+  const names = enc.catches.map((c) => (c.nickname && c.species ? `${c.nickname} (${c.species})` : monName(c)))
+    .filter((n) => n !== "—");
+  const what = names.length ? ` (${names.join(" and ")})` : "";
+  const ok = await confirmBox(`Remove the <b>${esc(enc.location)}</b> encounter${esc(what)}?
+    It's deleted${session.run.mode === "soul" ? " for both players" : ""}, and ${esc(enc.location)}
+    goes back on the list of locations.`, "Remove");
+  if (!ok) return false;
+  await session.update((r) => removeRule(r, id));
+  toast(`Removed: ${enc.location} is back on the list`);
+  return true;
 }
 
 /** Display name for a catch: nickname, else species. */
