@@ -1,9 +1,9 @@
 // Log tab: pick the next location, each player's Pokémon, and one
 // Caught / Failed / Invalid for the whole encounter (both players in a soul link).
 
-import * as R from "../rules.js?v=52715517";
-import { closeModal, esc, modal, monImage, monName, toast } from "../ui.js?v=52715517";
-import { placeNew } from "./units.js?v=52715517";
+import * as R from "../rules.js?v=4e1cb12c";
+import { closeModal, esc, modal, monImage, monName, toast } from "../ui.js?v=4e1cb12c";
+import { placeNew } from "./units.js?v=4e1cb12c";
 
 const CUSTOM = "__custom__";
 const forms = new Map(); // run code -> in-progress form, kept across live updates
@@ -155,13 +155,14 @@ export function bind(root, session) {
     const catches = Array.from({ length: R.playerCount(session.run) }, (_, player) => ({
       player, species: f.picks[player].species || "", nickname: f.picks[player].nickname || "",
     }));
+    // read the form before saving: the save redraws the page, which clears it
+    const where = f.location;
     let result;
     try {
-      result = await session.update((r) => R.logEncounter(r, { location: f.location, catches, status }));
+      result = await session.update((r) => R.logEncounter(r, { location: where, catches, status }));
     } catch {
       return; // the error was shown as a toast
     }
-    const where = f.location;
     const who = catches.map((c) => c.nickname || c.species).filter(Boolean).join(" & ");
     clearForm(f);
     // a slip (wrong location, wrong Pokémon, stray tap) can be undone right away

@@ -1,7 +1,7 @@
 // List tab: every logged encounter with status and place; tap one to edit.
 
-import * as R from "../rules.js?v=52715517";
-import { closeModal, confirmBox, esc, modal, monImage, monName, removeEncounter, toast } from "../ui.js?v=52715517";
+import * as R from "../rules.js?v=4e1cb12c";
+import { closeModal, confirmBox, esc, modal, monImage, monName, removeEncounter, toast } from "../ui.js?v=4e1cb12c";
 
 const PLACE_LABEL = { party: "Party", box: "Box", grave: "Graveyard", none: "" };
 
@@ -22,18 +22,22 @@ export function render(session) {
   const caught = encs.filter((e) => R.isUsable(run, e)).length;
   return `<div class="box"><h2>Encounters</h2>
     <p class="muted"><small>${encs.length} locations logged · ${caught} usable · tap one to edit, ✕ to remove</small></p>
-    ${encs.map((e) => `<div class="enc-row" data-edit="${esc(e.id)}" role="button" tabindex="0">
-      <button type="button" class="small remove" data-remove="${esc(e.id)}" aria-label="Remove the ${esc(e.location)} encounter">✕</button>
-      <div class="where">${esc(e.location)}
-        ${PLACE_LABEL[e.place] ? `<br><span class="tag">${PLACE_LABEL[e.place]}</span>` : ""}</div>
-      <div class="what">${run.players.map((p, i) => {
+    ${encs.map((e) => `<div class="list-row" data-edit="${esc(e.id)}" role="button" tabindex="0">
+      <div class="list-head">
+        <span class="where">${esc(e.location)}</span>
+        ${PLACE_LABEL[e.place] ? `<span class="tag">${PLACE_LABEL[e.place]}</span>` : ""}
+        <button type="button" class="small remove" data-remove="${esc(e.id)}" aria-label="Remove the ${esc(e.location)} encounter">✕</button>
+      </div>
+      ${run.players.map((p, i) => {
         const c = e.catches.find((x) => x.player === i);
-        const who = run.mode === "soul" ? `<small class="muted">${esc(p.name)}:</small> ` : "";
-        if (!c) return `<div>${who}<i class="muted">not logged</i></div>`;
-        return `<div>${who}${c.species ? monImage(session, c.species, { scale: 1, size: 40 }) : ""}
-          ${esc(monName(c))} <span class="status-${c.status}">${c.status}</span>
-          ${c.caughtAs ? `<small class="muted">(caught as ${esc(c.caughtAs)})</small>` : ""}</div>`;
-      }).join("")}</div></div>`).join("")}
+        const who = run.mode === "soul" ? `<span class="who-name">${esc(p.name)}</span>` : "";
+        if (!c) return `<div class="list-catch">${who}<i class="muted">not logged</i></div>`;
+        return `<div class="list-catch">${who}
+          ${c.species ? monImage(session, c.species, { scale: 1, size: 40 }) : ""}
+          <span class="list-text"><span>${esc(monName(c))}</span>${c.nickname && c.species ? ` <small class="muted">${esc(c.species)}</small>` : ""}
+            <span class="status-${c.status}">${c.status}</span>${c.caughtAs ? ` <small class="muted">(caught as ${esc(c.caughtAs)})</small>` : ""}</span>
+        </div>`;
+      }).join("")}</div>`).join("")}
   </div>`;
 }
 

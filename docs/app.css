@@ -403,3 +403,17 @@ label.check input { flex: none; width: 24px; height: 24px; min-height: 0; margin
 /* Boxes are size containers so Pokémon can be sized as a share of the box
    (cqw), matching the team picture */
 .cell { container-type: inline-size; }
+
+/* List page: location and ✕ on top, then one wrapping line per player */
+.list-row { padding: 8px 0; border-bottom: 1px dashed #c8c8d0; cursor: pointer; }
+.list-row:last-child { border-bottom: 0; }
+body[data-look="modern"] .list-row { border-bottom-color: #343e52; }
+.list-head { display: flex; align-items: center; gap: 8px; }
+.list-head .where { font-weight: 700; flex: 1 1 auto; min-width: 0; overflow-wrap: anywhere; }
+.list-head .tag { flex: none; }
+.list-head .remove { flex: none; min-height: 34px; width: 34px; padding: 0; color: #c03030; }
+.list-catch { display: flex; align-items: center; gap: 6px; margin-top: 4px; min-width: 0; }
+.list-catch .who-name { flex: none; min-width: 64px; max-width: 34%; overflow-wrap: anywhere; color: var(--ink-light); }
+.list-catch .spr, .list-catch img.art { flex: none; }
+.list-text { flex: 1 1 auto; min-width: 0; overflow-wrap: anywhere; line-height: 1.25; }
+.list-text > * { margin-right: 4px; }
