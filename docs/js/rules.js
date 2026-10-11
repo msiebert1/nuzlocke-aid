@@ -268,13 +268,6 @@ export function tally(run) {
   };
 }
 
-/** One line summing up a run, for the bottom of a graphic. */
-export function tallyLine(run, game) {
-  const { logged, caught, lost } = tally(run);
-  const mode = run.mode === "soul" ? "soul link" : "nuzlocke";
-  return `${game} ${mode} · ${logged} encounter${logged === 1 ? "" : "s"} · ${caught} caught · ${lost} lost`;
-}
-
 /** A short post to share with a graphic: what the run is, who's in the
  *  team / box / graveyard, and the run's tally. `kind` is "team", "box" or
  *  "graveyard"; `game` is the game's display name. */

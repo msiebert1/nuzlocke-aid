@@ -297,7 +297,7 @@ function greyscale(img) {
  * Lay out units (encounters) in a grid: each unit is a column with one row per
  * player (soul links joined by the link icon). Optionally a trainer column.
  */
-async function draw(session, units, { title, perRow, trainers, footer, grey = false, scale = 3 }) {
+async function draw(session, units, { title, perRow, trainers, grey = false, scale = 3 }) {
   const { run, game } = session;
   const [a, art] = await Promise.all([loadAssets(game, run), loadArtwork(session, units)]);
   const p = new Painter(game, a);
@@ -313,24 +313,16 @@ async function draw(session, units, { title, perRow, trainers, footer, grey = fa
   const [bl, , br] = style.border;
   const titleW = title ? Math.ceil(textWidth(canvas(1, 1)[1], title, FONT_SIZE)) + 18 + bl + br : 0;
   const gridW = (trainers ? cellW + COL_GAP : 0) + cols * cellW + (cols - 1) * COL_GAP;
-  // the footer box (the run's tally and the site) spans the grid, or more if its text needs it
-  const measure = canvas(1, 1)[1];
-  const footerW = footer ? Math.max(gridW, Math.ceil(Math.max(
-    textWidth(measure, footer[0], FONT_SIZE), textWidth(measure, footer[1] || "", SMALL_FONT_SIZE))) + 18 + bl + br) : 0;
-  const W = Math.max(gridW, titleW, footerW) + 2 * MARGIN;
+  const W = Math.max(gridW, titleW) + 2 * MARGIN;
   const left = Math.floor((W - gridW) / 2);
   const firstCol = left + (trainers ? cellW + COL_GAP : 0);
   const top = MARGIN + (title ? p.titleH + 8 : 0);
-  const gridBottom = top + gridRows * blockH + (gridRows - 1) * GRID_GAP;
-  const H = gridBottom + (footer ? 8 + p.labelH : 0) + MARGIN;
+  const H = top + gridRows * blockH + (gridRows - 1) * GRID_GAP + MARGIN;
 
   const [c, ctx] = canvas(W, H);
   tilePiece(ctx, a.bg, 0, 0, a.bg.width, a.bg.height, 0, 0, W, H);
   if (title) {
     p.textBox(ctx, Math.floor((W - titleW) / 2), MARGIN, titleW, p.titleH, [title]);
-  }
-  if (footer) {
-    p.textBox(ctx, Math.floor((W - footerW) / 2), gridBottom + 8, footerW, p.labelH, footer);
   }
 
   const inset = style.artInset;
@@ -389,17 +381,14 @@ async function draw(session, units, { title, perRow, trainers, footer, grey = fa
 export async function renderGraphic(session, kind) {
   const { run } = session;
   const modern = isModern(session);
-  // the post's details are part of the picture, since apps often drop shared text
-  const footer = [R.tallyLine(run, gameName(session)),
-                  `Made with Nuzlocke Aid · ${location.host}${location.pathname.replace(/\/$/, "")}`];
   if (kind === "team") {
     return modern
-      ? drawModern(session, R.party(run), { title: run.name, perRow: 6, names: true, footer })
-      : draw(session, R.party(run), { title: run.name, perRow: 6, trainers: true, footer });
+      ? drawModern(session, R.party(run), { title: run.name, perRow: 6, names: true })
+      : draw(session, R.party(run), { title: run.name, perRow: 6, trainers: true });
   }
   const units = kind === "box" ? R.box(run) : R.graveyard(run);
   const opts = { title: `${run.name}: ${kind === "box" ? "Box" : "Graveyard"}`, perRow: 6,
-                 grey: kind === "graveyard", footer };
+                 grey: kind === "graveyard" };
   return modern ? drawModern(session, units, { ...opts, names: false })
                 : draw(session, units, { ...opts, trainers: false });
 }
@@ -441,7 +430,7 @@ function chainIcon(ctx, cx, cy, s = 13) {
   }
 }
 
-async function drawModern(session, units, { title, perRow, names, footer, grey = false }) {
+async function drawModern(session, units, { title, perRow, names, grey = false }) {
   const { run, game } = session;
   const [sheetImg, art] = await Promise.all([
     // a generic game has no sprite sheet (it always uses artwork)
@@ -459,15 +448,9 @@ async function drawModern(session, units, { title, perRow, names, footer, grey =
   measure.font = M.font(42, true);
   const titleW = title ? measure.measureText(title).width + 2 * margin : 0;
   const headerH = title ? 80 : 0;
-  const footerH = footer ? 86 : 0;
-  measure.font = M.font(24, true);
-  let footerW = footer ? measure.measureText(footer[0]).width : 0;
-  measure.font = M.font(18);
-  if (footer) footerW = Math.max(footerW, measure.measureText(footer[1] || "").width) + 2 * margin;
   const gridW = gutter + cols * cellW + (cols - 1) * gap;
-  const W = Math.ceil(Math.max(gridW + 2 * margin, titleW, footerW));
-  const gridH = gridRows * blockH + (gridRows - 1) * M.gridGap;
-  const H = margin * 2 + headerH + gridH + footerH;
+  const W = Math.ceil(Math.max(gridW + 2 * margin, titleW));
+  const H = margin * 2 + headerH + gridRows * blockH + (gridRows - 1) * M.gridGap;
   const left = Math.floor((W - gridW) / 2);
 
   const [c, ctx] = canvas(W, H);
@@ -534,15 +517,6 @@ async function drawModern(session, units, { title, perRow, names, footer, grey =
     }
     if (players === 2) chainIcon(ctx, x0 + cellW / 2, rowY(row, 0) + cellH + linkGap / 2);
   });
-  if (footer) {
-    const fy = top + gridH + 30;
-    ctx.fillStyle = M.text;
-    ctx.font = M.font(24, true);
-    ctx.fillText(footer[0], W / 2, fy);
-    ctx.fillStyle = M.sub;
-    ctx.font = M.font(18);
-    ctx.fillText(footer[1] || "", W / 2, fy + 32);
-  }
   return c;
 }
 
