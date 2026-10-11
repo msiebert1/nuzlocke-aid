@@ -259,6 +259,22 @@ export function deleteCatch(run, id, player) {
   return normalize(run);
 }
 
+/** The run's tally: locations logged, usable catches, and losses. */
+export function tally(run) {
+  return {
+    logged: run.encounters.length,
+    caught: run.encounters.filter((e) => isUsable(run, e)).length,
+    lost: graveyard(run).length,
+  };
+}
+
+/** One line summing up a run, for the bottom of a graphic. */
+export function tallyLine(run, game) {
+  const { logged, caught, lost } = tally(run);
+  const mode = run.mode === "soul" ? "soul link" : "nuzlocke";
+  return `${game} ${mode} · ${logged} encounter${logged === 1 ? "" : "s"} · ${caught} caught · ${lost} lost`;
+}
+
 /** A short post to share with a graphic: what the run is, who's in the
  *  team / box / graveyard, and the run's tally. `kind` is "team", "box" or
  *  "graveyard"; `game` is the game's display name. */
@@ -275,9 +291,7 @@ export function sharePost(run, kind, { game, site }) {
     box: `${whose} box`,
     graveyard: "🪦 In memory of",
   }[kind];
-  const logged = run.encounters.length;
-  const caught = run.encounters.filter((e) => isUsable(run, e)).length;
-  const lost = graveyard(run).length;
+  const { logged, caught, lost } = tally(run);
   const lines = [
     `${soul ? "🔗 Soul link" : "⚔️ Nuzlocke"}: ${run.name} (${game})`,
     "",

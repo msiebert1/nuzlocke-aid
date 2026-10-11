@@ -248,3 +248,11 @@ test("share post lists the team and the run's tally", () => {
   assert.match(post, /https:\/\/example\.com\/$/);
   assert.match(R.sharePost(run, "graveyard", { game: "X" }), /In memory of:\n\(none yet\)/);
 });
+
+test("tally line for the bottom of a graphic", () => {
+  let res = R.logEncounter(newRun("soul"), { location: "Starter", status: "caught",
+    catches: [{ player: 0, species: "Snivy" }, { player: 1, species: "Tepig" }] });
+  let run = R.faint(R.place(res.run, res.id, "party"), res.id);
+  assert.equal(R.tallyLine(run, "Black 2 / White 2"),
+               "Black 2 / White 2 soul link · 1 encounter · 1 caught · 1 lost");
+});
