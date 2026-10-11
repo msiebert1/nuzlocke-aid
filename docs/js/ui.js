@@ -89,11 +89,47 @@ export function artUrl(game, name, kind) {
 
 /** A Pokémon in the run's chosen art: a sprite at `scale`, or artwork fitted
  *  to a `size` px square. */
-export function monImage(session, name, { scale = 1, size = 64, cls = "" } = {}) {
+export function monImage(session, name, { scale = 1, size = 64, cls = "", fit = null } = {}) {
   const url = artUrl(session.game, name, artKind(session.game, session.run));
+  if (fit) return fittedImage(session.game, name, url, fit, cls);
   if (!url) return sprite(session.game, name, scale, cls);
   return `<img class="art ${cls}" src="${url}" alt="${esc(name)}" loading="lazy"
     style="width:${size}px;height:${size}px">`;
+}
+
+/** How the team picture sizes Pokémon in a box, so the pages can match it:
+ *  the box is `refW` x `refH` picture pixels, artwork fills `areaW` x
+ *  `areaH`, and every sprite is scaled by the same whole number `k` (the
+ *  largest at which all of `names` fit), keeping their relative sizes. */
+export function boxFit(session, names) {
+  const { game } = session;
+  const kind = artKind(game, session.run);
+  const modern = isModern(session);
+  const [refW, refH] = modern ? [234, 212] : game.style.cell;
+  const inset = modern ? 10 : game.style.artInset;
+  const areaW = refW - 2 * inset, areaH = refH - 2 * inset;
+  const rects = names.filter((n) => !artUrl(game, n, kind)).map((n) => game.sheet[n]).filter(Boolean);
+  const k = rects.length
+    ? Math.max(1, Math.floor(Math.min(...rects.map(([, , w, h]) => Math.min(areaW / w, areaH / h)))))
+    : 1;
+  return { k, refW, refH, areaW, areaH };
+}
+
+/** A Pokémon sized as a share of its box (CSS container units), matching the picture. */
+function fittedImage(game, name, url, { k, refW, areaW, areaH }, cls) {
+  const u = (px) => `${((px / refW) * 100).toFixed(3)}cqw`;
+  if (url) {
+    return `<img class="art ${cls}" src="${url}" alt="${esc(name)}" loading="lazy"
+      style="width:${u(areaW)};height:${u(areaH)}">`;
+  }
+  const rect = game.sheet[name];
+  if (!rect) return `<span class="spr missing ${cls}">?</span>`;
+  const [x, y, w, h] = rect;
+  return `<span class="spr ${cls}" role="img" aria-label="${esc(name)}" style="` +
+    `width:${u(w * k)};height:${u(h * k)};` +
+    `background-image:url(assets/${game.key}/sprites.png);` +
+    `background-position:${u(-x * k)} ${u(-y * k)};` +
+    `background-size:${u(1024 * k)} auto"></span>`;
 }
 
 export function esc(s) {

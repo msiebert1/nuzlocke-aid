@@ -399,3 +399,7 @@ body[data-look="modern"] button.danger { color: #ff7a7a; }
 /* Checkbox options (Randomizer) */
 label.check { display: flex; gap: 10px; align-items: flex-start; font-weight: 400; margin: 12px 0 4px; }
 label.check input { flex: none; width: 24px; height: 24px; min-height: 0; margin: 0; accent-color: var(--accent); }
+
+/* Boxes are size containers so Pokémon can be sized as a share of the box
+   (cqw), matching the team picture */
+.cell { container-type: inline-size; }

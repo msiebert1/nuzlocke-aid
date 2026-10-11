@@ -11,7 +11,7 @@
 //   updateRun(code, fn) -> result               fn(run) returns {run, ...result}; applied atomically
 //   shared                                      true when runs are shared between devices
 
-import { firebaseConfig } from "../firebase-config.js?v=f4e42bf0";
+import { firebaseConfig } from "../firebase-config.js?v=33ad1649";
 
 const FIREBASE = "https://www.gstatic.com/firebasejs/10.12.2";
 

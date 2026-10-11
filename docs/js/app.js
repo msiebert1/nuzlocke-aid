@@ -3,11 +3,11 @@
 //   #/new                  start a run
 //   #/run/<code>/<tab>     a run: log | team | box | grave | list | settings
 
-import { store, rememberRun } from "./store.js?v=f4e42bf0";
-import { applyTheme, esc, loadGame, toast } from "./ui.js?v=f4e42bf0";
-import * as landing from "./pages/landing.js?v=f4e42bf0";
-import * as newRun from "./pages/newrun.js?v=f4e42bf0";
-import * as runPages from "./pages/run.js?v=f4e42bf0";
+import { store, rememberRun } from "./store.js?v=33ad1649";
+import { applyTheme, esc, loadGame, toast } from "./ui.js?v=33ad1649";
+import * as landing from "./pages/landing.js?v=33ad1649";
+import * as newRun from "./pages/newrun.js?v=33ad1649";
+import * as runPages from "./pages/run.js?v=33ad1649";
 
 const app = document.getElementById("app");
 let session = null; // the open run: {code, run, game, db, me, update}

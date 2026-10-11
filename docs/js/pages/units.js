@@ -1,22 +1,24 @@
 // Team, Box and Graveyard tabs, plus the shared "where does this catch go?" step.
 // A unit is one encounter: a single Pokémon, or a soul-linked pair.
 
-import * as R from "../rules.js?v=f4e42bf0";
-import { cellStyle, closeModal, confirmBox, esc, isModern, linkIcon, modal, monImage, monName, removeEncounter, spriteScale, toast } from "../ui.js?v=f4e42bf0";
-import { prepareGraphic, shareGraphic, viewGraphic } from "../render.js?v=f4e42bf0";
+import * as R from "../rules.js?v=33ad1649";
+import { cellStyle, closeModal, confirmBox, esc, isModern, linkIcon, modal, monImage, monName, removeEncounter, spriteScale, toast, boxFit } from "../ui.js?v=33ad1649";
+import { prepareGraphic, shareGraphic, viewGraphic } from "../render.js?v=33ad1649";
 
 /** All sprite names on a page, for one shared scale. */
 function namesOf(encs) {
   return encs.flatMap((e) => e.catches.map((c) => c.species));
 }
 
-export function monHTML(session, c, scale, size, { grey = false, evolveId = null } = {}) {
+export function monHTML(session, c, scale, size, { grey = false, evolveId = null, fit = null } = {}) {
   const { game, run } = session;
   const wall = run.options?.wallpapers?.[c.player] ?? game.style.defaultWalls[c.player];
   const cell = isModern(session)
     ? { cls: `cell plain p${c.player}`, style: "" } : cellStyle(game, wall);
+  // boxes keep the picture's shape, so Pokémon fill them the same way
+  const shape = fit ? `aspect-ratio:${fit.refW} / ${fit.refH};` : "";
   const inner = `
-    <div class="${cell.cls}" style="${cell.style}">${monImage(session, c.species, { scale, size, cls: grey ? "grey" : "" })}</div>
+    <div class="${cell.cls}" style="${cell.style};${shape}">${monImage(session, c.species, { scale, size, fit, cls: grey ? "grey" : "" })}</div>
     <div class="name">${esc(monName(c))}</div>
     ${c.nickname ? `<div class="species">${esc(c.species)}</div>` : ""}`;
   // on the Team and Box pages, tapping a Pokémon evolves it
@@ -27,6 +29,8 @@ export function monHTML(session, c, scale, size, { grey = false, evolveId = null
 }
 
 export function unitHTML(session, enc, scale, size, opts = {}) {
+  // size Pokémon relative to their box the same way the team picture does
+  if (!opts.fit && opts.fitNames) opts = { ...opts, fit: boxFit(session, opts.fitNames) };
   const parts = enc.catches.map((c) => monHTML(session, c, scale, size,
     { ...opts, evolveId: opts.evolvable ? enc.id : null }));
   const modern = isModern(session);
@@ -148,9 +152,10 @@ export const team = {
     const soul = session.run.mode === "soul";
     const size = soul ? 120 : 100;
     const scale = spriteScale(session.game, namesOf(party), size);
+    const names = namesOf(party); // one shared sprite scale per page, like the picture
     return `${graphicButton("team")}
       ${party.map((enc, i) => `<div class="box unit-card team-card ${soul ? "soul" : ""}">
-        ${unitHTML(session, enc, scale, size, { evolvable: true })}
+        ${unitHTML(session, enc, scale, size, { evolvable: true, fitNames: names })}
         <div class="btn-row actions">
           <button class="small" data-up="${esc(enc.id)}" ${i === 0 ? "disabled" : ""} aria-label="Move up">▲</button>
           <button class="small" data-down="${esc(enc.id)}" ${i === party.length - 1 ? "disabled" : ""} aria-label="Move down">▼</button>
@@ -189,10 +194,11 @@ export const box = {
     const soul = session.run.mode === "soul";
     const size = soul ? 64 : 80;
     const scale = spriteScale(session.game, namesOf(boxed), size);
+    const names = namesOf(boxed); // one shared sprite scale per page, like the picture
     return `${graphicButton("box")}
       <div class="grid ${soul ? "" : "single"}">
       ${boxed.map((enc) => `<div class="box unit-card">
-        ${unitHTML(session, enc, scale, size, { evolvable: true })}
+        ${unitHTML(session, enc, scale, size, { evolvable: true, fitNames: names })}
         <div class="actions"><button class="small" style="width:100%" data-party="${esc(enc.id)}">To party</button></div>
       </div>`).join("")}</div>`;
   },
@@ -213,10 +219,11 @@ export const grave = {
     const soul = session.run.mode === "soul";
     const size = soul ? 64 : 80;
     const scale = spriteScale(session.game, namesOf(dead), size);
+    const names = namesOf(dead); // one shared sprite scale per page, like the picture
     return `${graphicButton("graveyard")}
       <div class="grid ${soul ? "" : "single"}">
       ${dead.map((enc) => `<div class="box unit-card">
-        ${unitHTML(session, enc, scale, size, { grey: true })}
+        ${unitHTML(session, enc, scale, size, { grey: true, fitNames: names })}
         <div class="muted" style="text-align:center"><small>${esc(enc.location)}</small></div>
         <div class="actions"><button class="small" style="width:100%" data-revive="${esc(enc.id)}">Undo (to box)</button></div>
       </div>`).join("")}</div>`;
