@@ -4,7 +4,7 @@
 // number, and then the sprites are drawn at one shared whole-number scale.
 
 import * as R from "./rules.js";
-import { artKind, artUrl, esc, gameName, isModern, modal, monName, toast } from "./ui.js";
+import { artKind, artUrl, gameName, isModern, monName, toast } from "./ui.js";
 
 const MARGIN = 8, COL_GAP = 4, ROW_GAP = 22, GRID_GAP = 14;
 const INK = "#383840", INK_SHADOW = "#d0d0d8", INK_LIGHT = "#686870";
@@ -521,13 +521,33 @@ async function drawModern(session, units, { title, perRow, names, grey = false }
 }
 
 /** Render and show a graphic with Share / Download buttons. */
-// Sharing works like the all22pokemon.com share card: phones get the share
-// sheet with the image and a ready-made post; anywhere, the image or the post
-// can be copied (paste straight into Discord or a chat) or the image saved.
-const TITLES = { team: "Team", box: "Box", graveyard: "Graveyard" };
+// Sharing: "Share" copies the picture and a ready-made post to the clipboard
+// together (paste into a chat); "Save image" saves the picture. Browsers only
+// allow copying during the tap itself, so each page draws its picture ahead
+// of time (prepareGraphic) and the buttons use it straight away.
 
-async function copyImage(blob) {
-  await navigator.clipboard.write([new ClipboardItem({ "image/png": blob })]);
+const prepared = new Map(); // kind -> {key, png: Promise<Blob>}
+
+/** Start drawing a graphic for the current run state (reused until it changes). */
+export function prepareGraphic(session, kind) {
+  const key = JSON.stringify([session.code, session.run.updatedAt, session.run.encounters.length, kind,
+                              session.run.options, session.run.players, session.run.name]);
+  const cached = prepared.get(kind);
+  if (cached?.key === key) return cached.png;
+  const png = renderGraphic(session, kind)
+    .then((c) => new Promise((resolve) => c.toBlob(resolve, "image/png")));
+  png.catch((err) => console.error(err));
+  prepared.set(kind, { key, png });
+  return png;
+}
+
+function postFor(session, kind) {
+  return R.sharePost(session.run, kind, { game: gameName(session),
+                                          site: `${location.origin}${location.pathname}` });
+}
+
+function fileName(session, kind) {
+  return `${session.run.name.replace(/[^\w-]+/g, "_") || "nuzlocke"}_${kind}.png`;
 }
 
 async function copyText(text) {
@@ -546,56 +566,61 @@ async function copyText(text) {
   }
 }
 
-/** Render and show a graphic with Share / Copy / Save options. */
-export async function showGraphic(session, kind) {
-  toast("Drawing…");
+const NOUN = { team: "Team", box: "Box", graveyard: "Graveyard" };
+
+/** Copy the picture and the post to the clipboard together. */
+export async function shareGraphic(session, kind) {
+  const png = prepareGraphic(session, kind);
+  const post = postFor(session, kind);
+  if (navigator.clipboard?.write && window.ClipboardItem) {
+    try {
+      // both kinds of content in one clipboard item: apps paste the picture,
+      // text boxes paste the post. The picture may still be drawing, so it's
+      // passed as a promise (Safari requires the write to start during the tap).
+      await navigator.clipboard.write([new ClipboardItem({
+        "image/png": png,
+        "text/plain": new Blob([post], { type: "text/plain" }),
+      })]);
+      toast(`${NOUN[kind]} picture and post copied: paste into a chat`);
+      return;
+    } catch (err) {
+      console.warn("Couldn't copy the picture:", err);
+    }
+  }
+  try {
+    await copyText(post);
+    toast("Post copied (this browser can't copy pictures: use Save image)");
+  } catch {
+    toast("Your browser didn't allow copying: use Save image");
+  }
+}
+
+/** Save the picture: the share sheet on phones (Save Image puts it in
+ *  Photos), a download on computers. */
+export async function saveGraphic(session, kind) {
   let blob;
   try {
-    const c = await renderGraphic(session, kind);
-    blob = await new Promise((resolve) => c.toBlob(resolve, "image/png"));
+    blob = await prepareGraphic(session, kind);
   } catch (err) {
-    console.error(err);
-    toast(`Couldn't draw the graphic: ${err.message}`);
+    toast(`Couldn't draw the picture: ${err.message}`);
     return;
   }
-  document.getElementById("toast").hidden = true; // done drawing
-  const url = URL.createObjectURL(blob);
-  const name = `${session.run.name.replace(/[^\w-]+/g, "_")}_${kind}.png`;
+  const name = fileName(session, kind);
   const file = new File([blob], name, { type: "image/png" });
-  const post = R.sharePost(session.run, kind, { game: gameName(session),
-                                                site: `${location.origin}${location.pathname}` });
   const touch = matchMedia("(pointer: coarse)").matches;
-  const canShare = !!navigator.canShare?.({ files: [file] });
-  const canCopyImage = !!(navigator.clipboard?.write && window.ClipboardItem);
-
-  const choice = modal(`<h2>${esc(TITLES[kind])}</h2>
-    <img class="graphic" src="${url}" alt="${esc(TITLES[kind])} graphic">
-    ${touch ? `<p class="muted" style="text-align:center"><small>Press and hold the image to save it to Photos.</small></p>` : ""}
-    <div class="share-grid">
-      ${canShare ? `<button class="primary" id="share-graphic">Share…</button>` : ""}
-      ${canCopyImage ? `<button id="copy-image">Copy image</button>` : ""}
-      <button id="copy-post">Copy post</button>
-      <a class="btn" href="${url}" download="${esc(name)}" id="save-image">Save image</a>
-    </div>
-    <details class="post-preview"><summary>Post text</summary><pre>${esc(post)}</pre></details>
-    <div class="btn-row" style="margin-top:8px"><button data-value="close">Close</button></div>`);
-
-  const handle = (id, fn, done) => document.getElementById(id)?.addEventListener("click", async (e) => {
-    e.preventDefault();
+  if (touch && navigator.canShare?.({ files: [file] })) {
     try {
-      await fn();
-      if (done) toast(done);
+      await navigator.share({ files: [file] });
+      return;
     } catch (err) {
-      if (err?.name !== "AbortError") toast("Your browser didn't allow that; try Save image instead");
+      if (err?.name === "AbortError") return; // closed the share sheet
     }
-  });
-  handle("share-graphic", () => navigator.share({ files: [file], text: post, title: session.run.name }));
-  handle("copy-image", () => copyImage(blob), "Image copied: paste it into a chat or post");
-  handle("copy-post", () => copyText(post), "Post copied");
-  document.getElementById("save-image").addEventListener("click", () => {
-    // computers: save the image and copy the post together, ready to paste
-    if (!touch) copyText(post).then(() => toast("Image saved and post copied"), () => toast("Image saved"));
-  });
-  await choice;
-  URL.revokeObjectURL(url);
+  }
+  const url = URL.createObjectURL(blob);
+  const a = Object.assign(document.createElement("a"), { href: url, download: name });
+  document.body.append(a);
+  a.click();
+  a.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 10000);
+  toast("Picture saved");
 }
