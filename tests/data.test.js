@@ -55,3 +55,11 @@ for (const [game, style] of Object.entries(styles)) {
     for (const w of style.defaultWalls) assert.ok(style.walls[w], `default wallpaper ${w} missing`);
   });
 }
+
+test("pre-drawn pixel font covers the graphics' text sizes and letters", () => {
+  const font = json("assets/common/font/pixelify.json");
+  assert.ok(existsSync(new URL("assets/common/font/pixelify.png", docs)));
+  for (const size of [8, 9, 10, 11, 12]) {
+    for (const ch of "AZaz09 .'-&é") assert.ok(font[size]?.[ch], `size ${size} missing ${JSON.stringify(ch)}`);
+  }
+});

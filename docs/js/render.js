@@ -82,10 +82,51 @@ function segments(text) {
   return out;
 }
 
+// Pre-drawn pixel font (built by tools/build_site_assets.py, exactly as the
+// desktop generator draws it), so text looks the same in every browser:
+// browsers rasterize fonts differently, and Safari's came out bold.
+// {size: {char: [x, y, w, h, dx, dy, advance]}} plus a sheet of white glyphs.
+let atlas = null;
+const tinted = new Map(); // color -> glyph sheet in that color
+
+async function loadFontAtlas() {
+  if (!atlas) {
+    atlas = Promise.all([
+      fetch("assets/common/font/pixelify.json").then((r) => r.json()),
+      loadImage("assets/common/font/pixelify.png"),
+    ]).then(([glyphs, sheet]) => ({ glyphs, sheet }));
+  }
+  return atlas;
+}
+
+function tintedSheet(font, color) {
+  if (!tinted.has(color)) {
+    const [c, cctx] = canvas(font.sheet.width, font.sheet.height);
+    cctx.drawImage(font.sheet, 0, 0);
+    cctx.globalCompositeOperation = "source-in";
+    cctx.fillStyle = color;
+    cctx.fillRect(0, 0, c.width, c.height);
+    tinted.set(color, c);
+  }
+  return tinted.get(color);
+}
+
+let FONT_ATLAS = null; // set by loadAssets before anything is drawn
+
+/** Width of a run of plain text: pre-drawn glyph advances where we have them. */
+function plainWidth(ctx, text, size) {
+  const glyphs = FONT_ATLAS?.glyphs[size];
+  let w = 0;
+  for (const ch of text) {
+    if (glyphs?.[ch]) w += glyphs[ch][6];
+    else { ctx.font = FONT(size); w += ctx.measureText(ch).width; }
+  }
+  return w;
+}
+
 function textWidth(ctx, text, size) {
-  ctx.font = FONT(size);
   return segments(text).reduce((w, s) =>
-    w + (GENDER_GLYPHS[s] ? GENDER_GLYPHS[s][1][0].length + 2 : ctx.measureText(s).width), 0);
+    w + (GENDER_GLYPHS[s] ? GENDER_GLYPHS[s][1][0].length + 2 : plainWidth(ctx, s, size)), 0);
 }
 
 function fitSize(ctx, text, maxW, size) {
@@ -93,10 +134,29 @@ function fitSize(ctx, text, maxW, size) {
   return size;
 }
 
-/** Text with no anti-aliasing: drawn, then every pixel snapped on or off.
- *  The cutoff matches the desktop generator's one-pixel strokes; a lower one
- *  turns half-covered edge pixels on and makes every stroke two pixels thick. */
+/** Pixel text from the pre-drawn glyphs; any character missing from them
+ *  falls back to the browser's font (snapped to whole pixels). */
 function crispText(ctx, text, x, cy, size, color) {
+  const glyphs = FONT_ATLAS?.glyphs[size];
+  if (!glyphs) return browserText(ctx, text, x, cy, size, color);
+  const sheet = tintedSheet(FONT_ATLAS, color);
+  let pen = 0;
+  for (const ch of text) {
+    const g = glyphs[ch];
+    if (g) {
+      const [gx, gy, w, h, dx, dy, adv] = g;
+      if (w) ctx.drawImage(sheet, gx, gy, w, h, Math.round(x + pen) + dx, Math.round(cy) + dy, w, h);
+      pen += adv;
+    } else {
+      browserText(ctx, ch, x + pen, cy, size, color);
+      ctx.font = FONT(size);
+      pen += ctx.measureText(ch).width;
+    }
+  }
+}
+
+/** Browser-drawn text snapped to whole pixels (fallback only). */
+function browserText(ctx, text, x, cy, size, color) {
   const w = Math.ceil(textWidth(ctx, text, size)) + 2, h = size * 2;
   const [c, cctx] = canvas(w, h);
   cctx.font = FONT(size);
@@ -129,8 +189,7 @@ function shadowText(ctx, cx, cy, text, size, color, shadow) {
     } else {
       if (shadow) crispText(ctx, seg, x + 1, cy + 1, size, INK_SHADOW);
       crispText(ctx, seg, x, cy, size, color);
-      ctx.font = FONT(size);
-      x += ctx.measureText(seg).width;
+      x += plainWidth(ctx, seg, size);
     }
   }
 }
@@ -183,6 +242,7 @@ async function loadAssets(game, run) {
     loadImage(`assets/common/link_${run.options?.link || "heart"}.png`),
   ]);
   await document.fonts.load(FONT(FONT_SIZE));
+  FONT_ATLAS = await loadFontAtlas();
   return { textbox, bg, sheet, link, walls, trainers };
 }
 

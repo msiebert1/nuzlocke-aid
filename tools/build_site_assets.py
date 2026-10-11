@@ -132,8 +132,59 @@ def build_game(key: str, species: list[dict]) -> dict:
     }
 
 
+FONT_SIZES = range(8, 13)  # the graphics' text sizes (labels shrink to 8 to fit)
+FONT_CHARS = ([chr(c) for c in range(32, 127)] + [chr(c) for c in range(160, 256)]
+              + list("’‘“”–—…"))
+
+
+def build_font_atlas(out: Path):
+    """Pixelify Sans pre-drawn with no anti-aliasing (exactly how the desktop
+    generator draws it), so the site's graphics don't depend on how each
+    browser rasterizes fonts: Safari and Chrome came out differently.
+
+    Writes font/pixelify.png (white glyphs) and font/pixelify.json:
+    {size: {char: [x, y, w, h, dx, dy, advance]}}, where (dx, dy) places the
+    glyph relative to a pen at the text's left-middle point."""
+    from PIL import ImageDraw, ImageFont
+    glyphs, crops = {}, []
+    for size in FONT_SIZES:
+        font = ImageFont.truetype(str(ROOT / "fonts" / "PixelifySans.ttf"), size)
+        glyphs[size] = {}
+        for ch in FONT_CHARS:
+            if font.getmask(ch).getbbox() is None and ch != " ":
+                continue  # not in the font
+            canvas = Image.new("L", (size * 4, size * 4))
+            draw = ImageDraw.Draw(canvas)
+            draw.fontmode = "1"
+            px, py = size, size * 2
+            draw.text((px, py), ch, font=font, fill=255, anchor="lm")
+            box = canvas.getbbox()
+            advance = font.getlength(ch)
+            if box is None:
+                glyphs[size][ch] = [0, 0, 0, 0, 0, 0, advance]
+                continue
+            crops.append((size, ch, canvas.crop(box), box[0] - px, box[1] - py, advance))
+    x = y = shelf = 0
+    sheet_w = 512
+    places = []
+    for size, ch, img, dx, dy, adv in crops:
+        if x + img.width > sheet_w:
+            x, y, shelf = 0, y + shelf + 1, 0
+        places.append((size, ch, img, x, y, dx, dy, adv))
+        x += img.width + 1
+        shelf = max(shelf, img.height)
+    sheet = Image.new("RGBA", (sheet_w, y + shelf + 1))
+    white = Image.new("RGBA", (64, 64), (255, 255, 255, 255))
+    for size, ch, img, gx, gy, dx, dy, adv in places:
+        sheet.paste(white.crop((0, 0, img.width, img.height)), (gx, gy), img)
+        glyphs[size][ch] = [gx, gy, img.width, img.height, dx, dy, adv]
+    save(sheet, out / "font" / "pixelify.png")
+    (out / "font" / "pixelify.json").write_text(json.dumps(glyphs, ensure_ascii=False))
+
+
 def build_common():
     out = DOCS / "assets" / "common"
+    build_font_atlas(out)
     for name, file in (("oak_hgss", "Spr_HGSS_Oak.png"), ("oak_frlg", "Spr_FRLG_Oak.png")):
         save(soullink._trim(retro.asset(file)), out / f"{name}.png")
     for name in retro.LINK_CHOICES:
