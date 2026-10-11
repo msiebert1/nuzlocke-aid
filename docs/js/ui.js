@@ -38,9 +38,9 @@ export const MAX_CUSTOM_LOCATIONS = 100;
 /** Everything a game's pages need, loaded once. */
 export async function loadGame(game) {
   const generic = game === GENERIC;
-  const [styles, species, locations, sheet, art] = await Promise.all([
+  const [styles, species, locations, sheet, art, evolutions] = await Promise.all([
     loadStyles(), loadSpecies(), generic ? [] : loadLocations(game), generic ? {} : loadSheet(game),
-    loadArt(),
+    loadArt(), getJSON("data/evolutions.json").catch(() => ({})),
   ]);
   const style = generic ? GENERIC_STYLE : styles[game];
   return {
@@ -51,6 +51,7 @@ export async function loadGame(game) {
     species: species.filter((s) => s.dex <= style.lastDex),
     dex: Object.fromEntries(species.map((s) => [s.name, s.dex])),
     art: Object.fromEntries(Object.entries(art).map(([k, list]) => [k, new Set(list)])),
+    evolutions, // {species: [what it evolves into]}
   };
 }
 

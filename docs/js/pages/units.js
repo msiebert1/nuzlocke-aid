@@ -1,29 +1,34 @@
 // Team, Box and Graveyard tabs, plus the shared "where does this catch go?" step.
 // A unit is one encounter: a single Pokémon, or a soul-linked pair.
 
-import * as R from "../rules.js?v=4774e07b";
-import { cellStyle, confirmBox, esc, isModern, linkIcon, modal, monImage, monName, spriteScale, toast } from "../ui.js?v=4774e07b";
-import { prepareGraphic, shareGraphic, viewGraphic } from "../render.js?v=4774e07b";
+import * as R from "../rules.js?v=632c1a70";
+import { cellStyle, closeModal, confirmBox, esc, isModern, linkIcon, modal, monImage, monName, spriteScale, toast } from "../ui.js?v=632c1a70";
+import { prepareGraphic, shareGraphic, viewGraphic } from "../render.js?v=632c1a70";
 
 /** All sprite names on a page, for one shared scale. */
 function namesOf(encs) {
   return encs.flatMap((e) => e.catches.map((c) => c.species));
 }
 
-export function monHTML(session, c, scale, size, { grey = false } = {}) {
+export function monHTML(session, c, scale, size, { grey = false, evolveId = null } = {}) {
   const { game, run } = session;
   const wall = run.options?.wallpapers?.[c.player] ?? game.style.defaultWalls[c.player];
   const cell = isModern(session)
     ? { cls: `cell plain p${c.player}`, style: "" } : cellStyle(game, wall);
-  return `<div class="mon">
+  const inner = `
     <div class="${cell.cls}" style="${cell.style}">${monImage(session, c.species, { scale, size, cls: grey ? "grey" : "" })}</div>
     <div class="name">${esc(monName(c))}</div>
-    ${c.nickname ? `<div class="species">${esc(c.species)}</div>` : ""}
-  </div>`;
+    ${c.nickname ? `<div class="species">${esc(c.species)}</div>` : ""}`;
+  // on the Team and Box pages, tapping a Pokémon evolves it
+  return evolveId
+    ? `<button type="button" class="mon mon-tap" data-evolve="${esc(evolveId)}" data-player="${c.player}"
+         aria-label="Evolve ${esc(monName(c))}">${inner}</button>`
+    : `<div class="mon">${inner}</div>`;
 }
 
 export function unitHTML(session, enc, scale, size, opts = {}) {
-  const parts = enc.catches.map((c) => monHTML(session, c, scale, size, opts));
+  const parts = enc.catches.map((c) => monHTML(session, c, scale, size,
+    { ...opts, evolveId: opts.evolvable ? enc.id : null }));
   const modern = isModern(session);
   const link = session.run.mode !== "soul" ? ""
     : modern ? `<span class="link chain" aria-label="linked">🔗</span>` : linkIcon(session.run.options?.link);
@@ -66,9 +71,54 @@ const VIEW_LABEL = { team: "View team image", box: "View box image", graveyard: 
 
 // Saving lives in the image viewer
 function graphicButton(kind) {
-  return `<div class="btn-row" style="margin-bottom:12px">
+  return `<div class="btn-row" style="margin-bottom:${kind === "graveyard" ? 12 : 6}px">
     <button class="primary" data-share="${kind}" title="Copies the picture and a post to paste into a chat">📋 ${SHARE_LABEL[kind]}</button>
-    <button data-view="${kind}">🖼 ${VIEW_LABEL[kind]}</button></div>`;
+    <button data-view="${kind}">🖼 ${VIEW_LABEL[kind]}</button></div>
+    ${kind === "graveyard" ? "" : `<p class="tap-hint"><small>Tap a Pokémon to evolve it.</small></p>`}`;
+}
+
+// --- Evolving -----------------------------------------------------------------
+
+/** Ask what a Pokémon evolved into (its next stages in this game, or any
+ *  other Pokémon), then evolve it. */
+async function evolveDialog(session, id, player) {
+  const { game, run } = session;
+  const enc = run.encounters.find((e) => e.id === id);
+  const c = enc?.catches.find((x) => x.player === player);
+  if (!c?.species) return;
+  const options = R.evolutionOptions(c.species, game.evolutions || {}, (n) => !!game.dex[n] && game.dex[n] <= game.style.lastDex);
+  const who = c.nickname ? `${c.nickname} (${c.species})` : c.species;
+  const choice = await modal(`<h2>Evolve ${esc(who)}</h2>
+    ${options.length ? `<p>What did it evolve into?</p>
+      <div class="evolve-options">${options.map((n) => `<button data-value="${esc(n)}">
+        ${monImage(session, n, { scale: 1, size: 56 })}<span>${esc(n)}</span></button>`).join("")}</div>`
+      : `<p class="muted">${esc(c.species)} doesn't evolve in this game.</p>`}
+    <form id="evolve-other" style="margin-top:10px">
+      <label for="evolve-into">${options.length ? "Something else?" : "Evolved into something else?"}</label>
+      <div class="btn-row">
+        <input id="evolve-into" name="into" list="evolve-species" placeholder="Pokémon name" style="flex:2" autocomplete="off">
+        <button type="submit">Evolve</button></div>
+      <datalist id="evolve-species">${game.species.map((sp) => `<option value="${esc(sp.name)}">`).join("")}</datalist>
+    </form>
+    <div class="btn-row" style="margin-top:10px"><button data-value="">Cancel</button></div>`);
+  if (!choice) return;
+  const into = game.species.find((sp) => sp.name.toLowerCase() === choice.trim().toLowerCase())?.name;
+  if (!into) return toast(`No Pokémon called "${choice}"`);
+  await session.update((r) => R.evolveCatch(r, id, player, into));
+  toast(`${c.nickname || c.species} evolved into ${into}!`);
+}
+
+// "Something else?" submits by closing the dialog with the typed name
+document.addEventListener("submit", (e) => {
+  if (e.target.id !== "evolve-other") return;
+  e.preventDefault();
+  const name = e.target.into.value.trim();
+  if (name) closeModal(name);
+});
+
+function bindEvolve(root, session) {
+  root.querySelectorAll("[data-evolve]").forEach((b) => b.addEventListener("click", () =>
+    evolveDialog(session, b.dataset.evolve, Number(b.dataset.player))));
 }
 
 function bindGraphic(root, session) {
@@ -94,7 +144,7 @@ export const team = {
     const scale = spriteScale(session.game, namesOf(party), size);
     return `${graphicButton("team")}
       ${party.map((enc, i) => `<div class="box unit-card team-card ${soul ? "soul" : ""}">
-        ${unitHTML(session, enc, scale, size)}
+        ${unitHTML(session, enc, scale, size, { evolvable: true })}
         <div class="btn-row actions">
           <button class="small" data-up="${esc(enc.id)}" ${i === 0 ? "disabled" : ""} aria-label="Move up">▲</button>
           <button class="small" data-down="${esc(enc.id)}" ${i === party.length - 1 ? "disabled" : ""} aria-label="Move down">▼</button>
@@ -104,6 +154,7 @@ export const team = {
   },
   bind(root, session) {
     bindGraphic(root, session);
+    bindEvolve(root, session);
     root.querySelectorAll("[data-up]").forEach((b) =>
       b.addEventListener("click", () => session.update((r) => R.movePartySlot(r, b.dataset.up, -1))));
     root.querySelectorAll("[data-down]").forEach((b) =>
@@ -135,12 +186,13 @@ export const box = {
     return `${graphicButton("box")}
       <div class="grid ${soul ? "" : "single"}">
       ${boxed.map((enc) => `<div class="box unit-card">
-        ${unitHTML(session, enc, scale, size)}
+        ${unitHTML(session, enc, scale, size, { evolvable: true })}
         <div class="actions"><button class="small" style="width:100%" data-party="${esc(enc.id)}">To party</button></div>
       </div>`).join("")}</div>`;
   },
   bind(root, session) {
     bindGraphic(root, session);
+    bindEvolve(root, session);
     root.querySelectorAll("[data-party]").forEach((b) =>
       b.addEventListener("click", () => placeNew(session, b.dataset.party)));
   },

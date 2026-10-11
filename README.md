@@ -83,6 +83,10 @@ app icon.
 - **Look:** in **Settings**, switch any run between the game's look and a
   **Modern** look, and choose the Pokémon art: game sprites, official artwork,
   or Ken Sugimori's early artwork (#1–251; later Pokémon use official art).
+- **Evolving:** on the Team or Box page, tap a Pokémon and pick what it evolved
+  into (only evolutions that exist in your game are listed; **Something
+  else?** covers anything unusual). The List page remembers what it was
+  caught as.
 - **Team / Box / Grave:** move Pokémon between them; a faint takes the whole
   soul-linked pair to the graveyard. Each has a graphic button to share an image.
 - **List:** every encounter; tap one to fix a mistake.
@@ -107,6 +111,7 @@ Bulbagarden Archives, cached in `.artwork_cache/`):
 python3 tools/build_locations.py        # docs/data/locations/<game>.json
 python3 tools/build_site_assets.py      # sprites, text boxes, wallpapers, styles.json
 python3 tools/build_art.py              # official (Bulbapedia) + early Sugimori (pokemondb) artwork
+python3 tools/build_evolutions.py       # what each Pokémon evolves into (PokeAPI)
 python3 tools/check_styles.py           # checks every game style's art still resolves
 ```
 

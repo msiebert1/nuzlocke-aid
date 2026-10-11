@@ -248,3 +248,23 @@ test("share post lists the team and the run's tally", () => {
   assert.match(post, /https:\/\/example\.com\/$/);
   assert.match(R.sharePost(run, "graveyard", { game: "X" }), /In memory of:\n\(none yet\)/);
 });
+
+test("evolving keeps the nickname, link and place, and remembers the original", () => {
+  let res = R.logEncounter(newRun("soul"), { location: "Starter", status: "caught",
+    catches: [{ player: 0, species: "Snivy", nickname: "Ivy" }, { player: 1, species: "Tepig" }] });
+  let run = R.place(res.run, res.id, "party");
+  run = R.evolveCatch(run, res.id, 0, "Servine");
+  run = R.evolveCatch(run, res.id, 0, "Serperior");
+  const [a, b] = run.encounters[0].catches;
+  assert.deepEqual([a.species, a.nickname, a.caughtAs], ["Serperior", "Ivy", "Snivy"]);
+  assert.deepEqual([b.species, b.caughtAs], ["Tepig", undefined]);
+  assert.equal(R.party(run).length, 1);
+  assert.throws(() => R.evolveCatch(run, res.id, 1, ""), R.RuleError);
+});
+
+test("evolution options leave out Pokémon the game doesn't have", () => {
+  const evo = { Eevee: ["Vaporeon", "Jolteon", "Flareon", "Espeon", "Umbreon"] };
+  const gen1 = new Set(["Vaporeon", "Jolteon", "Flareon"]);
+  assert.deepEqual(R.evolutionOptions("Eevee", evo, (n) => gen1.has(n)), ["Vaporeon", "Jolteon", "Flareon"]);
+  assert.deepEqual(R.evolutionOptions("Mew", evo), []);
+});

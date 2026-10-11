@@ -296,3 +296,23 @@ export function sharePost(run, kind, { game, site }) {
   if (site) lines.push(`Made with Nuzlocke Aid: ${site}`);
   return lines.join("\n");
 }
+
+/** Evolve one player's Pokémon: its species changes; the nickname, soul
+ *  link and place stay. The species it was caught as is remembered. */
+export function evolveCatch(run, id, player, species) {
+  species = String(species || "").trim();
+  if (!species) throw new RuleError("Choose what it evolved into");
+  run = clone(run);
+  const c = find(run, id).catches.find((x) => x.player === player);
+  if (!c || !c.species) throw new RuleError("Nothing to evolve");
+  if (c.species === species) return run;
+  if (!c.caughtAs) c.caughtAs = c.species;
+  c.species = species;
+  return run;
+}
+
+/** What a Pokémon can evolve into in this game: `evolutions` is the
+ *  {species: [next stages]} table; `inGame(name)` says if the game has it. */
+export function evolutionOptions(species, evolutions, inGame = () => true) {
+  return (evolutions[species] || []).filter(inGame);
+}
