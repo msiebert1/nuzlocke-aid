@@ -360,3 +360,13 @@ body:not([data-look="modern"]) :is(h3, small, label, input, select, textarea, bu
   .mon .species, .enc-row .where, .enc-row .what, .tag, .spr.missing) { font-size: var(--fs); }
 body:not([data-look="modern"]) h3,
 body:not([data-look="modern"]) label { color: var(--ink); }
+
+/* Graphic share options */
+.share-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.share-grid > :first-child:nth-last-child(odd) { grid-column: 1 / -1; }
+.post-preview { margin-top: 10px; }
+.post-preview summary { cursor: pointer; color: var(--ink-light); }
+.post-preview pre {
+  white-space: pre-wrap; font: inherit; font-size: 15px; margin: 6px 0 0;
+  padding: 8px; border-radius: 6px; background: rgba(127, 127, 140, 0.12);
+}

@@ -232,3 +232,19 @@ test("added locations are capped", () => {
   run = R.addCustomLocation(run, "Spot 3"); // already there: fine
   assert.equal(run.customLocations.length, 100);
 });
+
+test("share post lists the team and the run's tally", () => {
+  let run = newRun("soul");
+  let res = R.logEncounter(run, { location: "Starter", status: "caught",
+    catches: [{ player: 0, species: "Snivy", nickname: "Ivy" }, { player: 1, species: "Tepig" }] });
+  run = R.place(res.run, res.id, "party");
+  res = R.logEncounter(run, { location: "Route 19", status: "failed",
+    catches: [{ player: 0, species: "" }, { player: 1, species: "" }] });
+  run = res.run;
+  const post = R.sharePost(run, "team", { game: "Black 2 / White 2", site: "https://example.com/" });
+  assert.match(post, /^🔗 Soul link: Test \(Black 2 \/ White 2\)/);
+  assert.match(post, /Matt & Callie's team:\n• Ivy \(Snivy\) 🔗 Tepig/);
+  assert.match(post, /📍 2 encounters · ✅ 1 caught · 🪦 0 lost/);
+  assert.match(post, /https:\/\/example\.com\/$/);
+  assert.match(R.sharePost(run, "graveyard", { game: "X" }), /In memory of:\n\(none yet\)/);
+});

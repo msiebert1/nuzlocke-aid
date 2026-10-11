@@ -258,3 +258,34 @@ export function deleteCatch(run, id, player) {
   if (!enc.catches.length) run.encounters = run.encounters.filter((e) => e.id !== id);
   return normalize(run);
 }
+
+/** A short post to share with a graphic: what the run is, who's in the
+ *  team / box / graveyard, and the run's tally. `kind` is "team", "box" or
+ *  "graveyard"; `game` is the game's display name. */
+export function sharePost(run, kind, { game, site }) {
+  const soul = run.mode === "soul";
+  const names = run.players.map((p) => p.name).filter(Boolean);
+  const whose = names.length > 1 ? `${names.slice(0, -1).join(", ")} & ${names.at(-1)}'s`
+    : names.length ? `${names[0]}'s` : "My";
+  const label = (c) => (c.nickname && c.species ? `${c.nickname} (${c.species})` : c.nickname || c.species || "?");
+  const unit = (e) => e.catches.map(label).join(soul ? " 🔗 " : ", ");
+  const list = { team: party(run), box: box(run), graveyard: graveyard(run) }[kind] || [];
+  const heading = {
+    team: `${whose} team`,
+    box: `${whose} box`,
+    graveyard: "🪦 In memory of",
+  }[kind];
+  const logged = run.encounters.length;
+  const caught = run.encounters.filter((e) => isUsable(run, e)).length;
+  const lost = graveyard(run).length;
+  const lines = [
+    `${soul ? "🔗 Soul link" : "⚔️ Nuzlocke"}: ${run.name} (${game})`,
+    "",
+    `${heading}:`,
+    ...(list.length ? list.map((e) => `• ${unit(e)}`) : ["(none yet)"]),
+    "",
+    `📍 ${logged} encounter${logged === 1 ? "" : "s"} · ✅ ${caught} caught · 🪦 ${lost} lost`,
+  ];
+  if (site) lines.push(`Made with Nuzlocke Aid: ${site}`);
+  return lines.join("\n");
+}
