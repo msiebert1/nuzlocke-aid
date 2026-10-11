@@ -526,7 +526,7 @@ async function drawModern(session, units, { title, perRow, names, grey = false }
 // allow copying during the tap itself, so each page draws its picture ahead
 // of time (prepareGraphic) and the buttons use it straight away.
 
-const prepared = new Map(); // kind -> {key, png: Promise<Blob>}
+const prepared = new Map(); // kind -> {key, png: Promise<Blob>, blob (once drawn)}
 
 /** Start drawing a graphic for the current run state (reused until it changes). */
 export function prepareGraphic(session, kind) {
@@ -536,8 +536,9 @@ export function prepareGraphic(session, kind) {
   if (cached?.key === key) return cached.png;
   const png = renderGraphic(session, kind)
     .then((c) => new Promise((resolve) => c.toBlob(resolve, "image/png")));
-  png.catch((err) => console.error(err));
-  prepared.set(kind, { key, png });
+  const entry = { key, png, blob: null };
+  png.then((blob) => (entry.blob = blob), (err) => console.error(err));
+  prepared.set(kind, entry);
   return png;
 }
 
@@ -572,6 +573,28 @@ const NOUN = { team: "Team", box: "Box", graveyard: "Graveyard" };
 export async function shareGraphic(session, kind) {
   const png = prepareGraphic(session, kind);
   const post = postFor(session, kind);
+  const touch = matchMedia("(pointer: coarse)").matches;
+  if (touch && navigator.share) {
+    // Phones: the share sheet sends the picture and the post together (a
+    // pasted clipboard only gives apps one of them). It must open during the
+    // tap, so it uses the picture drawn when the page opened.
+    const blob = prepared.get(kind)?.blob;
+    if (!blob) {
+      toast("Still drawing the picture: tap again in a moment");
+      return;
+    }
+    const file = new File([blob], fileName(session, kind), { type: "image/png" });
+    if (navigator.canShare?.({ files: [file], text: post })) {
+      try {
+        await navigator.share({ files: [file], text: post });
+        return;
+      } catch (err) {
+        if (err?.name === "AbortError") return; // closed the share sheet
+        console.warn("Share sheet failed:", err);
+      }
+    }
+  }
+  // Computers (or no share sheet): copy the picture and the post
   if (navigator.clipboard?.write && window.ClipboardItem) {
     try {
       // both kinds of content in one clipboard item: apps paste the picture,
@@ -641,7 +664,7 @@ export async function viewGraphic(session, kind) {
     <img class="graphic" src="${url}" alt="${esc(NOUN[kind])} picture">
     ${touch ? `<p class="muted" style="text-align:center"><small>Or press and hold the picture to save it.</small></p>` : ""}
     <div class="btn-row">
-      <button class="primary" id="view-copy">📋 Copy</button>
+      <button class="primary" id="view-copy">📋 Share</button>
       <button id="view-save">💾 Save image</button>
     </div>
     <div class="btn-row" style="margin-top:8px"><button data-value="close">Close</button></div>`);
