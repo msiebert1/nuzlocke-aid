@@ -22,6 +22,8 @@
   --tb-border-sm: 4px 4px 6px 2px;
   --tb-repeat: stretch;
   --tab-h: 64px;
+  --fs: 18px;   /* pixel-font sizes; set for the screen in js/ui.js */
+  --fl: 24px;
   color-scheme: light;
 }
 
@@ -344,3 +346,17 @@ body[data-look="modern"] .spr { image-rendering: pixelated; }
   box-shadow: inset 0 -4px 0 var(--p0);
 }
 .cell.plain.p1 { box-shadow: inset 0 -4px 0 var(--p1); }
+
+/* ---------------------------------------------------------------------------
+   Pixel-font text (every game look): only the two pixel-aligned sizes, and
+   never bold, which smears the pixel font. Hierarchy comes from size and
+   color instead. The modern look is unaffected. */
+body:not([data-look="modern"]) { font-size: var(--fs); font-synthesis: none; }
+body:not([data-look="modern"]) *,
+body:not([data-look="modern"]) *::placeholder { font-weight: 400 !important; }
+body:not([data-look="modern"]) :is(h1, h2, .share-code, .status-buttons button) { font-size: var(--fl); }
+body:not([data-look="modern"]) :is(h3, small, label, input, select, textarea, button, .btn,
+  .pick, .tabbar a, .tabbar a .count, .topbar .title h1, .topbar .title small,
+  .mon .species, .enc-row .where, .enc-row .what, .tag, .spr.missing) { font-size: var(--fs); }
+body:not([data-look="modern"]) h3,
+body:not([data-look="modern"]) label { color: var(--ink); }

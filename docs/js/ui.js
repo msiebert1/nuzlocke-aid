@@ -100,11 +100,26 @@ export function esc(s) {
     { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
 }
 
+/** Pixelify Sans is drawn on a 12-pixel grid, so it only renders evenly when
+ *  each font pixel covers a whole number of screen pixels; otherwise strokes
+ *  come out a mix of 1 and 2 pixels wide and look smeared or bold. Pick the
+ *  text sizes for this screen's pixel density: about 1.5 CSS px per font
+ *  pixel for body text (18px on most phones, 16px on 3x screens) and 2 for
+ *  headings (24px). */
+function setPixelFontSizes() {
+  const dpr = window.devicePixelRatio || 1;
+  const size = (cssPerFontPixel) => (Math.max(1, Math.round(cssPerFontPixel * dpr)) / dpr) * 12;
+  const root = document.documentElement.style;
+  root.setProperty("--fs", `${size(1.5)}px`);
+  root.setProperty("--fl", `${size(2)}px`);
+}
+
 /** Dress the page in a game's look (or clear it with null). `look` is
  *  "game" (the game's art) or "modern" (clean cards, no game art). */
 export function applyTheme(game, style, look = "game") {
   const body = document.body;
   body.dataset.look = style?.generic ? "modern" : look;
+  setPixelFontSizes();
   if (!game || style.generic) {
     if (style?.generic) body.dataset.game = game;
     else delete body.dataset.game;

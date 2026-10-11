@@ -93,7 +93,9 @@ function fitSize(ctx, text, maxW, size) {
   return size;
 }
 
-/** Text with no anti-aliasing: drawn, then every pixel snapped on or off. */
+/** Text with no anti-aliasing: drawn, then every pixel snapped on or off.
+ *  The cutoff matches the desktop generator's one-pixel strokes; a lower one
+ *  turns half-covered edge pixels on and makes every stroke two pixels thick. */
 function crispText(ctx, text, x, cy, size, color) {
   const w = Math.ceil(textWidth(ctx, text, size)) + 2, h = size * 2;
   const [c, cctx] = canvas(w, h);
@@ -103,7 +105,7 @@ function crispText(ctx, text, x, cy, size, color) {
   cctx.fillText(text, 0, h / 2);
   const data = cctx.getImageData(0, 0, w, h);
   const px = data.data;
-  for (let i = 3; i < px.length; i += 4) px[i] = px[i] >= 110 ? 255 : 0;
+  for (let i = 3; i < px.length; i += 4) px[i] = px[i] >= 160 ? 255 : 0;
   cctx.putImageData(data, 0, 0);
   ctx.drawImage(c, Math.round(x), Math.round(cy - h / 2));
 }
