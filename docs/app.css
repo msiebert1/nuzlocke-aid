@@ -28,6 +28,7 @@
 * { box-sizing: border-box; }
 
 html { -webkit-text-size-adjust: 100%; }
+html:has(body[data-look="modern"]) { background: #11151d; }
 
 body {
   margin: 0;
@@ -105,7 +106,7 @@ button.small { min-height: 38px; padding: 2px 8px; font-size: 16px; }
 .status-invalid { color: #806020; }
 
 label { display: block; margin: 10px 0 4px; font-weight: 600; }
-input, select {
+input, select, textarea {
   font: inherit;
   font-size: 18px;            /* 16px+ stops iOS zooming in on focus */
   width: 100%;
@@ -116,7 +117,8 @@ input, select {
   background: #fff;
   color: var(--ink);
 }
-input:focus, select:focus { outline: 3px solid #5090f0; outline-offset: 1px; }
+textarea { resize: vertical; line-height: 1.35; }
+input:focus, select:focus, textarea:focus { outline: 3px solid #5090f0; outline-offset: 1px; }
 .choice { display: flex; gap: 8px; }
 .choice label {
   flex: 1;
@@ -291,7 +293,7 @@ body[data-look="modern"] {
   --p1: #fb923c;
   font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
   font-size: 17px;
-  background: radial-gradient(1200px 600px at 50% -10%, #2a3550 0%, #161b26 55%, #11151d 100%) fixed;
+  background: #11151d radial-gradient(1200px 600px at 50% -10%, #2a3550 0%, #161b26 55%, #11151d 100%) fixed;
   image-rendering: auto;
 }
 body[data-look="modern"] .box,
@@ -315,7 +317,8 @@ body[data-look="modern"] .status-invalid { color: #f0c060; }
 body[data-look="modern"] .status-caught { color: #5ad48e; }
 body[data-look="modern"] h1, body[data-look="modern"] h2 { font-weight: 700; letter-spacing: -0.01em; }
 body[data-look="modern"] input,
-body[data-look="modern"] select {
+body[data-look="modern"] select,
+body[data-look="modern"] textarea {
   background: #1a2030;
   color: var(--ink);
   border: 1px solid #3a4458;

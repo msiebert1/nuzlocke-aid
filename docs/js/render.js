@@ -4,7 +4,7 @@
 // number, and then the sprites are drawn at one shared whole-number scale.
 
 import * as R from "./rules.js";
-import { artUrl, esc, modal, monName, toast } from "./ui.js";
+import { artKind, artUrl, esc, isModern, modal, monName, toast } from "./ui.js";
 
 const MARGIN = 8, COL_GAP = 4, ROW_GAP = 22, GRID_GAP = 14;
 const INK = "#383840", INK_SHADOW = "#d0d0d8", INK_LIGHT = "#686870";
@@ -186,7 +186,7 @@ async function loadAssets(game, run) {
 
 /** {species: image} of the run's chosen artwork for these units (empty for sprites). */
 async function loadArtwork(session, units) {
-  const kind = session.run.options?.art;
+  const kind = artKind(session.game, session.run);
   const out = {};
   const names = new Set(units.flatMap((e) => e.catches.map((c) => c.species)).filter(Boolean));
   await Promise.all([...names].map(async (name) => {
@@ -318,7 +318,7 @@ async function draw(session, units, { title, perRow, trainers, grey = false, sca
 /** Render a graphic: "team", "box" or "graveyard". */
 export async function renderGraphic(session, kind) {
   const { run } = session;
-  const modern = run.options?.look === "modern";
+  const modern = isModern(session);
   if (kind === "team") {
     return modern
       ? drawModern(session, R.party(run), { title: run.name, perRow: 6, names: true })
@@ -371,7 +371,9 @@ function chainIcon(ctx, cx, cy, s = 13) {
 async function drawModern(session, units, { title, perRow, names, grey = false }) {
   const { run, game } = session;
   const [sheetImg, art] = await Promise.all([
-    loadImage(`assets/${game.key}/sprites.png`), loadArtwork(session, units)]);
+    // a generic game has no sprite sheet (it always uses artwork)
+    Object.keys(game.sheet).length ? loadImage(`assets/${game.key}/sprites.png`) : canvas(1, 1)[0],
+    loadArtwork(session, units)]);
   const players = R.playerCount(run);
   const { cellW, cellH, labelH, linkGap, gap, margin } = M;
   const blockH = players * cellH + (players - 1) * linkGap;

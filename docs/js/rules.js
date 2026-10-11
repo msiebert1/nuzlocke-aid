@@ -101,9 +101,35 @@ function normalize(run) {
   return run;
 }
 
-export function addCustomLocation(run, name) {
+/** A pasted list of locations, one per line, in order: trimmed, blank lines
+ *  and repeats dropped, at most `max`. */
+export function parseLocationList(text, max = 100) {
+  const seen = new Set();
+  const out = [];
+  for (const line of String(text || "").split(/\r?\n/)) {
+    const name = line.trim().slice(0, 40);
+    const key = name.toLowerCase();
+    if (!name || seen.has(key)) continue;
+    seen.add(key);
+    out.push(name);
+  }
+  return out.slice(0, max);
+}
+
+/** Replace the run's own locations (the generic game's list, or extras added
+ *  to a supported game). Encounters already logged are kept either way. */
+export function setCustomLocations(run, names) {
+  run = clone(run);
+  run.customLocations = [...names];
+  return run;
+}
+
+export function addCustomLocation(run, name, max = 100) {
   name = name.trim();
   if (!name) throw new RuleError("Location name is empty");
+  if (!run.customLocations.includes(name) && run.customLocations.length >= max) {
+    throw new RuleError(`A run can have at most ${max} added locations`);
+  }
   run = clone(run);
   if (!run.customLocations.includes(name)) run.customLocations.push(name);
   return run;

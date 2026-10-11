@@ -1,7 +1,7 @@
 // A run's pages: header, bottom tab bar, and the current tab.
 
 import * as R from "../rules.js";
-import { esc } from "../ui.js";
+import { esc, gameName } from "../ui.js";
 import * as log from "./log.js";
 import * as units from "./units.js";
 import * as list from "./list.js";
@@ -31,7 +31,7 @@ export function show(app, session) {
       <a class="btn" href="#/" aria-label="All runs">‹</a>
       <div class="box title">
         <h1>${esc(run.name)}</h1>
-        <small>${esc(session.game.style.name)} · ${run.mode === "soul" ? "Soul link" : "Nuzlocke"} · ${who}</small>
+        <small>${esc(gameName(session))} · ${run.mode === "soul" ? "Soul link" : "Nuzlocke"} · ${who}</small>
       </div>
       <a class="btn" href="#/run/${code}/settings" aria-label="Settings">⚙</a>
     </div>

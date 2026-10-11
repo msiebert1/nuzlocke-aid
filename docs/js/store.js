@@ -150,7 +150,8 @@ export function recentRuns() {
 }
 
 export function rememberRun(code, run) {
-  const entry = { code, name: run.name, game: run.game, mode: run.mode, seen: Date.now() };
+  const entry = { code, name: run.name, game: run.game, gameName: run.gameName || "",
+                  mode: run.mode, seen: Date.now() };
   const list = [entry, ...recentRuns().filter((r) => r.code !== code)].slice(0, 12);
   try {
     localStorage.setItem(RECENT, JSON.stringify(list));

@@ -69,6 +69,11 @@ app icon.
 ## Using it
 
 - **New run:** pick the game, Nuzlocke or Soul link, and your names.
+- **Other games:** choose **Other game (your own locations)** for any game,
+  including newer games and ROM hacks. Name the game and paste its locations
+  (one per line, in order); edit them any time in **Settings**. Every Pokémon
+  from all nine generations is available, shown in the modern look with
+  official artwork.
 - **Soul link:** open **Settings (⚙)** and send your partner the link. Both
   phones see each other's logs live.
 - **Log:** choose the next location, tap the Pokémon (the ones found there are

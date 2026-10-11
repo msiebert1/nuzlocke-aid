@@ -47,7 +47,7 @@ export async function show(app) {
     </form>
     ${recent.length ? `<div class="box recent"><h2>Continue</h2>
       ${recent.map((r) => `<a href="#/run/${esc(r.code)}/log">
-        <span><b>${esc(r.name)}</b><br><small>${esc(styles[r.game]?.name || r.game)} ·
+        <span><b>${esc(r.name)}</b><br><small>${esc(r.gameName || styles[r.game]?.name || "Other game")} ·
           ${r.mode === "soul" ? "Soul link" : "Nuzlocke"}</small></span>
         <button class="small" data-forget="${esc(r.code)}" aria-label="Remove from this list">✕</button>
       </a>`).join("")}</div>` : ""}

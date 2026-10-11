@@ -14,7 +14,7 @@ import soullink  # noqa: E402
 
 POKEAPI = "https://pokeapi.co/api/v2"
 POKEAPI_CACHE = soullink.CACHE_DIR / "pokeapi"
-LAST_DEX = 649  # Black 2 / White 2, the newest supported game
+LAST_DEX = 1025  # through Generation IX (games use their own lower limit)
 
 
 def pokeapi(path: str) -> dict:

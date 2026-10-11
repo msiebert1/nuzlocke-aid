@@ -22,12 +22,27 @@ export const loadSheet = (game) => getJSON(`assets/${game}/sprites.json`);
 // which species have official / early artwork: {official: [dex], sugimori: [dex]}
 export const loadArt = () => getJSON("data/art.json").catch(() => ({}));
 
+// "Other game": any game, including ones without built-in data. The player
+// supplies the locations; every Pokémon (#1-1025) is available; it always uses
+// the modern look with artwork, since there are no game sprites or art for it.
+export const GENERIC = "generic";
+export const GENERIC_STYLE = {
+  name: "Other game", generic: true, lastDex: 1025,
+  border: [2, 4, 4, 6], tileBorder: false, textShadow: true, cell: [112, 114],
+  labelH: 34, titleH: 26, artInset: 4,
+  walls: {}, defaultWalls: [], trainerWall: "", trainers: {}, defaultTrainers: [],
+};
+// customLocations is capped by the database rules
+export const MAX_CUSTOM_LOCATIONS = 100;
+
 /** Everything a game's pages need, loaded once. */
 export async function loadGame(game) {
+  const generic = game === GENERIC;
   const [styles, species, locations, sheet, art] = await Promise.all([
-    loadStyles(), loadSpecies(), loadLocations(game), loadSheet(game), loadArt(),
+    loadStyles(), loadSpecies(), generic ? [] : loadLocations(game), generic ? {} : loadSheet(game),
+    loadArt(),
   ]);
-  const style = styles[game];
+  const style = generic ? GENERIC_STYLE : styles[game];
   return {
     key: game,
     style,
@@ -45,6 +60,22 @@ export const ART_CHOICES = {
   sugimori: "Early Sugimori artwork (#1–251)",
 };
 
+/** The run's Pokémon art choice (a generic game has no sprites). */
+export function artKind(game, run) {
+  const kind = run?.options?.art || "sprites";
+  return game.style.generic && kind === "sprites" ? "official" : kind;
+}
+
+/** Whether a run uses the modern look (always, for a generic game). */
+export function isModern(session) {
+  return !!session.game?.style.generic || session.run?.options?.look === "modern";
+}
+
+/** Display name of a run's game. */
+export function gameName(session) {
+  return (session.game.style.generic && session.run.gameName) || session.game.style.name;
+}
+
 /** URL of a Pokémon's artwork, or null to use its sprite. Early artwork only
  *  exists for #1-251; later Pokémon use their official artwork. */
 export function artUrl(game, name, kind) {
@@ -58,7 +89,7 @@ export function artUrl(game, name, kind) {
 /** A Pokémon in the run's chosen art: a sprite at `scale`, or artwork fitted
  *  to a `size` px square. */
 export function monImage(session, name, { scale = 1, size = 64, cls = "" } = {}) {
-  const url = artUrl(session.game, name, session.run?.options?.art);
+  const url = artUrl(session.game, name, artKind(session.game, session.run));
   if (!url) return sprite(session.game, name, scale, cls);
   return `<img class="art ${cls}" src="${url}" alt="${esc(name)}" loading="lazy"
     style="width:${size}px;height:${size}px">`;
@@ -73,9 +104,10 @@ export function esc(s) {
  *  "game" (the game's art) or "modern" (clean cards, no game art). */
 export function applyTheme(game, style, look = "game") {
   const body = document.body;
-  body.dataset.look = look;
-  if (!game) {
-    delete body.dataset.game;
+  body.dataset.look = style?.generic ? "modern" : look;
+  if (!game || style.generic) {
+    if (style?.generic) body.dataset.game = game;
+    else delete body.dataset.game;
     body.removeAttribute("style");
     return;
   }

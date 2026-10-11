@@ -1,7 +1,8 @@
 // Settings: share link, player names and sprites, wallpapers, link icon.
 
+import { parseLocationList, setCustomLocations } from "../rules.js";
 import { forgetRun } from "../store.js";
-import { ART_CHOICES, confirmBox, esc, toast, trainerImg } from "../ui.js";
+import { ART_CHOICES, MAX_CUSTOM_LOCATIONS, confirmBox, esc, toast, trainerImg } from "../ui.js";
 
 function shareLink(code) {
   return `${location.origin}${location.pathname}#/run/${code}/log`;
@@ -13,6 +14,10 @@ export function render(session) {
   const walls = Object.keys(style.walls);
   const trainers = Object.keys(style.trainers);
   const soul = run.mode === "soul";
+  const generic = !!style.generic;
+  const arts = Object.entries(ART_CHOICES).filter(([k]) => !(generic && k === "sprites"));
+  const art = run.options?.art && !(generic && run.options.art === "sprites") ? run.options.art
+    : generic ? "official" : "sprites";
   return `
     <div class="box">
       <h2>Share</h2>
@@ -26,16 +31,15 @@ export function render(session) {
     </div>
     <form class="box" id="look">
       <h2>Look</h2>
-      <div class="choice">
+      ${generic ? `<p class="muted"><small>Other games use the modern look.</small></p>` : `<div class="choice">
         <label><input type="radio" name="look" value="game" ${run.options?.look !== "modern" ? "checked" : ""}>
           <span>${esc(style.name)}</span></label>
         <label><input type="radio" name="look" value="modern" ${run.options?.look === "modern" ? "checked" : ""}>
           <span>Modern</span></label>
-      </div>
+      </div>`}
       <label for="art">Pokémon art</label>
       <select id="art" name="art">
-        ${Object.entries(ART_CHOICES).map(([k, v]) =>
-          `<option value="${k}" ${(run.options?.art || "sprites") === k ? "selected" : ""}>${esc(v)}</option>`).join("")}
+        ${arts.map(([k, v]) => `<option value="${k}" ${art === k ? "selected" : ""}>${esc(v)}</option>`).join("")}
       </select>
       <p class="muted"><small>Applies to every page and graphic for this run, on every device.</small></p>
     </form>
@@ -43,17 +47,19 @@ export function render(session) {
       <h2>Run</h2>
       <label for="runname">Run name</label>
       <input id="runname" name="runname" maxlength="60" value="${esc(run.name)}">
+      ${generic ? `<label for="gamename">Game</label>
+        <input id="gamename" name="gamename" maxlength="40" value="${esc(run.gameName || "")}">` : ""}
       ${run.players.map((p, i) => `
         <h3 style="margin-top:14px">${soul ? `Player ${i + 1}` : "Player"}</h3>
         <label for="pn${i}">Name</label>
         <input id="pn${i}" name="pn${i}" maxlength="24" value="${esc(p.name)}">
-        <label for="tr${i}">Trainer sprite</label>
+        ${trainers.length ? `<label for="tr${i}">Trainer sprite</label>
         <div class="btn-row" style="align-items:center">
           <select id="tr${i}" name="tr${i}" style="flex:3">
             ${trainers.map((t) => `<option ${t === p.trainer ? "selected" : ""}>${esc(t)}</option>`).join("")}
             <option value="" ${!p.trainer ? "selected" : ""}>None</option></select>
           <span style="flex:1;text-align:center">${trainerImg(game, p.trainer, 56)}</span>
-        </div>
+        </div>` : ""}
         ${walls.length ? `<label for="wall${i}">Box wallpaper</label>
           <select id="wall${i}" name="wall${i}">
             ${walls.map((w) => `<option ${w === run.options?.wallpapers?.[i] ? "selected" : ""}>${esc(w)}</option>`).join("")}
@@ -64,6 +70,15 @@ export function render(session) {
           <option value="splicers" ${run.options?.link === "splicers" ? "selected" : ""}>DNA Splicers</option>
         </select>` : ""}
       <div style="margin-top:14px"><button class="primary" type="submit" style="width:100%">Save</button></div>
+    </form>
+    <form class="box" id="locations">
+      <h2>${generic ? "Locations" : "Extra locations"}</h2>
+      <p class="muted"><small>${generic
+        ? "This game's locations, in the order you reach them, one per line."
+        : "Places to add after the game's own list (gifts, events, anything missing), one per line."}
+        Removing one doesn't remove anything already logged there.</small></p>
+      <textarea name="list" rows="${generic ? 10 : 4}">${esc(run.customLocations.join("\n"))}</textarea>
+      <div style="margin-top:10px"><button class="primary" type="submit" style="width:100%">Save locations</button></div>
     </form>
     <div class="box">
       <h2>On this device</h2>
@@ -88,7 +103,8 @@ export function bind(root, session) {
   // look and art apply as soon as they're picked
   const look = root.querySelector("#look");
   look.addEventListener("change", async () => {
-    await session.update((r) => ({ ...r, options: { ...r.options, look: look.look.value, art: look.art.value } }));
+    await session.update((r) => ({ ...r, options: { ...r.options,
+      look: look.look ? look.look.value : "modern", art: look.art.value } }));
     toast("Saved");
   });
 
@@ -104,14 +120,23 @@ export function bind(root, session) {
       r.name = form.runname.value.trim() || r.name;
       r.players = r.players.map((p, i) => ({
         name: form[`pn${i}`].value.trim() || p.name,
-        trainer: form[`tr${i}`].value,
+        trainer: form[`tr${i}`]?.value ?? p.trainer,
       }));
+      if (form.gamename) r.gameName = form.gamename.value.trim() || r.gameName;
       r.options = { ...r.options };
       if (form.wall0) r.options.wallpapers = r.players.map((_, i) => form[`wall${i}`].value);
       if (form.link) r.options.link = form.link.value;
       return r;
     });
     toast("Saved");
+  });
+
+  const locs = root.querySelector("#locations");
+  locs.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const names = parseLocationList(locs.list.value, MAX_CUSTOM_LOCATIONS);
+    await session.update((r) => setCustomLocations(r, names));
+    toast(`Saved ${names.length} location${names.length === 1 ? "" : "s"}`);
   });
 
   root.querySelector("#forget").addEventListener("click", async () => {

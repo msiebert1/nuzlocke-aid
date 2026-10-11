@@ -2,7 +2,7 @@
 // A unit is one encounter: a single Pokémon, or a soul-linked pair.
 
 import * as R from "../rules.js";
-import { cellStyle, confirmBox, esc, linkIcon, modal, monImage, monName, spriteScale, toast } from "../ui.js";
+import { cellStyle, confirmBox, esc, isModern, linkIcon, modal, monImage, monName, spriteScale, toast } from "../ui.js";
 import { showGraphic } from "../render.js";
 
 /** All sprite names on a page, for one shared scale. */
@@ -13,7 +13,7 @@ function namesOf(encs) {
 export function monHTML(session, c, scale, size, { grey = false } = {}) {
   const { game, run } = session;
   const wall = run.options?.wallpapers?.[c.player] ?? game.style.defaultWalls[c.player];
-  const cell = run.options?.look === "modern"
+  const cell = isModern(session)
     ? { cls: `cell plain p${c.player}`, style: "" } : cellStyle(game, wall);
   return `<div class="mon">
     <div class="${cell.cls}" style="${cell.style}">${monImage(session, c.species, { scale, size, cls: grey ? "grey" : "" })}</div>
@@ -24,7 +24,7 @@ export function monHTML(session, c, scale, size, { grey = false } = {}) {
 
 export function unitHTML(session, enc, scale, size, opts = {}) {
   const parts = enc.catches.map((c) => monHTML(session, c, scale, size, opts));
-  const modern = session.run.options?.look === "modern";
+  const modern = isModern(session);
   const link = session.run.mode !== "soul" ? ""
     : modern ? `<span class="link chain" aria-label="linked">🔗</span>` : linkIcon(session.run.options?.link);
   return `<div class="unit">${parts.join(link)}</div>`;

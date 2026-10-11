@@ -208,3 +208,27 @@ test("movePartySlot reorders the party", () => {
   run = R.movePartySlot(run, ids[0], -1); // already first: no change
   assert.deepEqual(R.party(run).map((e) => e.id), [ids[0], ids[2], ids[1]]);
 });
+
+test("pasted location lists: trimmed, blank and repeated lines dropped, capped", () => {
+  assert.deepEqual(R.parseLocationList(" Starter\n\nRoute 1\r\nroute 1\n  Route 2  \n"),
+                   ["Starter", "Route 1", "Route 2"]);
+  assert.equal(R.parseLocationList(Array.from({ length: 150 }, (_, i) => `Spot ${i}`).join("\n")).length, 100);
+});
+
+test("a generic game's locations come only from the run", () => {
+  let run = R.setCustomLocations(newRun(), ["Starter", "Route 1"]);
+  assert.deepEqual(R.remainingLocations(run, []).map((l) => l.name), ["Starter", "Route 1"]);
+  run = R.logEncounter(run, { location: "Starter", status: "caught",
+                              catches: [{ player: 0, species: "Sprigatito" }] }).run;
+  assert.deepEqual(R.remainingLocations(run, []).map((l) => l.name), ["Route 1"]);
+  // removing a logged location from the list keeps its encounter
+  run = R.setCustomLocations(run, ["Route 1"]);
+  assert.equal(run.encounters.length, 1);
+});
+
+test("added locations are capped", () => {
+  let run = R.setCustomLocations(newRun(), Array.from({ length: 100 }, (_, i) => `Spot ${i}`));
+  assert.throws(() => R.addCustomLocation(run, "One more"), /at most 100/);
+  run = R.addCustomLocation(run, "Spot 3"); // already there: fine
+  assert.equal(run.customLocations.length, 100);
+});

@@ -81,6 +81,9 @@ export function render(session) {
     ${pendingHTML(session)}
     <form class="box" id="log" autocomplete="off">
       <h2>Log an encounter</h2>
+      ${game.style.generic && !open.length && !run.encounters.length ? `<p class="muted"><small>
+        Add your game's locations in <a href="#/run/${session.code}/settings">Settings</a>
+        (paste the whole list), or one at a time with "+ Add a location…" below.</small></p>` : ""}
       <label for="loc">Location <small class="muted">(${open.length} left)</small></label>
       <select id="loc" name="loc">
         <option value="">Choose a location…</option>
