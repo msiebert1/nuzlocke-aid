@@ -2,7 +2,7 @@
 // A unit is one encounter: a single Pokémon, or a soul-linked pair.
 
 import * as R from "../rules.js";
-import { cellStyle, confirmBox, esc, linkIcon, modal, monName, sprite, spriteScale, toast } from "../ui.js";
+import { cellStyle, confirmBox, esc, linkIcon, modal, monImage, monName, spriteScale, toast } from "../ui.js";
 import { showGraphic } from "../render.js";
 
 /** All sprite names on a page, for one shared scale. */
@@ -10,28 +10,33 @@ function namesOf(encs) {
   return encs.flatMap((e) => e.catches.map((c) => c.species));
 }
 
-export function monHTML(session, c, scale, { grey = false } = {}) {
+export function monHTML(session, c, scale, size, { grey = false } = {}) {
   const { game, run } = session;
   const wall = run.options?.wallpapers?.[c.player] ?? game.style.defaultWalls[c.player];
-  const cell = cellStyle(game, wall);
+  const cell = run.options?.look === "modern"
+    ? { cls: `cell plain p${c.player}`, style: "" } : cellStyle(game, wall);
   return `<div class="mon">
-    <div class="${cell.cls}" style="${cell.style}">${sprite(game, c.species, scale, grey ? "grey" : "")}</div>
+    <div class="${cell.cls}" style="${cell.style}">${monImage(session, c.species, { scale, size, cls: grey ? "grey" : "" })}</div>
     <div class="name">${esc(monName(c))}</div>
     ${c.nickname ? `<div class="species">${esc(c.species)}</div>` : ""}
   </div>`;
 }
 
-export function unitHTML(session, enc, scale, opts = {}) {
-  const parts = enc.catches.map((c) => monHTML(session, c, scale, opts));
-  const link = session.run.mode === "soul" ? linkIcon(session.run.options?.link) : "";
+export function unitHTML(session, enc, scale, size, opts = {}) {
+  const parts = enc.catches.map((c) => monHTML(session, c, scale, size, opts));
+  const modern = session.run.options?.look === "modern";
+  const link = session.run.mode !== "soul" ? ""
+    : modern ? `<span class="link chain" aria-label="linked">🔗</span>` : linkIcon(session.run.options?.link);
   return `<div class="unit">${parts.join(link)}</div>`;
 }
 
 /** Place a newly usable encounter: into the party if there's room, otherwise
  *  ask who to swap out (or send it to the box). */
-export async function placeNew(session, id) {
-  const run = session.run;
+export async function placeNew(session, id, run = session.run) {
+  // `run` is the freshest copy we have: right after a save, the save's own
+  // result (the live update from the server may not have arrived yet)
   const enc = run.encounters.find((e) => e.id === id);
+  if (!enc) return;
   const party = R.party(run);
   const label = enc.catches.map(monName).join(" & ");
   if (party.length < R.PARTY_SIZE) {
@@ -44,7 +49,7 @@ export async function placeNew(session, id) {
     <h2>Party is full</h2>
     <p>Swap <b>${esc(label)}</b> in for a party member (they go to the box), or box it.</p>
     ${party.map((p) => `<button data-value="${esc(p.id)}" style="width:100%;margin-bottom:6px;justify-content:flex-start">
-      ${p.catches.map((c) => sprite(session.game, c.species, scale)).join("")}
+      ${p.catches.map((c) => monImage(session, c.species, { scale, size: 48 })).join("")}
       <span>${esc(p.catches.map(monName).join(" & "))}</span></button>`).join("")}
     <div class="btn-row"><button class="primary" data-value="box">Send to box</button></div>`);
   if (choice === "box" || choice === null) {
@@ -76,10 +81,11 @@ export const team = {
         joins the party automatically.</p></div>`;
     }
     const soul = session.run.mode === "soul";
-    const scale = spriteScale(session.game, namesOf(party), soul ? 120 : 100);
+    const size = soul ? 120 : 100;
+    const scale = spriteScale(session.game, namesOf(party), size);
     return `${graphicButton("team")}
       ${party.map((enc, i) => `<div class="box unit-card team-card ${soul ? "soul" : ""}">
-        ${unitHTML(session, enc, scale)}
+        ${unitHTML(session, enc, scale, size)}
         <div class="btn-row actions">
           <button class="small" data-up="${esc(enc.id)}" ${i === 0 ? "disabled" : ""} aria-label="Move up">▲</button>
           <button class="small" data-down="${esc(enc.id)}" ${i === party.length - 1 ? "disabled" : ""} aria-label="Move down">▼</button>
@@ -115,11 +121,12 @@ export const box = {
     const boxed = R.box(session.run);
     if (!boxed.length) return `<div class="box"><h2>Box</h2><p>The box is empty.</p></div>`;
     const soul = session.run.mode === "soul";
-    const scale = spriteScale(session.game, namesOf(boxed), soul ? 64 : 80);
+    const size = soul ? 64 : 80;
+    const scale = spriteScale(session.game, namesOf(boxed), size);
     return `${graphicButton("box")}
       <div class="grid ${soul ? "" : "single"}">
       ${boxed.map((enc) => `<div class="box unit-card">
-        ${unitHTML(session, enc, scale)}
+        ${unitHTML(session, enc, scale, size)}
         <div class="actions"><button class="small" style="width:100%" data-party="${esc(enc.id)}">To party</button></div>
       </div>`).join("")}</div>`;
   },
@@ -137,11 +144,12 @@ export const grave = {
     const dead = R.graveyard(session.run);
     if (!dead.length) return `<div class="box"><h2>Graveyard</h2><p>No losses yet. Keep it that way!</p></div>`;
     const soul = session.run.mode === "soul";
-    const scale = spriteScale(session.game, namesOf(dead), soul ? 64 : 80);
+    const size = soul ? 64 : 80;
+    const scale = spriteScale(session.game, namesOf(dead), size);
     return `${graphicButton("graveyard")}
       <div class="grid ${soul ? "" : "single"}">
       ${dead.map((enc) => `<div class="box unit-card">
-        ${unitHTML(session, enc, scale, { grey: true })}
+        ${unitHTML(session, enc, scale, size, { grey: true })}
         <div class="muted" style="text-align:center"><small>${esc(enc.location)}</small></div>
         <div class="actions"><button class="small" style="width:100%" data-revive="${esc(enc.id)}">Undo (to box)</button></div>
       </div>`).join("")}</div>`;

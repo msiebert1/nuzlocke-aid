@@ -69,11 +69,15 @@ app icon.
 ## Using it
 
 - **New run:** pick the game, Nuzlocke or Soul link, and your names.
-- **Soul link:** open **Settings (⚙)** and send your partner the link. Each
-  phone chooses which player it is, and both see each other's logs live.
+- **Soul link:** open **Settings (⚙)** and send your partner the link. Both
+  phones see each other's logs live.
 - **Log:** choose the next location, tap the Pokémon (the ones found there are
-  listed first), add a nickname, and tap **Caught**, **Failed** or **Invalid**.
+  listed first; in a soul link, pick both players' Pokémon), add nicknames,
+  and tap **Caught**, **Failed** or **Invalid** once for the encounter.
   Caught Pokémon join the party; if it's full you choose who to swap out.
+- **Look:** in **Settings**, switch any run between the game's look and a
+  **Modern** look, and choose the Pokémon art: game sprites, official artwork,
+  or Ken Sugimori's early artwork (#1–251; later Pokémon use official art).
 - **Team / Box / Grave:** move Pokémon between them; a faint takes the whole
   soul-linked pair to the graveyard. Each has a graphic button to share an image.
 - **List:** every encounter; tap one to fix a mistake.
@@ -91,6 +95,7 @@ Bulbagarden Archives, cached in `.artwork_cache/`):
 ```bash
 python3 tools/build_locations.py        # docs/data/locations/<game>.json
 python3 tools/build_site_assets.py      # sprites, text boxes, wallpapers, styles.json
+python3 tools/build_art.py              # official (Bulbapedia) + early Sugimori (pokemondb) artwork
 python3 tools/check_styles.py           # checks every game style's art still resolves
 ```
 

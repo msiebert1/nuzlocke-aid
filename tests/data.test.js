@@ -10,6 +10,17 @@ const styles = json("data/styles.json");
 const species = json("data/species.json");
 const names = new Set(species.map((s) => s.name));
 
+test("artwork: official for every species, early art for #1-251", () => {
+  const art = json("data/art.json");
+  assert.equal(art.official.length, species.length, "species missing official artwork");
+  assert.equal(art.sugimori.length, 251, "species missing early artwork");
+  for (const [set, dexes] of Object.entries(art)) {
+    for (const dex of dexes) {
+      assert.ok(existsSync(new URL(`assets/art/${set}/${dex}.webp`, docs)), `${set}/${dex}.webp missing`);
+    }
+  }
+});
+
 test("eleven game styles", () => {
   assert.deepEqual(Object.keys(styles),
     ["rb", "y", "gs", "c", "rs", "e", "frlg", "dp", "pt", "hgss", "b2w2"]);

@@ -19,11 +19,13 @@ export const loadStyles = () => getJSON("data/styles.json");
 export const loadSpecies = () => getJSON("data/species.json");
 export const loadLocations = (game) => getJSON(`data/locations/${game}.json`).then((d) => d.locations);
 export const loadSheet = (game) => getJSON(`assets/${game}/sprites.json`);
+// which species have official / early artwork: {official: [dex], sugimori: [dex]}
+export const loadArt = () => getJSON("data/art.json").catch(() => ({}));
 
 /** Everything a game's pages need, loaded once. */
 export async function loadGame(game) {
-  const [styles, species, locations, sheet] = await Promise.all([
-    loadStyles(), loadSpecies(), loadLocations(game), loadSheet(game),
+  const [styles, species, locations, sheet, art] = await Promise.all([
+    loadStyles(), loadSpecies(), loadLocations(game), loadSheet(game), loadArt(),
   ]);
   const style = styles[game];
   return {
@@ -32,7 +34,34 @@ export async function loadGame(game) {
     locations,
     sheet,
     species: species.filter((s) => s.dex <= style.lastDex),
+    dex: Object.fromEntries(species.map((s) => [s.name, s.dex])),
+    art: Object.fromEntries(Object.entries(art).map(([k, list]) => [k, new Set(list)])),
   };
+}
+
+export const ART_CHOICES = {
+  sprites: "Game sprites",
+  official: "Official artwork",
+  sugimori: "Early Sugimori artwork (#1–251)",
+};
+
+/** URL of a Pokémon's artwork, or null to use its sprite. Early artwork only
+ *  exists for #1-251; later Pokémon use their official artwork. */
+export function artUrl(game, name, kind) {
+  const dex = game.dex[name];
+  if (!dex || kind === "sprites" || !kind) return null;
+  if (kind === "sugimori" && game.art.sugimori?.has(dex)) return `assets/art/sugimori/${dex}.webp`;
+  if (game.art.official?.has(dex)) return `assets/art/official/${dex}.webp`;
+  return null;
+}
+
+/** A Pokémon in the run's chosen art: a sprite at `scale`, or artwork fitted
+ *  to a `size` px square. */
+export function monImage(session, name, { scale = 1, size = 64, cls = "" } = {}) {
+  const url = artUrl(session.game, name, session.run?.options?.art);
+  if (!url) return sprite(session.game, name, scale, cls);
+  return `<img class="art ${cls}" src="${url}" alt="${esc(name)}" loading="lazy"
+    style="width:${size}px;height:${size}px">`;
 }
 
 export function esc(s) {
@@ -40,9 +69,11 @@ export function esc(s) {
     { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
 }
 
-/** Dress the page in a game's look (or clear it with null). */
-export function applyTheme(game, style) {
+/** Dress the page in a game's look (or clear it with null). `look` is
+ *  "game" (the game's art) or "modern" (clean cards, no game art). */
+export function applyTheme(game, style, look = "game") {
   const body = document.body;
+  body.dataset.look = look;
   if (!game) {
     delete body.dataset.game;
     body.removeAttribute("style");

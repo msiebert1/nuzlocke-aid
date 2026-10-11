@@ -52,8 +52,7 @@ async function openRun(code, tab) {
   }
   closeSession();
   const db = await store();
-  const me = Number(localStorage.getItem(`nuzlocke-me:${code}`) ?? 0);
-  session = { code, db, tab, run: null, game: null, me, pendingRender: false };
+  session = { code, db, tab, run: null, game: null, pendingRender: false };
   const current = session;
 
   session.update = async (fn) => {
@@ -63,6 +62,12 @@ async function openRun(code, tab) {
         const out = fn(run);
         return out && out.run ? out : { run: out };
       });
+      // show the saved run right away; the live update from the server
+      // (same data) can arrive a moment later
+      if (session === current) {
+        current.run = result.run;
+        renderRun();
+      }
       return result;
     } catch (err) {
       toast(err.message);
@@ -70,11 +75,6 @@ async function openRun(code, tab) {
     }
   };
   session.refresh = () => runPages.show(app, session); // page-driven redraw
-  session.setMe = (player) => {
-    session.me = player;
-    localStorage.setItem(`nuzlocke-me:${code}`, String(player));
-    renderRun();
-  };
 
   app.innerHTML = `<p class="loading">Loading run…</p>`;
   current.unsubscribe = db.watchRun(code, async (run) => {
@@ -87,8 +87,8 @@ async function openRun(code, tab) {
     }
     if (!current.game || current.game.key !== run.game) {
       current.game = await loadGame(run.game);
-      applyTheme(run.game, current.game.style);
     }
+    applyTheme(run.game, current.game.style, run.options?.look || "game");
     current.run = run;
     rememberRun(code, run);
     renderRun();

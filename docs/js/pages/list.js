@@ -1,7 +1,7 @@
 // List tab: every logged encounter with status and place; tap one to edit.
 
 import * as R from "../rules.js";
-import { closeModal, confirmBox, esc, modal, monName, sprite, toast } from "../ui.js";
+import { closeModal, confirmBox, esc, modal, monImage, monName, toast } from "../ui.js";
 
 const PLACE_LABEL = { party: "Party", box: "Box", grave: "Graveyard", none: "" };
 
@@ -26,7 +26,7 @@ export function render(session) {
         const c = e.catches.find((x) => x.player === i);
         const who = run.mode === "soul" ? `<small class="muted">${esc(p.name)}:</small> ` : "";
         if (!c) return `<div>${who}<i class="muted">not logged</i></div>`;
-        return `<div>${who}${c.species ? sprite(game, c.species, 1) : ""}
+        return `<div>${who}${c.species ? monImage(session, c.species, { scale: 1, size: 40 }) : ""}
           ${esc(monName(c))} <span class="status-${c.status}">${c.status}</span></div>`;
       }).join("")}</div></div>`).join("")}
   </div>`;

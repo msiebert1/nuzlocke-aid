@@ -131,6 +131,24 @@ export function logCatch(run, { location, player, species, nickname = "", status
   return { run, id: enc.id, needsPlacement: isUsable(run, enc) && enc.place === "none" };
 }
 
+/** Log a whole encounter at once: every player's Pokémon at a location with
+ *  one shared status (soul link: both players log together).
+ *  `catches` is [{player, species, nickname}]. Returns like logCatch. */
+export function logEncounter(run, { location, catches, status, id, now }) {
+  if (!STATUSES.includes(status)) throw new RuleError(`Bad status ${status}`);
+  if (catches.length !== playerCount(run)) throw new RuleError("Log every player's Pokémon");
+  if (status === "caught") {
+    const missing = catches.find((c) => !c.species);
+    if (missing) throw new RuleError(`Choose ${run.players[missing.player]?.name || "the"}'s Pokémon`);
+  }
+  let result = { run, id };
+  for (const c of catches) {
+    result = logCatch(result.run, { location, player: c.player, species: c.species,
+                                    nickname: c.nickname, status, id: result.id || id, now });
+  }
+  return result;
+}
+
 /** Put a usable encounter in the party or box. Adding to a full party needs
  *  `swapWith`: that party member goes to the box and this one takes its slot. */
 export function place(run, id, target, swapWith = null) {

@@ -1,16 +1,17 @@
 // Start a run: name, game, single nuzlocke or soul link, players.
 
 import { store } from "../store.js";
-import { applyTheme, esc, loadGame, loadStyles, toast, trainerImg } from "../ui.js";
+import { ART_CHOICES, applyTheme, esc, loadGame, loadStyles, toast, trainerImg } from "../ui.js";
 
 export async function show(app) {
   const styles = await loadStyles();
   const keys = Object.keys(styles);
-  const state = { game: "b2w2", mode: "single", name: "", players: ["", ""], trainers: [] };
+  const state = { game: "b2w2", mode: "single", name: "", players: ["", ""], trainers: [],
+                  look: "game", art: "sprites" };
 
   async function render() {
     const game = await loadGame(state.game);
-    applyTheme(state.game, game.style);
+    applyTheme(state.game, game.style, state.look);
     const trainerNames = Object.keys(game.style.trainers);
     if (!state.trainers.length || !state.trainers.every((t) => !t || trainerNames.includes(t))) {
       state.trainers = [...game.style.defaultTrainers];
@@ -32,6 +33,15 @@ export async function show(app) {
           <label><input type="radio" name="mode" value="single" ${state.mode === "single" ? "checked" : ""}><span>Nuzlocke</span></label>
           <label><input type="radio" name="mode" value="soul" ${state.mode === "soul" ? "checked" : ""}><span>Soul link</span></label>
         </div>
+        <label>Look</label>
+        <div class="choice">
+          <label><input type="radio" name="look" value="game" ${state.look === "game" ? "checked" : ""}><span>${esc(game.style.name)}</span></label>
+          <label><input type="radio" name="look" value="modern" ${state.look === "modern" ? "checked" : ""}><span>Modern</span></label>
+        </div>
+        <label for="art">Pokémon art</label>
+        <select id="art" name="art">
+          ${Object.entries(ART_CHOICES).map(([k, v]) => `<option value="${k}" ${state.art === k ? "selected" : ""}>${esc(v)}</option>`).join("")}
+        </select>
         ${players.map((p) => `
           <label for="p${p}">${state.mode === "soul" ? `Player ${p + 1}` : "Your name"}</label>
           <input id="p${p}" name="p${p}" maxlength="24" required value="${esc(state.players[p])}">
@@ -51,10 +61,13 @@ export async function show(app) {
       state.name = form.runname.value;
       state.players = [form.p0.value, form.p1?.value ?? state.players[1]];
       state.trainers = [form.t0.value, form.t1?.value ?? state.trainers[1]];
+      state.art = form.art.value;
     };
     form.game.addEventListener("change", () => { read(); state.game = form.game.value; state.trainers = []; render(); });
     form.querySelectorAll("[name=mode]").forEach((r) =>
       r.addEventListener("change", () => { read(); state.mode = r.value; render(); }));
+    form.querySelectorAll("[name=look]").forEach((r) =>
+      r.addEventListener("change", () => { read(); state.look = r.value; render(); }));
     form.querySelectorAll("select[name^=t]").forEach((s) => s.addEventListener("change", () => { read(); render(); }));
     form.addEventListener("submit", async (e) => {
       e.preventDefault();
@@ -67,7 +80,7 @@ export async function show(app) {
         players: Array.from({ length: count }, (_, i) => ({
           name: state.players[i].trim(), trainer: state.trainers[i] || "",
         })),
-        options: { wallpapers: [...game.style.defaultWalls], link: "heart" },
+        options: { wallpapers: [...game.style.defaultWalls], link: "heart", look: state.look, art: state.art },
         customLocations: [],
         encounters: [],
         createdAt: Date.now(),
@@ -75,7 +88,6 @@ export async function show(app) {
       form.querySelector("button[type=submit]").disabled = true;
       try {
         const code = await (await store()).createRun(run);
-        localStorage.setItem(`nuzlocke-me:${code}`, "0");
         location.hash = `#/run/${code}/${state.mode === "soul" ? "settings" : "log"}`;
         toast(state.mode === "soul" ? "Run started: share the link with your partner" : "Run started");
       } catch (err) {

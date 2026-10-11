@@ -1,7 +1,7 @@
 // Settings: share link, player names and sprites, wallpapers, link icon.
 
 import { forgetRun } from "../store.js";
-import { confirmBox, esc, toast, trainerImg } from "../ui.js";
+import { ART_CHOICES, confirmBox, esc, toast, trainerImg } from "../ui.js";
 
 function shareLink(code) {
   return `${location.origin}${location.pathname}#/run/${code}/log`;
@@ -24,11 +24,21 @@ export function render(session) {
       <div class="btn-row"><button type="button" id="copy">Copy link</button>
         ${navigator.share ? `<button type="button" id="share">Share…</button>` : ""}</div>
     </div>
-    ${soul ? `<div class="box"><h2>This device</h2>
-      <p>Which player uses this phone? The Log tab starts on their side.</p>
-      <div class="who">${run.players.map((p, i) => `
-        <button type="button" class="${i === session.me ? "on" : ""}" data-me="${i}">${esc(p.name)}</button>`).join("")}</div>
-    </div>` : ""}
+    <form class="box" id="look">
+      <h2>Look</h2>
+      <div class="choice">
+        <label><input type="radio" name="look" value="game" ${run.options?.look !== "modern" ? "checked" : ""}>
+          <span>${esc(style.name)}</span></label>
+        <label><input type="radio" name="look" value="modern" ${run.options?.look === "modern" ? "checked" : ""}>
+          <span>Modern</span></label>
+      </div>
+      <label for="art">Pokémon art</label>
+      <select id="art" name="art">
+        ${Object.entries(ART_CHOICES).map(([k, v]) =>
+          `<option value="${k}" ${(run.options?.art || "sprites") === k ? "selected" : ""}>${esc(v)}</option>`).join("")}
+      </select>
+      <p class="muted"><small>Applies to every page and graphic for this run, on every device.</small></p>
+    </form>
     <form class="box" id="settings">
       <h2>Run</h2>
       <label for="runname">Run name</label>
@@ -75,8 +85,12 @@ export function bind(root, session) {
   root.querySelector("#share")?.addEventListener("click", () =>
     navigator.share({ title: run.name, text: `Join my ${run.mode === "soul" ? "soul link" : "nuzlocke"}: ${run.name}`,
                       url: shareLink(code) }).catch(() => {}));
-  root.querySelectorAll("[data-me]").forEach((b) =>
-    b.addEventListener("click", () => session.setMe(Number(b.dataset.me))));
+  // look and art apply as soon as they're picked
+  const look = root.querySelector("#look");
+  look.addEventListener("change", async () => {
+    await session.update((r) => ({ ...r, options: { ...r.options, look: look.look.value, art: look.art.value } }));
+    toast("Saved");
+  });
 
   const form = root.querySelector("#settings");
   form.querySelectorAll("select[name^=tr]").forEach((s) => s.addEventListener("change", () => {

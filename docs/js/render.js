@@ -4,7 +4,7 @@
 // number, and then the sprites are drawn at one shared whole-number scale.
 
 import * as R from "./rules.js";
-import { esc, modal, monName, toast } from "./ui.js";
+import { artUrl, esc, modal, monName, toast } from "./ui.js";
 
 const MARGIN = 8, COL_GAP = 4, ROW_GAP = 22, GRID_GAP = 14;
 const INK = "#383840", INK_SHADOW = "#d0d0d8", INK_LIGHT = "#686870";
@@ -184,6 +184,40 @@ async function loadAssets(game, run) {
   return { textbox, bg, sheet, link, walls, trainers };
 }
 
+/** {species: image} of the run's chosen artwork for these units (empty for sprites). */
+async function loadArtwork(session, units) {
+  const kind = session.run.options?.art;
+  const out = {};
+  const names = new Set(units.flatMap((e) => e.catches.map((c) => c.species)).filter(Boolean));
+  await Promise.all([...names].map(async (name) => {
+    const url = artUrl(session.game, name, kind);
+    if (url) out[name] = await loadImage(url);
+  }));
+  return out;
+}
+
+/** Draw an image centered in a box: at a whole-number pixel scale `k` for
+ *  sprites, or smoothly scaled to fit for artwork (k = null). */
+function drawFitted(ctx, img, [sx, sy, sw, sh], [bx, by, bw, bh], k) {
+  let w = sw * (k || 1), h = sh * (k || 1);
+  if (!k) {
+    const f = Math.min(bw / sw, bh / sh);
+    w = Math.round(sw * f);
+    h = Math.round(sh * f);
+  }
+  ctx.save();
+  ctx.imageSmoothingEnabled = !k;
+  ctx.imageSmoothingQuality = "high";
+  ctx.drawImage(img, sx, sy, sw, sh, Math.round(bx + (bw - w) / 2), Math.round(by + (bh - h) / 2), w, h);
+  ctx.restore();
+}
+
+/** Shared whole-number scale for sprites so all fit their boxes. */
+function commonScale(rects, bw, bh) {
+  if (!rects.length) return 1;
+  return Math.max(1, Math.floor(Math.min(...rects.map(([, , w, h]) => Math.min(bw / w, bh / h)))));
+}
+
 function greyscale(img) {
   const [c, ctx] = canvas(img.width, img.height);
   ctx.drawImage(img, 0, 0);
@@ -203,7 +237,7 @@ function greyscale(img) {
  */
 async function draw(session, units, { title, perRow, trainers, grey = false, scale = 3 }) {
   const { run, game } = session;
-  const a = await loadAssets(game, run);
+  const [a, art] = await Promise.all([loadAssets(game, run), loadArtwork(session, units)]);
   const p = new Painter(game, a);
   const style = game.style;
   const [cellW, cellH] = style.cell;
@@ -250,8 +284,10 @@ async function draw(session, units, { title, perRow, trainers, grey = false, sca
       const catchI = enc.catches.find((cc) => cc.player === i);
       const y = y0 + i * (rowH + ROW_GAP);
       p.cell(ctx, x, y, walls[i]);
+      const pic = catchI && art[catchI.species];
       const rect = catchI && game.sheet[catchI.species];
-      if (rect) jobs.push([a.sheet, ...rect, artBox(x, y), "mon"]);
+      if (pic) jobs.push([pic, 0, 0, pic.width, pic.height, artBox(x, y), "art"]);
+      else if (rect) jobs.push([a.sheet, ...rect, artBox(x, y), "mon"]);
       const lines = catchI ? [monName(catchI), catchI.nickname ? catchI.species : ""] : ["—"];
       p.textBox(ctx, x, y + cellH, cellW, p.labelH, lines);
     }
@@ -272,11 +308,9 @@ async function draw(session, units, { title, perRow, trainers, grey = false, sca
   }
   const sheet = grey ? greyscale(a.sheet) : a.sheet;
   for (const [img, sx, sy, sw, sh, [bx, by, bw, bh], group] of jobs) {
-    const k = groupScale[group];
-    const src = group === "mon" ? sheet : img;
-    octx.drawImage(src, sx, sy, sw, sh,
-                   bx * scale + Math.floor((bw * scale - sw * k) / 2),
-                   by * scale + Math.floor((bh * scale - sh * k) / 2), sw * k, sh * k);
+    const box = [bx * scale, by * scale, bw * scale, bh * scale];
+    if (group === "art") drawFitted(octx, grey ? greyscale(img) : img, [sx, sy, sw, sh], box, null);
+    else drawFitted(octx, group === "mon" ? sheet : img, [sx, sy, sw, sh], box, groupScale[group]);
   }
   return out;
 }
@@ -284,13 +318,142 @@ async function draw(session, units, { title, perRow, trainers, grey = false, sca
 /** Render a graphic: "team", "box" or "graveyard". */
 export async function renderGraphic(session, kind) {
   const { run } = session;
+  const modern = run.options?.look === "modern";
   if (kind === "team") {
-    return draw(session, R.party(run), { title: run.name, perRow: 6, trainers: true });
+    return modern
+      ? drawModern(session, R.party(run), { title: run.name, perRow: 6, names: true })
+      : draw(session, R.party(run), { title: run.name, perRow: 6, trainers: true });
   }
   const units = kind === "box" ? R.box(run) : R.graveyard(run);
-  const label = kind === "box" ? "Box" : "Graveyard";
-  return draw(session, units, { title: `${run.name}: ${label}`, perRow: 6, trainers: false,
-                                grey: kind === "graveyard" });
+  const opts = { title: `${run.name}: ${kind === "box" ? "Box" : "Graveyard"}`, perRow: 6,
+                 grey: kind === "graveyard" };
+  return modern ? drawModern(session, units, { ...opts, names: false })
+                : draw(session, units, { ...opts, trainers: false });
+}
+
+// --- Modern look -------------------------------------------------------------------
+// A port of the desktop generator's "modern" graphic: dark cards, one per unit,
+// player 1 above player 2 with a chain between, blue / orange accent bars.
+
+const M = {
+  bg: "#181a21", card: "#262934", edge: "#3a3e4e", text: "#eceef4", sub: "#969caf",
+  link: "#e65a6e", players: ["#60a5fa", "#fb923c"],
+  cellW: 250, cellH: 270, labelH: 58, linkGap: 44, gap: 18, margin: 36, gridGap: 30,
+  font: (size, bold = false) =>
+    `${bold ? "700" : "400"} ${size}px system-ui, -apple-system, "Segoe UI", Roboto, sans-serif`,
+};
+
+function roundRect(ctx, x, y, w, h, r) {
+  ctx.beginPath();
+  ctx.roundRect(x, y, w, h, r);
+}
+
+/** A font that fits text within maxW, starting at `size`. */
+function fitFont(ctx, text, maxW, size, bold) {
+  while (size > 10) {
+    ctx.font = M.font(size, bold);
+    if (ctx.measureText(text).width <= maxW) break;
+    size--;
+  }
+  return M.font(size, bold);
+}
+
+function chainIcon(ctx, cx, cy, s = 13) {
+  const r = s / 1.6;
+  ctx.strokeStyle = M.link;
+  ctx.lineWidth = 4;
+  for (const [a, b] of [[-2 * s, s / 3], [-s / 3, 2 * s]]) {
+    roundRect(ctx, cx - r, cy + a, 2 * r, b - a, r);
+    ctx.stroke();
+  }
+}
+
+async function drawModern(session, units, { title, perRow, names, grey = false }) {
+  const { run, game } = session;
+  const [sheetImg, art] = await Promise.all([
+    loadImage(`assets/${game.key}/sprites.png`), loadArtwork(session, units)]);
+  const players = R.playerCount(run);
+  const { cellW, cellH, labelH, linkGap, gap, margin } = M;
+  const blockH = players * cellH + (players - 1) * linkGap;
+  const cols = Math.max(1, Math.min(perRow, units.length));
+  const gridRows = Math.max(1, Math.ceil(units.length / cols));
+
+  const measure = canvas(1, 1)[1];
+  measure.font = M.font(30, true);
+  const gutter = names ? Math.max(...run.players.map((p) => measure.measureText(p.name).width)) + 40 : 0;
+  measure.font = M.font(42, true);
+  const titleW = title ? measure.measureText(title).width + 2 * margin : 0;
+  const headerH = title ? 80 : 0;
+  const gridW = gutter + cols * cellW + (cols - 1) * gap;
+  const W = Math.ceil(Math.max(gridW + 2 * margin, titleW));
+  const H = margin * 2 + headerH + gridRows * blockH + (gridRows - 1) * M.gridGap;
+  const left = Math.floor((W - gridW) / 2);
+
+  const [c, ctx] = canvas(W, H);
+  ctx.fillStyle = M.bg;
+  ctx.fillRect(0, 0, W, H);
+  ctx.textAlign = "center";
+  ctx.textBaseline = "middle";
+  if (title) {
+    ctx.font = M.font(42, true);
+    ctx.fillStyle = M.text;
+    ctx.fillText(title, W / 2, margin + 26);
+  }
+  const top = margin + headerH;
+  const rowY = (row, i) => top + row * (blockH + M.gridGap) + i * (cellH + linkGap);
+
+  if (names) {
+    ctx.textAlign = "right";
+    ctx.font = M.font(30, true);
+    run.players.forEach((p, i) => {
+      ctx.fillStyle = M.players[i];
+      ctx.fillText(p.name, left + gutter - 30, rowY(0, i) + cellH / 2);
+    });
+    ctx.textAlign = "center";
+  }
+
+  // sprites share one whole-number scale; artwork is fitted to its box
+  const boxSize = (bx0, by0, bx1, by1) => [bx0 + 10, by0 + 10, bx1 - bx0 - 20, by1 - by0 - 10 - labelH];
+  const sample = boxSize(0, 0, cellW - 16, cellH - 10);
+  const spriteRects = units.flatMap((e) => e.catches.map((cc) => !art[cc.species] && game.sheet[cc.species]))
+    .filter(Boolean);
+  const k = commonScale(spriteRects, sample[2], sample[3]);
+  const sheet = grey ? greyscale(sheetImg) : sheetImg;
+
+  units.forEach((enc, n) => {
+    const x0 = left + gutter + (n % cols) * (cellW + gap);
+    const row = Math.floor(n / cols);
+    ctx.fillStyle = M.card;
+    ctx.strokeStyle = M.edge;
+    ctx.lineWidth = 2;
+    roundRect(ctx, x0, rowY(row, 0), cellW, blockH, 18);
+    ctx.fill();
+    ctx.stroke();
+    for (let i = 0; i < players; i++) {
+      const cc = enc.catches.find((x) => x.player === i);
+      const [bx0, by0, bx1, by1] = [x0 + 8, rowY(row, i) + 6, x0 + cellW - 8, rowY(row, i) + cellH - 4];
+      const box = boxSize(bx0, by0, bx1, by1);
+      const pic = cc && art[cc.species];
+      const rect = cc && game.sheet[cc.species];
+      if (pic) drawFitted(ctx, grey ? greyscale(pic) : pic, [0, 0, pic.width, pic.height], box, null);
+      else if (rect) drawFitted(ctx, sheet, rect, box, k);
+      const label = cc ? monName(cc) : "—";
+      const cx = (bx0 + bx1) / 2;
+      ctx.fillStyle = M.text;
+      ctx.font = fitFont(ctx, label, bx1 - bx0 - 12, 24, true);
+      ctx.fillText(label, cx, by1 - labelH + 14);
+      if (cc?.nickname) {
+        ctx.fillStyle = M.sub;
+        ctx.font = fitFont(ctx, cc.species, bx1 - bx0 - 12, 17, false);
+        ctx.fillText(cc.species, cx, by1 - labelH + 37);
+      }
+      ctx.fillStyle = M.players[i];
+      roundRect(ctx, bx0 + 30, by1 - 6, bx1 - bx0 - 60, 4, 2);
+      ctx.fill();
+    }
+    if (players === 2) chainIcon(ctx, x0 + cellW / 2, rowY(row, 0) + cellH + linkGap / 2);
+  });
+  return c;
 }
 
 /** Render and show a graphic with Share / Download buttons. */

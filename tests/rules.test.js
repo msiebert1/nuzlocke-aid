@@ -38,6 +38,29 @@ test("soul link: a location stays open until both players log it", () => {
   assert.equal(run.encounters[0].catches.length, 2);
 });
 
+test("soul link: logEncounter logs both players with one status", () => {
+  let res = R.logEncounter(newRun("soul"), {
+    location: "Route 19", status: "caught",
+    catches: [{ player: 0, species: "Patrat", nickname: "Pat" }, { player: 1, species: "Purrloin" }],
+  });
+  assert.equal(res.needsPlacement, true);
+  assert.equal(res.run.encounters.length, 1);
+  assert.deepEqual(res.run.encounters[0].catches.map((c) => [c.species, c.status]),
+                   [["Patrat", "caught"], ["Purrloin", "caught"]]);
+  assert.ok(!R.remainingLocations(res.run, LOCS).some((l) => l.name === "Route 19"));
+
+  res = R.logEncounter(res.run, { location: "Route 20", status: "failed",
+                                  catches: [{ player: 0, species: "" }, { player: 1, species: "" }] });
+  assert.equal(res.needsPlacement, false);
+  assert.ok(res.run.encounters[1].catches.every((c) => c.status === "failed"));
+
+  // caught needs both Pokémon; and both players must be included
+  assert.throws(() => R.logEncounter(newRun("soul"), { location: "Starter", status: "caught",
+    catches: [{ player: 0, species: "Snivy" }, { player: 1, species: "" }] }), /Callie/);
+  assert.throws(() => R.logEncounter(newRun("soul"), { location: "Starter", status: "caught",
+    catches: [{ player: 0, species: "Snivy" }] }), R.RuleError);
+});
+
 test("first catch needs placement; failed and invalid ones never do", () => {
   let run = newRun();
   let res = catchAt(run, "Starter", "Snivy");

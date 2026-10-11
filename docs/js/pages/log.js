@@ -1,7 +1,8 @@
-// Log tab: pick the next location, the Pokémon, and Caught / Failed / Invalid.
+// Log tab: pick the next location, each player's Pokémon, and one
+// Caught / Failed / Invalid for the whole encounter (both players in a soul link).
 
 import * as R from "../rules.js";
-import { esc, modal, monName, sprite, toast } from "../ui.js";
+import { closeModal, esc, modal, monImage, monName, toast } from "../ui.js";
 import { placeNew } from "./units.js";
 
 const CUSTOM = "__custom__";
@@ -9,25 +10,18 @@ const forms = new Map(); // run code -> in-progress form, kept across live updat
 
 function form(session) {
   if (!forms.has(session.code)) {
-    forms.set(session.code, { location: "", player: null, species: "", nickname: "", search: "" });
+    forms.set(session.code, { location: "", picks: [{}, {}] }); // picks[player] = {species, nickname, search}
   }
-  const f = forms.get(session.code);
-  if (f.player === null || f.player >= R.playerCount(session.run)) f.player = session.me;
-  return f;
+  return forms.get(session.code);
 }
 
 function clearForm(f) {
-  Object.assign(f, { location: "", species: "", nickname: "", search: "" });
-}
-
-/** Locations this player can still log, in game order. */
-function openFor(session, player) {
-  return R.remainingLocations(session.run, session.game.locations)
-    .filter((l) => l.waiting.includes(player));
+  f.location = "";
+  f.picks = [{}, {}];
 }
 
 function searchResults(session, query, exclude) {
-  const q = query.trim().toLowerCase();
+  const q = (query || "").trim().toLowerCase();
   if (!q) return [];
   const starts = [], contains = [];
   for (const s of session.game.species) {
@@ -39,9 +33,10 @@ function searchResults(session, query, exclude) {
   return [...starts, ...contains].slice(0, 10);
 }
 
-function pickButtons(session, names, chosen) {
-  return names.map((n) => `<button type="button" class="pick ${n === chosen ? "on" : ""}" data-species="${esc(n)}">
-    ${sprite(session.game, n, 1)}<span>${esc(n)}</span></button>`).join("");
+function pickButtons(session, player, names, chosen) {
+  return names.map((n) => `<button type="button" class="pick ${n === chosen ? "on" : ""}"
+      data-player="${player}" data-species="${esc(n)}">
+    ${monImage(session, n, { scale: 1, size: 40 })}<span>${esc(n)}</span></button>`).join("");
 }
 
 function pendingHTML(session) {
@@ -54,65 +49,69 @@ function pendingHTML(session) {
       <button class="small" data-place="${esc(e.id)}">Place</button></div>`).join("")}</div>`;
 }
 
+/** One player's Pokémon picker. */
+function pickerHTML(session, player, loc) {
+  const { run } = session;
+  const f = form(session);
+  const p = f.picks[player];
+  const locSpecies = loc?.species || [];
+  const results = searchResults(session, p.search, locSpecies);
+  const soul = run.mode === "soul";
+  return `<div class="picker ${soul ? "soul" : ""}">
+    ${soul ? `<h3>${esc(run.players[player].name)}'s Pokémon</h3>` : `<label>Pokémon</label>`}
+    ${locSpecies.length ? `<div class="picks" aria-label="Found here">${pickButtons(session, player, locSpecies, p.species)}</div>` : ""}
+    <input type="search" data-search="${player}" placeholder="Search any Pokémon…" value="${esc(p.search || "")}"
+           style="margin-top:8px" enterkeyhint="search" autocomplete="off">
+    ${results.length ? `<div class="picks">${pickButtons(session, player, results, p.species)}</div>` : ""}
+    ${p.species ? `<div class="chosen">${monImage(session, p.species, { scale: 2, size: 72 })}<b>${esc(p.species)}</b></div>` : ""}
+    <label for="nick${player}">Nickname <small class="muted">(optional)</small></label>
+    <input id="nick${player}" data-nick="${player}" maxlength="20" value="${esc(p.nickname || "")}" autocapitalize="words">
+  </div>`;
+}
+
 export function render(session) {
   const { run, game } = session;
   const f = form(session);
-  const soul = run.mode === "soul";
-  const open = openFor(session, f.player);
-  if (f.location && f.location !== CUSTOM && !open.some((l) => l.name === f.location)) f.location = "";
+  const players = Array.from({ length: R.playerCount(run) }, (_, i) => i);
+  const open = R.remainingLocations(run, game.locations);
+  if (f.location && !open.some((l) => l.name === f.location)) f.location = "";
   const loc = open.find((l) => l.name === f.location);
-  const other = soul ? 1 - f.player : null;
-  const partner = (l) => {
-    if (!soul) return "";
-    const enc = R.encounterAt(run, l.name);
-    const c = enc?.catches.find((x) => x.player === other);
-    return c ? ` — ${run.players[other].name}: ${c.species || c.status}` : "";
-  };
-  const locSpecies = loc?.species || [];
-  const results = searchResults(session, f.search, locSpecies);
-  const remainingCount = R.remainingLocations(run, game.locations).length;
 
   return `
     ${pendingHTML(session)}
     <form class="box" id="log" autocomplete="off">
       <h2>Log an encounter</h2>
-      ${soul ? `<div class="who">${run.players.map((p, i) => `
-        <button type="button" class="${i === f.player ? "on" : ""}" data-player="${i}">${esc(p.name)}</button>`).join("")}</div>` : ""}
-      <label for="loc">Location <small class="muted">(${remainingCount} left)</small></label>
+      <label for="loc">Location <small class="muted">(${open.length} left)</small></label>
       <select id="loc" name="loc">
         <option value="">Choose a location…</option>
-        ${open.map((l) => `<option value="${esc(l.name)}" ${l.name === f.location ? "selected" : ""}>${esc(l.name)}${esc(partner(l))}</option>`).join("")}
+        ${open.map((l) => `<option value="${esc(l.name)}" ${l.name === f.location ? "selected" : ""}>${esc(l.name)}</option>`).join("")}
         <option value="${CUSTOM}">+ Add a location…</option>
       </select>
-
-      <label>Pokémon</label>
-      ${locSpecies.length ? `<div class="picks" aria-label="Found here">${pickButtons(session, locSpecies, f.species)}</div>` : ""}
-      <input id="search" name="search" type="search" placeholder="Search any Pokémon…" value="${esc(f.search)}"
-             style="margin-top:8px" enterkeyhint="search">
-      ${results.length ? `<div class="picks">${pickButtons(session, results, f.species)}</div>` : ""}
-      ${f.species ? `<div class="chosen">${sprite(game, f.species, 2)}<b>${esc(f.species)}</b></div>` : ""}
-
-      <label for="nick">Nickname <small class="muted">(optional)</small></label>
-      <input id="nick" name="nick" maxlength="20" value="${esc(f.nickname)}" autocapitalize="words">
-
+      ${players.map((p) => pickerHTML(session, p, loc)).join("")}
       <div class="status-buttons">
         <button type="button" class="primary status-caught" data-status="caught">Caught</button>
         <button type="button" class="status-failed" data-status="failed">Failed</button>
         <button type="button" class="status-invalid" data-status="invalid">Invalid</button>
       </div>
       <p class="muted" style="margin-top:8px"><small>Failed: it fled or fainted. Invalid: doesn't count
-        (e.g. a dupe clause, or an area you skipped).</small></p>
+        (e.g. a dupe clause, or an area you skipped).${run.mode === "soul" ? " The status applies to both players." : ""}</small></p>
     </form>`;
+}
+
+/** Fill the form from anything already logged at this location (older runs
+ *  could log one player at a time). */
+function prefill(session, f) {
+  const enc = R.encounterAt(session.run, f.location);
+  f.picks = [0, 1].map((p) => {
+    const c = enc?.catches.find((x) => x.player === p);
+    return c ? { species: c.species, nickname: c.nickname } : {};
+  });
 }
 
 export function bind(root, session) {
   const f = form(session);
   const el = root.querySelector("#log");
 
-  el.querySelectorAll("[data-player]").forEach((b) => b.addEventListener("click", () => {
-    f.player = Number(b.dataset.player);
-    session.setMe(f.player);
-  }));
   el.loc.addEventListener("change", async () => {
     if (el.loc.value === CUSTOM) {
       const name = await askLocation();
@@ -123,37 +122,46 @@ export function bind(root, session) {
     } else {
       f.location = el.loc.value;
     }
-    f.species = "";
+    prefill(session, f);
     session.refresh();
   });
   el.querySelectorAll("[data-species]").forEach((b) => b.addEventListener("click", () => {
-    f.species = b.dataset.species;
-    f.search = "";
+    const p = f.picks[Number(b.dataset.player)];
+    p.species = b.dataset.species;
+    p.search = "";
     session.refresh();
   }));
-  el.search.addEventListener("input", () => {
-    f.search = el.search.value;
-    // redraw just the results, keeping the keyboard up
-    const pos = el.search.selectionStart;
+  el.querySelectorAll("[data-search]").forEach((input) => input.addEventListener("input", () => {
+    const player = input.dataset.search;
+    f.picks[Number(player)].search = input.value;
+    // redraw the results, keeping the keyboard up
+    const pos = input.selectionStart;
     session.refresh();
-    const s = root.ownerDocument.getElementById("search");
-    s.focus();
-    s.setSelectionRange(pos, pos);
-  });
-  el.nick.addEventListener("input", () => (f.nickname = el.nick.value));
+    const again = root.ownerDocument.querySelector(`[data-search="${player}"]`);
+    again.focus();
+    again.setSelectionRange(pos, pos);
+  }));
+  el.querySelectorAll("[data-nick]").forEach((input) =>
+    input.addEventListener("input", () => (f.picks[Number(input.dataset.nick)].nickname = input.value)));
   el.addEventListener("submit", (e) => e.preventDefault());
 
   el.querySelectorAll("[data-status]").forEach((b) => b.addEventListener("click", async () => {
     const status = b.dataset.status;
     if (!f.location) return toast("Choose a location first");
-    if (status === "caught" && !f.species) return toast("Choose the Pokémon you caught");
-    const entry = { location: f.location, player: f.player, species: f.species,
-                    nickname: f.nickname, status };
-    const result = await session.update((r) => R.logCatch(r, entry));
-    const who = entry.nickname || entry.species || "Encounter";
+    const catches = Array.from({ length: R.playerCount(session.run) }, (_, player) => ({
+      player, species: f.picks[player].species || "", nickname: f.picks[player].nickname || "",
+    }));
+    let result;
+    try {
+      result = await session.update((r) => R.logEncounter(r, { location: f.location, catches, status }));
+    } catch {
+      return; // the error was shown as a toast
+    }
+    const where = f.location;
+    const who = catches.map((c) => c.nickname || c.species).filter(Boolean).join(" & ");
     clearForm(f);
-    toast(status === "caught" ? `${who} logged at ${entry.location}` : `${entry.location}: ${status}`);
-    if (result.needsPlacement) await placeNew(session, result.id);
+    toast(status === "caught" ? `${who} logged at ${where}` : `${where}: ${status}`);
+    if (result.needsPlacement) await placeNew(session, result.id, result.run);
     else session.refresh();
   }));
 
@@ -162,18 +170,16 @@ export function bind(root, session) {
 }
 
 async function askLocation() {
-  const v = await modal(`<form id="custom-loc"><h2>Add a location</h2>
+  return modal(`<form id="custom-loc"><h2>Add a location</h2>
     <p>For anywhere the list is missing (a gift, an event, a hidden area).</p>
     <input name="locname" maxlength="40" required placeholder="Location name">
     <div class="btn-row" style="margin-top:10px"><button type="button" data-value="">Cancel</button>
     <button class="primary" type="submit">Add</button></div></form>`);
-  return v;
 }
 
 // The custom-location form submits by closing the modal with its text
 document.addEventListener("submit", (e) => {
   if (e.target.id !== "custom-loc") return;
   e.preventDefault();
-  const name = e.target.locname.value.trim();
-  import("../ui.js").then(({ closeModal }) => closeModal(name || null));
+  closeModal(e.target.locname.value.trim() || null);
 });
