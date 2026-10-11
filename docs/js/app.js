@@ -3,11 +3,11 @@
 //   #/new                  start a run
 //   #/run/<code>/<tab>     a run: log | team | box | grave | list | settings
 
-import { store, rememberRun } from "./store.js?v=9ac6b15c";
-import { applyTheme, esc, loadGame, toast } from "./ui.js?v=9ac6b15c";
-import * as landing from "./pages/landing.js?v=9ac6b15c";
-import * as newRun from "./pages/newrun.js?v=9ac6b15c";
-import * as runPages from "./pages/run.js?v=9ac6b15c";
+import { store, rememberRun } from "./store.js?v=dbb6a926";
+import { applyTheme, esc, loadGame, toast } from "./ui.js?v=dbb6a926";
+import * as landing from "./pages/landing.js?v=dbb6a926";
+import * as newRun from "./pages/newrun.js?v=dbb6a926";
+import * as runPages from "./pages/run.js?v=dbb6a926";
 
 const app = document.getElementById("app");
 let session = null; // the open run: {code, run, game, db, me, update}
@@ -47,7 +47,8 @@ function closeSession() {
 async function openRun(code, tab) {
   if (session?.code === code) {
     session.tab = tab;
-    renderRun();
+    // switching tabs always redraws, even if a search box still has focus
+    if (session.run) runPages.show(app, session);
     return;
   }
   closeSession();
@@ -100,7 +101,10 @@ async function openRun(code, tab) {
 function renderRun() {
   if (!session?.run) return;
   const active = document.activeElement;
-  if (active && app.contains(active) && active.matches("input, select") && session.rendered) {
+  // (only fields you type into: a checkbox, radio button or menu change is
+  // complete as soon as it's made, so the page should show it right away)
+  const typing = "textarea, input:not([type=checkbox]):not([type=radio]):not([type=button]):not([type=submit])";
+  if (active && app.contains(active) && active.matches(typing) && session.rendered) {
     if (!session.pendingRender) {
       session.pendingRender = true;
       active.addEventListener("blur", () => {

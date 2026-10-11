@@ -1,11 +1,11 @@
 // A run's pages: header, bottom tab bar, and the current tab.
 
-import * as R from "../rules.js?v=9ac6b15c";
-import { esc, gameName } from "../ui.js?v=9ac6b15c";
-import * as log from "./log.js?v=9ac6b15c";
-import * as units from "./units.js?v=9ac6b15c";
-import * as list from "./list.js?v=9ac6b15c";
-import * as settings from "./settings.js?v=9ac6b15c";
+import * as R from "../rules.js?v=dbb6a926";
+import { esc, gameName } from "../ui.js?v=dbb6a926";
+import * as log from "./log.js?v=dbb6a926";
+import * as units from "./units.js?v=dbb6a926";
+import * as list from "./list.js?v=dbb6a926";
+import * as settings from "./settings.js?v=dbb6a926";
 
 const TABS = {
   log: { label: "Log", page: log },
@@ -31,7 +31,7 @@ export function show(app, session) {
       <a class="btn" href="#/" aria-label="All runs">‹</a>
       <div class="box title">
         <h1>${esc(run.name)}</h1>
-        <small>${esc(gameName(session))} · ${run.mode === "soul" ? "Soul link" : "Nuzlocke"} · ${who}</small>
+        <small>${esc(gameName(session))} · ${run.mode === "soul" ? "Soul link" : "Nuzlocke"}${R.isRandomizer(run) ? " · Randomizer" : ""} · ${who}</small>
       </div>
       <a class="btn" href="#/run/${code}/settings" aria-label="Settings">⚙</a>
     </div>

@@ -19,6 +19,12 @@ export const PLACES = ["party", "box", "grave", "none"];
 
 export class RuleError extends Error {}
 
+/** A randomizer run: what's found where is shuffled, so the game's encounter
+ *  data isn't suggested. */
+export function isRandomizer(run) {
+  return !!run.options?.randomizer;
+}
+
 export function playerCount(run) {
   return run.mode === "soul" ? 2 : 1;
 }
@@ -286,7 +292,7 @@ export function sharePost(run, kind, { game, site }) {
   }[kind];
   const { logged, caught, lost } = tally(run);
   const lines = [
-    `${soul ? "🔗 Soul link" : "⚔️ Nuzlocke"}: ${run.name} (${game})`,
+    `${soul ? "🔗 Soul link" : "⚔️ Nuzlocke"}${isRandomizer(run) ? " (randomizer)" : ""}: ${run.name} (${game})`,
     "",
     `${heading}:`,
     ...(list.length ? list.map((e) => `• ${unit(e)}`) : ["(none yet)"]),

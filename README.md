@@ -80,6 +80,9 @@ app icon.
   listed first; in a soul link, pick both players' Pokémon), add nicknames,
   and tap **Caught**, **Failed** or **Invalid** once for the encounter.
   Caught Pokémon join the party; if it's full you choose who to swap out.
+- **Randomizer:** tick **Randomizer** when starting a run, or switch it on in
+  **Settings**. The Log page then stops suggesting the game's Pokémon for
+  each location (search still finds any Pokémon).
 - **Look:** in **Settings**, switch any run between the game's look and a
   **Modern** look, and choose the Pokémon art: game sprites, official artwork,
   or Ken Sugimori's early artwork (#1–251; later Pokémon use official art).

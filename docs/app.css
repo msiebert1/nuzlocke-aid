@@ -395,3 +395,7 @@ body:not([data-look="modern"]) .tap-hint small {
 .enc-row .remove { flex: none; min-height: 34px; width: 34px; padding: 0; color: #c03030; }
 button.danger { color: #c03030; }
 body[data-look="modern"] button.danger { color: #ff7a7a; }
+
+/* Checkbox options (Randomizer) */
+label.check { display: flex; gap: 10px; align-items: flex-start; font-weight: 400; margin: 12px 0 4px; }
+label.check input { flex: none; width: 24px; height: 24px; min-height: 0; margin: 0; accent-color: var(--accent); }

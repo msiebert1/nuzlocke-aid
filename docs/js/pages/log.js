@@ -1,9 +1,9 @@
 // Log tab: pick the next location, each player's Pokémon, and one
 // Caught / Failed / Invalid for the whole encounter (both players in a soul link).
 
-import * as R from "../rules.js?v=9ac6b15c";
-import { closeModal, esc, modal, monImage, monName, toast } from "../ui.js?v=9ac6b15c";
-import { placeNew } from "./units.js?v=9ac6b15c";
+import * as R from "../rules.js?v=dbb6a926";
+import { closeModal, esc, modal, monImage, monName, toast } from "../ui.js?v=dbb6a926";
+import { placeNew } from "./units.js?v=dbb6a926";
 
 const CUSTOM = "__custom__";
 const forms = new Map(); // run code -> in-progress form, kept across live updates
@@ -54,7 +54,8 @@ function pickerHTML(session, player, loc) {
   const { run } = session;
   const f = form(session);
   const p = f.picks[player];
-  const locSpecies = loc?.species || [];
+  // a randomizer shuffles what's found where, so don't suggest the game's Pokémon
+  const locSpecies = R.isRandomizer(run) ? [] : loc?.species || [];
   const results = searchResults(session, p.search, locSpecies);
   const soul = run.mode === "soul";
   return `<div class="picker ${soul ? "soul" : ""}">

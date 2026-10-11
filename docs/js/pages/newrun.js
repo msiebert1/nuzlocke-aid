@@ -1,17 +1,17 @@
 // Start a run: name, game, single nuzlocke or soul link, players.
 // "Other game" runs any game: the players supply its name and locations.
 
-import { parseLocationList } from "../rules.js?v=9ac6b15c";
-import { store } from "../store.js?v=9ac6b15c";
+import { parseLocationList } from "../rules.js?v=dbb6a926";
+import { store } from "../store.js?v=dbb6a926";
 import {
   ART_CHOICES, GENERIC, MAX_CUSTOM_LOCATIONS, applyTheme, esc, loadGame, loadStyles, toast, trainerImg,
-} from "../ui.js?v=9ac6b15c";
+} from "../ui.js?v=dbb6a926";
 
 export async function show(app) {
   const styles = await loadStyles();
   const keys = Object.keys(styles);
   const state = { game: "b2w2", mode: "single", name: "", players: ["", ""], trainers: [],
-                  look: "game", art: "sprites", gameName: "", locations: "" };
+                  look: "game", art: "sprites", gameName: "", locations: "", randomizer: false };
 
   async function render() {
     const game = await loadGame(state.game);
@@ -51,6 +51,9 @@ export async function show(app) {
           <label><input type="radio" name="mode" value="single" ${state.mode === "single" ? "checked" : ""}><span>Nuzlocke</span></label>
           <label><input type="radio" name="mode" value="soul" ${state.mode === "soul" ? "checked" : ""}><span>Soul link</span></label>
         </div>
+        <label class="check"><input type="checkbox" name="randomizer" ${state.randomizer ? "checked" : ""}>
+          <span>Randomizer <small class="muted">(the Pokémon found on each route are shuffled, so
+          the Log page won't suggest them)</small></span></label>
         ${generic ? "" : `<label>Look</label>
         <div class="choice">
           <label><input type="radio" name="look" value="game" ${state.look === "game" ? "checked" : ""}><span>${esc(game.style.name)}</span></label>
@@ -80,6 +83,7 @@ export async function show(app) {
       state.players = [form.p0.value, form.p1?.value ?? state.players[1]];
       state.trainers = [form.t0?.value ?? "", form.t1?.value ?? state.trainers[1] ?? ""];
       state.art = form.art.value;
+      state.randomizer = form.randomizer.checked;
       if (form.gamename) state.gameName = form.gamename.value;
       if (form.locations) state.locations = form.locations.value;
     };
@@ -102,7 +106,7 @@ export async function show(app) {
           name: state.players[i].trim(), trainer: state.trainers[i] || "",
         })),
         options: { wallpapers: [...game.style.defaultWalls], link: "heart",
-                   look: generic ? "modern" : state.look, art: state.art },
+                   look: generic ? "modern" : state.look, art: state.art, randomizer: state.randomizer },
         customLocations: locations,
         encounters: [],
         createdAt: Date.now(),

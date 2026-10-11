@@ -1,8 +1,8 @@
 // Settings: share link, player names and sprites, wallpapers, link icon.
 
-import { parseLocationList, setCustomLocations } from "../rules.js?v=9ac6b15c";
-import { forgetRun } from "../store.js?v=9ac6b15c";
-import { ART_CHOICES, MAX_CUSTOM_LOCATIONS, confirmBox, esc, toast, trainerImg } from "../ui.js?v=9ac6b15c";
+import { parseLocationList, setCustomLocations } from "../rules.js?v=dbb6a926";
+import { forgetRun } from "../store.js?v=dbb6a926";
+import { ART_CHOICES, MAX_CUSTOM_LOCATIONS, confirmBox, esc, toast, trainerImg } from "../ui.js?v=dbb6a926";
 
 function shareLink(code) {
   return `${location.origin}${location.pathname}#/run/${code}/log`;
@@ -71,6 +71,12 @@ export function render(session) {
         </select>` : ""}
       <div style="margin-top:14px"><button class="primary" type="submit" style="width:100%">Save</button></div>
     </form>
+    <form class="box" id="randomizer">
+      <h2>Randomizer</h2>
+      <label class="check"><input type="checkbox" name="randomizer" ${run.options?.randomizer ? "checked" : ""}>
+          <span>Randomizer <small class="muted">(the Pokémon found on each route are shuffled, so
+          the Log page won't suggest them)</small></span></label>
+    </form>
     <form class="box" id="locations">
       <h2>${generic ? "Locations" : "Extra locations"}</h2>
       <p class="muted"><small>${generic
@@ -129,6 +135,13 @@ export function bind(root, session) {
       return r;
     });
     toast("Saved");
+  });
+
+  const rando = root.querySelector("#randomizer");
+  rando.addEventListener("change", async () => {
+    const on = rando.randomizer.checked;
+    await session.update((r) => ({ ...r, options: { ...r.options, randomizer: on } }));
+    toast(on ? "Randomizer on: route suggestions hidden" : "Randomizer off");
   });
 
   const locs = root.querySelector("#locations");

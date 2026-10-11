@@ -268,3 +268,10 @@ test("evolution options leave out Pokémon the game doesn't have", () => {
   assert.deepEqual(R.evolutionOptions("Eevee", evo, (n) => gen1.has(n)), ["Vaporeon", "Jolteon", "Flareon"]);
   assert.deepEqual(R.evolutionOptions("Mew", evo), []);
 });
+
+test("randomizer runs are flagged in the share post", () => {
+  const run = { ...newRun(), options: { randomizer: true } };
+  assert.equal(R.isRandomizer(run), true);
+  assert.equal(R.isRandomizer(newRun()), false);
+  assert.match(R.sharePost(run, "team", { game: "Emerald" }), /^⚔️ Nuzlocke \(randomizer\): Test \(Emerald\)/);
+});
