@@ -60,9 +60,8 @@ site's data and art.
 3. In the repository: **Settings → Pages → Build and deployment → Deploy from a
    branch → `main` / `/docs` → Save.** After a minute the site is live at
    `https://<your-username>.github.io/nuzlocke-aid/`.
-4. Back in Firebase, open
-   `https://console.firebase.google.com/project/PROJECT_ID/authentication/settings`,
-   go to **Authorized domains → Add domain**, and add `<your-username>.github.io`.
+   (Firebase's "authorized domains" list doesn't need changing: it only
+   applies to sign-in pop-ups, and this app signs in anonymously.)
 
 On your phone, open the site and use **Share → Add to Home Screen** to get an
 app icon.
