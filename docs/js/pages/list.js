@@ -1,15 +1,18 @@
 // List tab: every logged encounter with status and place; tap one to edit.
 
-import * as R from "../rules.js?v=dbb6a926";
-import { closeModal, confirmBox, esc, modal, monImage, monName, removeEncounter, toast } from "../ui.js?v=dbb6a926";
+import * as R from "../rules.js?v=f4e42bf0";
+import { closeModal, confirmBox, esc, modal, monImage, monName, removeEncounter, toast } from "../ui.js?v=f4e42bf0";
 
 const PLACE_LABEL = { party: "Party", box: "Box", grave: "Graveyard", none: "" };
 
-/** Encounters in game order (custom locations last, in the order logged). */
+/** Encounters in the order they were logged. */
 function ordered(session) {
-  const order = new Map(session.game.locations.map((l, i) => [l.name, i]));
-  return [...session.run.encounters].sort((a, b) =>
-    (order.get(a.location) ?? 1e6) - (order.get(b.location) ?? 1e6) || a.createdAt - b.createdAt);
+  // in the order they were logged (encounters are stored as they're added;
+  // createdAt keeps that order however the list was saved)
+  return session.run.encounters
+    .map((e, i) => [e, i])
+    .sort(([a, i], [b, j]) => (a.createdAt ?? 0) - (b.createdAt ?? 0) || i - j)
+    .map(([e]) => e);
 }
 
 export function render(session) {
