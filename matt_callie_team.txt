@@ -1,0 +1,10 @@
+# Soul Link team: one pair per line, "Trainer 1's Pokémon / Trainer 2's Pokémon"
+# Nicknames go in parentheses, e.g. Pikachu (Sparky) / Eevee
+title: Soul Link
+players: Matt, Callie
+Swampert / Chandelure
+Honchkrow / Wormadam
+Octillery / Luxray
+Lanturn / Throh
+Typhlosion / Salamence
+Hariyama / Magnezone

@@ -1,0 +1,27 @@
+rules_version = '2';
+
+// Nuzlocke Aid: anyone using the app (signed in anonymously) can read and
+// write a run if they know its 10-character share code. Runs can't be listed,
+// so a code can't be discovered, and documents must look like a run.
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /runs/{code} {
+      allow get: if request.auth != null;
+      allow list: if false;
+      allow create, update: if request.auth != null
+        && code.matches('^[a-z0-9]{10}$')
+        && isRun(request.resource.data);
+      allow delete: if false;
+    }
+  }
+
+  function isRun(run) {
+    return run.keys().hasAll(['name', 'game', 'mode', 'players', 'encounters', 'customLocations'])
+      && run.name is string && run.name.size() <= 60
+      && run.game is string && run.game.size() <= 8
+      && run.mode in ['single', 'soul']
+      && run.players is list && run.players.size() <= 2
+      && run.encounters is list && run.encounters.size() <= 400
+      && run.customLocations is list && run.customLocations.size() <= 100;
+  }
+}

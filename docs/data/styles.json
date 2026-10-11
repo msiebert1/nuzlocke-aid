@@ -1,0 +1,619 @@
+{
+ "rb": {
+  "name": "Red / Blue",
+  "lastDex": 151,
+  "border": [
+   7,
+   7,
+   7,
+   7
+  ],
+  "textboxSize": [
+   160,
+   48
+  ],
+  "bgSize": [
+   8,
+   8
+  ],
+  "tileBorder": false,
+  "textShadow": false,
+  "cell": [
+   96,
+   72
+  ],
+  "labelH": 38,
+  "titleH": 28,
+  "artInset": 8,
+  "walls": {},
+  "defaultWalls": [],
+  "trainerWall": "",
+  "trainers": {
+   "Red": "trainers/red.png",
+   "Blue": "trainers/blue.png"
+  },
+  "defaultTrainers": [
+   "Red",
+   "Blue"
+  ]
+ },
+ "y": {
+  "name": "Yellow",
+  "lastDex": 151,
+  "border": [
+   7,
+   7,
+   7,
+   7
+  ],
+  "textboxSize": [
+   160,
+   48
+  ],
+  "bgSize": [
+   8,
+   8
+  ],
+  "tileBorder": false,
+  "textShadow": false,
+  "cell": [
+   96,
+   72
+  ],
+  "labelH": 38,
+  "titleH": 28,
+  "artInset": 8,
+  "walls": {},
+  "defaultWalls": [],
+  "trainerWall": "",
+  "trainers": {
+   "Red": "trainers/red.png",
+   "Blue": "trainers/blue.png"
+  },
+  "defaultTrainers": [
+   "Red",
+   "Blue"
+  ]
+ },
+ "gs": {
+  "name": "Gold / Silver",
+  "lastDex": 251,
+  "border": [
+   5,
+   6,
+   6,
+   5
+  ],
+  "textboxSize": [
+   160,
+   31
+  ],
+  "bgSize": [
+   8,
+   8
+  ],
+  "tileBorder": false,
+  "textShadow": false,
+  "cell": [
+   96,
+   72
+  ],
+  "labelH": 35,
+  "titleH": 26,
+  "artInset": 7,
+  "walls": {},
+  "defaultWalls": [],
+  "trainerWall": "",
+  "trainers": {
+   "Ethan": "trainers/ethan.png",
+   "Kris": "trainers/kris.png",
+   "Silver": "trainers/silver.png"
+  },
+  "defaultTrainers": [
+   "Ethan",
+   "Kris"
+  ]
+ },
+ "c": {
+  "name": "Crystal",
+  "lastDex": 251,
+  "border": [
+   5,
+   6,
+   6,
+   5
+  ],
+  "textboxSize": [
+   160,
+   31
+  ],
+  "bgSize": [
+   8,
+   8
+  ],
+  "tileBorder": false,
+  "textShadow": false,
+  "cell": [
+   96,
+   72
+  ],
+  "labelH": 35,
+  "titleH": 26,
+  "artInset": 7,
+  "walls": {},
+  "defaultWalls": [],
+  "trainerWall": "",
+  "trainers": {
+   "Ethan": "trainers/ethan.png",
+   "Kris": "trainers/kris.png",
+   "Silver": "trainers/silver.png"
+  },
+  "defaultTrainers": [
+   "Ethan",
+   "Kris"
+  ]
+ },
+ "rs": {
+  "name": "Ruby / Sapphire",
+  "lastDex": 386,
+  "border": [
+   7,
+   7,
+   7,
+   7
+  ],
+  "textboxSize": [
+   192,
+   32
+  ],
+  "bgSize": [
+   8,
+   8
+  ],
+  "tileBorder": true,
+  "textShadow": true,
+  "cell": [
+   112,
+   104
+  ],
+  "labelH": 38,
+  "titleH": 28,
+  "artInset": 4,
+  "walls": {
+   "Beach": "walls/beach.png",
+   "Cave": "walls/cave.png",
+   "City": "walls/city.png",
+   "Crag": "walls/crag.png",
+   "Desert": "walls/desert.png",
+   "Forest": "walls/forest.png",
+   "Machine": "walls/machine.png",
+   "Plain": "walls/plain.png",
+   "PokéCenter": "walls/pokecenter.png",
+   "Polka-Dot": "walls/polka-dot.png",
+   "River": "walls/river.png",
+   "Savanna": "walls/savanna.png",
+   "Seafloor": "walls/seafloor.png",
+   "Sky": "walls/sky.png",
+   "Snow": "walls/snow.png",
+   "Volcano": "walls/volcano.png"
+  },
+  "defaultWalls": [
+   "Snow",
+   "Beach"
+  ],
+  "trainerWall": "Plain",
+  "trainers": {
+   "Brendan": "trainers/brendan.png",
+   "May": "trainers/may.png",
+   "Wally": "trainers/wally.png"
+  },
+  "defaultTrainers": [
+   "Brendan",
+   "May"
+  ]
+ },
+ "e": {
+  "name": "Emerald",
+  "lastDex": 386,
+  "border": [
+   7,
+   7,
+   7,
+   7
+  ],
+  "textboxSize": [
+   192,
+   32
+  ],
+  "bgSize": [
+   8,
+   8
+  ],
+  "tileBorder": true,
+  "textShadow": true,
+  "cell": [
+   112,
+   104
+  ],
+  "labelH": 38,
+  "titleH": 28,
+  "artInset": 4,
+  "walls": {
+   "Azumarill": "walls/azumarill.png",
+   "Beach": "walls/beach.png",
+   "Blocks": "walls/blocks.png",
+   "Cave": "walls/cave.png",
+   "Circles": "walls/circles.png",
+   "City": "walls/city.png",
+   "Crag": "walls/crag.png",
+   "Desert": "walls/desert.png",
+   "Diagonal": "walls/diagonal.png",
+   "Dusclops": "walls/dusclops.png",
+   "Forest": "walls/forest.png",
+   "Frame": "walls/frame.png",
+   "Horizontal": "walls/horizontal.png",
+   "Legendary": "walls/legendary.png",
+   "Ludicolo": "walls/ludicolo.png",
+   "Machine": "walls/machine.png",
+   "Pikachu": "walls/pikachu.png",
+   "PokéCenter": "walls/pokecenter.png",
+   "Pokémon Center": "walls/pokemon-center.png",
+   "Polka-Dot": "walls/polka-dot.png",
+   "Ribbon": "walls/ribbon.png",
+   "River": "walls/river.png",
+   "Savanna": "walls/savanna.png",
+   "Screen": "walls/screen.png",
+   "Seafloor": "walls/seafloor.png",
+   "Simple": "walls/simple.png",
+   "Sky": "walls/sky.png",
+   "Snow": "walls/snow.png",
+   "Symbol": "walls/symbol.png",
+   "Volcano": "walls/volcano.png",
+   "Whiscash": "walls/whiscash.png",
+   "Zigzagoon": "walls/zigzagoon.png"
+  },
+  "defaultWalls": [
+   "Snow",
+   "Beach"
+  ],
+  "trainerWall": "Simple",
+  "trainers": {
+   "Brendan": "trainers/brendan.png",
+   "May": "trainers/may.png",
+   "Wally": "trainers/wally.png"
+  },
+  "defaultTrainers": [
+   "Brendan",
+   "May"
+  ]
+ },
+ "frlg": {
+  "name": "FireRed / LeafGreen",
+  "lastDex": 386,
+  "border": [
+   3,
+   3,
+   3,
+   3
+  ],
+  "textboxSize": [
+   180,
+   28
+  ],
+  "bgSize": [
+   8,
+   8
+  ],
+  "tileBorder": false,
+  "textShadow": true,
+  "cell": [
+   112,
+   104
+  ],
+  "labelH": 34,
+  "titleH": 26,
+  "artInset": 4,
+  "walls": {
+   "Beach": "walls/beach.png",
+   "Cave": "walls/cave.png",
+   "City": "walls/city.png",
+   "Crag": "walls/crag.png",
+   "Desert": "walls/desert.png",
+   "Forest": "walls/forest.png",
+   "PokéCenter": "walls/pokecenter.png",
+   "River": "walls/river.png",
+   "Savanna": "walls/savanna.png",
+   "Seafloor": "walls/seafloor.png",
+   "Simple": "walls/simple.png",
+   "Sky": "walls/sky.png",
+   "Snow": "walls/snow.png",
+   "Stars": "walls/stars.png",
+   "Tiles": "walls/tiles.png",
+   "Volcano": "walls/volcano.png"
+  },
+  "defaultWalls": [
+   "Snow",
+   "Beach"
+  ],
+  "trainerWall": "Simple",
+  "trainers": {
+   "Red": "trainers/red.png",
+   "Leaf": "trainers/leaf.png",
+   "Blue": "trainers/blue.png"
+  },
+  "defaultTrainers": [
+   "Red",
+   "Leaf"
+  ]
+ },
+ "dp": {
+  "name": "Diamond / Pearl",
+  "lastDex": 493,
+  "border": [
+   7,
+   2,
+   18,
+   2
+  ],
+  "textboxSize": [
+   194,
+   28
+  ],
+  "bgSize": [
+   8,
+   10
+  ],
+  "tileBorder": false,
+  "textShadow": true,
+  "cell": [
+   120,
+   112
+  ],
+  "labelH": 34,
+  "titleH": 26,
+  "artInset": 4,
+  "walls": {
+   "Backyard": "walls/backyard.png",
+   "Beach": "walls/beach.png",
+   "Cave": "walls/cave.png",
+   "Checks": "walls/checks.png",
+   "City": "walls/city.png",
+   "Crag": "walls/crag.png",
+   "Desert": "walls/desert.png",
+   "Forest": "walls/forest.png",
+   "Legend": "walls/legend.png",
+   "Machine": "walls/machine.png",
+   "Nostalgic": "walls/nostalgic.png",
+   "PikaPika": "walls/pikapika.png",
+   "PokéCenter": "walls/pokecenter.png",
+   "River": "walls/river.png",
+   "Savanna": "walls/savanna.png",
+   "Seafloor": "walls/seafloor.png",
+   "Simple": "walls/simple.png",
+   "Sky": "walls/sky.png",
+   "Snow": "walls/snow.png",
+   "Space": "walls/space.png",
+   "Team Galactic": "walls/team-galactic.png",
+   "Torchic": "walls/torchic.png",
+   "Trio": "walls/trio.png",
+   "Volcano": "walls/volcano.png"
+  },
+  "defaultWalls": [
+   "Snow",
+   "Beach"
+  ],
+  "trainerWall": "Simple",
+  "trainers": {
+   "Lucas": "trainers/lucas.png",
+   "Dawn": "trainers/dawn.png",
+   "Barry": "trainers/barry.png"
+  },
+  "defaultTrainers": [
+   "Lucas",
+   "Dawn"
+  ]
+ },
+ "pt": {
+  "name": "Platinum",
+  "lastDex": 493,
+  "border": [
+   7,
+   5,
+   17,
+   5
+  ],
+  "textboxSize": [
+   194,
+   28
+  ],
+  "bgSize": [
+   8,
+   10
+  ],
+  "tileBorder": false,
+  "textShadow": true,
+  "cell": [
+   120,
+   112
+  ],
+  "labelH": 34,
+  "titleH": 26,
+  "artInset": 4,
+  "walls": {
+   "Beach": "walls/beach.png",
+   "Cave": "walls/cave.png",
+   "Checks": "walls/checks.png",
+   "City": "walls/city.png",
+   "Contest": "walls/contest.png",
+   "Crag": "walls/crag.png",
+   "Croagunk": "walls/croagunk.png",
+   "Desert": "walls/desert.png",
+   "Distortion": "walls/distortion.png",
+   "Forest": "walls/forest.png",
+   "Legend": "walls/legend.png",
+   "Machine": "walls/machine.png",
+   "Nostalgic": "walls/nostalgic.png",
+   "PikaPika": "walls/pikapika.png",
+   "PokéCenter": "walls/pokecenter.png",
+   "River": "walls/river.png",
+   "Savanna": "walls/savanna.png",
+   "Seafloor": "walls/seafloor.png",
+   "Simple": "walls/simple.png",
+   "Sky": "walls/sky.png",
+   "Snow": "walls/snow.png",
+   "Team Galactic": "walls/team-galactic.png",
+   "Trio": "walls/trio.png",
+   "Volcano": "walls/volcano.png"
+  },
+  "defaultWalls": [
+   "Snow",
+   "Beach"
+  ],
+  "trainerWall": "Simple",
+  "trainers": {
+   "Lucas": "trainers/lucas.png",
+   "Dawn": "trainers/dawn.png",
+   "Barry": "trainers/barry.png"
+  },
+  "defaultTrainers": [
+   "Lucas",
+   "Dawn"
+  ]
+ },
+ "hgss": {
+  "name": "HeartGold / SoulSilver",
+  "lastDex": 493,
+  "border": [
+   8,
+   5,
+   20,
+   6
+  ],
+  "textboxSize": [
+   192,
+   30
+  ],
+  "bgSize": [
+   8,
+   8
+  ],
+  "tileBorder": false,
+  "textShadow": true,
+  "cell": [
+   120,
+   112
+  ],
+  "labelH": 35,
+  "titleH": 26,
+  "artInset": 4,
+  "walls": {
+   "Beach": "walls/beach.png",
+   "Big Brother": "walls/big-brother.png",
+   "Cave": "walls/cave.png",
+   "Checks": "walls/checks.png",
+   "City": "walls/city.png",
+   "Crag": "walls/crag.png",
+   "Desert": "walls/desert.png",
+   "Forest": "walls/forest.png",
+   "Heart": "walls/heart.png",
+   "Kimono Girl": "walls/kimono-girl.png",
+   "Machine": "walls/machine.png",
+   "Pokéathlon": "walls/pokeathlon.png",
+   "PokéCenter": "walls/pokecenter.png",
+   "Revival": "walls/revival.png",
+   "River": "walls/river.png",
+   "Savanna": "walls/savanna.png",
+   "Seafloor": "walls/seafloor.png",
+   "Simple": "walls/simple.png",
+   "Sky": "walls/sky.png",
+   "Snow": "walls/snow.png",
+   "Soul": "walls/soul.png",
+   "Spiky Pika": "walls/spiky-pika.png",
+   "Trio": "walls/trio.png",
+   "Volcano": "walls/volcano.png"
+  },
+  "defaultWalls": [
+   "Snow",
+   "Beach"
+  ],
+  "trainerWall": "Simple",
+  "trainers": {
+   "Ethan": "trainers/ethan.png",
+   "Lyra": "trainers/lyra.png",
+   "Silver": "trainers/silver.png"
+  },
+  "defaultTrainers": [
+   "Ethan",
+   "Lyra"
+  ]
+ },
+ "b2w2": {
+  "name": "Black 2 / White 2",
+  "lastDex": 649,
+  "border": [
+   2,
+   4,
+   4,
+   6
+  ],
+  "textboxSize": [
+   182,
+   30
+  ],
+  "bgSize": [
+   32,
+   32
+  ],
+  "tileBorder": false,
+  "textShadow": true,
+  "cell": [
+   112,
+   114
+  ],
+  "labelH": 34,
+  "titleH": 26,
+  "artInset": 4,
+  "walls": {
+   "Beach": "walls/beach.png",
+   "Black Kyurem": "walls/black-kyurem.png",
+   "Cave": "walls/cave.png",
+   "Checks": "walls/checks.png",
+   "City": "walls/city.png",
+   "Crag": "walls/crag.png",
+   "Desert": "walls/desert.png",
+   "Forest": "walls/forest.png",
+   "Machine": "walls/machine.png",
+   "Monochrome": "walls/monochrome.png",
+   "Movie": "walls/movie.png",
+   "Poké Center": "walls/poke-center.png",
+   "PWT": "walls/pwt.png",
+   "Reshiram": "walls/reshiram.png",
+   "River": "walls/river.png",
+   "Savanna": "walls/savanna.png",
+   "Seafloor": "walls/seafloor.png",
+   "Simple": "walls/simple.png",
+   "Sky": "walls/sky.png",
+   "Snow": "walls/snow.png",
+   "Team Plasma": "walls/team-plasma.png",
+   "Volcano": "walls/volcano.png",
+   "White Kyurem": "walls/white-kyurem.png",
+   "Zekrom": "walls/zekrom.png"
+  },
+  "defaultWalls": [
+   "Snow",
+   "Beach"
+  ],
+  "trainerWall": "Simple",
+  "trainers": {
+   "Nate": "trainers/nate.png",
+   "Rosa": "trainers/rosa.png",
+   "Hugh": "trainers/hugh.png",
+   "Hilbert": "trainers/hilbert.png",
+   "Hilda": "trainers/hilda.png"
+  },
+  "defaultTrainers": [
+   "Nate",
+   "Rosa"
+  ]
+ }
+}

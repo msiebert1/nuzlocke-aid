@@ -1,0 +1,581 @@
+{
+ "game": "y",
+ "locations": [
+  {
+   "name": "Starter",
+   "species": [
+    "Pikachu"
+   ]
+  },
+  {
+   "name": "Pallet Town",
+   "species": [
+    "Pikachu",
+    "Poliwag",
+    "Tentacool",
+    "Goldeen",
+    "Staryu",
+    "Magikarp"
+   ]
+  },
+  {
+   "name": "Route 1",
+   "species": [
+    "Pidgey",
+    "Rattata"
+   ]
+  },
+  {
+   "name": "Viridian City",
+   "species": [
+    "Poliwag",
+    "Goldeen",
+    "Magikarp"
+   ]
+  },
+  {
+   "name": "Route 22",
+   "species": [
+    "Rattata",
+    "Spearow",
+    "Nidoran♀",
+    "Nidoran♂",
+    "Mankey",
+    "Poliwag",
+    "Poliwhirl",
+    "Goldeen",
+    "Magikarp"
+   ]
+  },
+  {
+   "name": "Route 2",
+   "species": [
+    "Pidgey",
+    "Rattata",
+    "Nidoran♀",
+    "Nidoran♂",
+    "Mr. Mime"
+   ]
+  },
+  {
+   "name": "Viridian Forest",
+   "species": [
+    "Caterpie",
+    "Metapod",
+    "Pidgey",
+    "Pidgeotto"
+   ]
+  },
+  {
+   "name": "Route 3",
+   "species": [
+    "Rattata",
+    "Spearow",
+    "Sandshrew",
+    "Mankey",
+    "Magikarp"
+   ]
+  },
+  {
+   "name": "Route 4",
+   "species": [
+    "Rattata",
+    "Spearow",
+    "Sandshrew",
+    "Mankey",
+    "Magikarp"
+   ]
+  },
+  {
+   "name": "Mt. Moon",
+   "species": [
+    "Sandshrew",
+    "Clefairy",
+    "Zubat",
+    "Paras",
+    "Geodude"
+   ]
+  },
+  {
+   "name": "Cerulean City",
+   "species": [
+    "Bulbasaur",
+    "Poliwag",
+    "Goldeen",
+    "Seaking",
+    "Magikarp"
+   ]
+  },
+  {
+   "name": "Route 24",
+   "species": [
+    "Charmander",
+    "Pidgey",
+    "Pidgeotto",
+    "Oddish",
+    "Venonat",
+    "Poliwag",
+    "Bellsprout",
+    "Goldeen",
+    "Seaking",
+    "Magikarp"
+   ]
+  },
+  {
+   "name": "Route 25",
+   "species": [
+    "Pidgey",
+    "Pidgeotto",
+    "Oddish",
+    "Venonat",
+    "Poliwag",
+    "Bellsprout",
+    "Krabby",
+    "Kingler",
+    "Goldeen",
+    "Magikarp"
+   ]
+  },
+  {
+   "name": "Route 5",
+   "species": [
+    "Pidgey",
+    "Pidgeotto",
+    "Rattata",
+    "Jigglypuff",
+    "Abra"
+   ]
+  },
+  {
+   "name": "Underground Path",
+   "species": [
+    "Machoke"
+   ]
+  },
+  {
+   "name": "Route 6",
+   "species": [
+    "Pidgey",
+    "Pidgeotto",
+    "Rattata",
+    "Jigglypuff",
+    "Psyduck",
+    "Golduck",
+    "Poliwag",
+    "Abra",
+    "Goldeen",
+    "Magikarp"
+   ]
+  },
+  {
+   "name": "Vermilion City",
+   "species": [
+    "Squirtle",
+    "Poliwag",
+    "Tentacool",
+    "Shellder",
+    "Horsea",
+    "Goldeen",
+    "Staryu",
+    "Magikarp"
+   ]
+  },
+  {
+   "name": "Route 11",
+   "species": [
+    "Pidgey",
+    "Pidgeotto",
+    "Rattata",
+    "Raticate",
+    "Dugtrio",
+    "Poliwag",
+    "Tentacool",
+    "Drowzee",
+    "Horsea",
+    "Goldeen",
+    "Magikarp"
+   ]
+  },
+  {
+   "name": "Diglett's Cave",
+   "species": [
+    "Diglett",
+    "Dugtrio"
+   ]
+  },
+  {
+   "name": "Route 9",
+   "species": [
+    "Rattata",
+    "Raticate",
+    "Spearow",
+    "Fearow",
+    "Nidoran♀",
+    "Nidorina",
+    "Nidoran♂",
+    "Nidorino"
+   ]
+  },
+  {
+   "name": "Route 10",
+   "species": [
+    "Rattata",
+    "Raticate",
+    "Nidoran♀",
+    "Nidoran♂",
+    "Poliwag",
+    "Machop",
+    "Magnemite",
+    "Krabby",
+    "Kingler",
+    "Horsea",
+    "Goldeen",
+    "Magikarp"
+   ]
+  },
+  {
+   "name": "Rock Tunnel",
+   "species": [
+    "Zubat",
+    "Machop",
+    "Geodude",
+    "Onix"
+   ]
+  },
+  {
+   "name": "Pokémon Tower",
+   "species": [
+    "Gastly",
+    "Haunter",
+    "Cubone"
+   ]
+  },
+  {
+   "name": "Route 8",
+   "species": [
+    "Pidgey",
+    "Pidgeotto",
+    "Rattata",
+    "Jigglypuff",
+    "Abra",
+    "Kadabra"
+   ]
+  },
+  {
+   "name": "Route 7",
+   "species": [
+    "Pidgey",
+    "Pidgeotto",
+    "Rattata",
+    "Jigglypuff",
+    "Abra"
+   ]
+  },
+  {
+   "name": "Celadon City",
+   "species": [
+    "Vulpix",
+    "Wigglytuff",
+    "Poliwag",
+    "Abra",
+    "Goldeen",
+    "Scyther",
+    "Pinsir",
+    "Magikarp",
+    "Eevee",
+    "Porygon"
+   ]
+  },
+  {
+   "name": "Saffron City",
+   "species": [
+    "Hitmonlee",
+    "Hitmonchan",
+    "Lapras"
+   ]
+  },
+  {
+   "name": "Route 16",
+   "species": [
+    "Rattata",
+    "Raticate",
+    "Spearow",
+    "Fearow",
+    "Doduo",
+    "Snorlax"
+   ]
+  },
+  {
+   "name": "Route 17",
+   "species": [
+    "Fearow",
+    "Poliwag",
+    "Tentacool",
+    "Ponyta",
+    "Doduo",
+    "Dodrio",
+    "Shellder",
+    "Goldeen",
+    "Magikarp"
+   ]
+  },
+  {
+   "name": "Route 18",
+   "species": [
+    "Rattata",
+    "Raticate",
+    "Spearow",
+    "Fearow",
+    "Parasect",
+    "Poliwag",
+    "Tentacool",
+    "Doduo",
+    "Shellder",
+    "Goldeen",
+    "Magikarp"
+   ]
+  },
+  {
+   "name": "Fuchsia City",
+   "species": [
+    "Poliwag",
+    "Goldeen",
+    "Magikarp",
+    "Gyarados"
+   ]
+  },
+  {
+   "name": "Safari Zone",
+   "species": [
+    "Nidoran♀",
+    "Nidorina",
+    "Nidoran♂",
+    "Nidorino",
+    "Paras",
+    "Parasect",
+    "Poliwag",
+    "Exeggcute",
+    "Cubone",
+    "Marowak",
+    "Rhyhorn",
+    "Chansey",
+    "Tangela",
+    "Kangaskhan",
+    "Goldeen",
+    "Scyther",
+    "Pinsir",
+    "Tauros",
+    "Magikarp",
+    "Dratini",
+    "Dragonair"
+   ]
+  },
+  {
+   "name": "Route 12",
+   "species": [
+    "Pidgey",
+    "Pidgeotto",
+    "Oddish",
+    "Gloom",
+    "Poliwag",
+    "Bellsprout",
+    "Weepinbell",
+    "Slowpoke",
+    "Slowbro",
+    "Farfetch'd",
+    "Horsea",
+    "Seadra",
+    "Goldeen",
+    "Magikarp",
+    "Snorlax"
+   ]
+  },
+  {
+   "name": "Route 13",
+   "species": [
+    "Pidgey",
+    "Pidgeotto",
+    "Oddish",
+    "Gloom",
+    "Poliwag",
+    "Bellsprout",
+    "Weepinbell",
+    "Tentacool",
+    "Slowpoke",
+    "Slowbro",
+    "Farfetch'd",
+    "Horsea",
+    "Seadra",
+    "Goldeen",
+    "Magikarp"
+   ]
+  },
+  {
+   "name": "Route 14",
+   "species": [
+    "Pidgeotto",
+    "Oddish",
+    "Gloom",
+    "Venonat",
+    "Venomoth",
+    "Bellsprout",
+    "Weepinbell"
+   ]
+  },
+  {
+   "name": "Route 15",
+   "species": [
+    "Pidgeotto",
+    "Oddish",
+    "Gloom",
+    "Venonat",
+    "Venomoth",
+    "Bellsprout",
+    "Weepinbell"
+   ]
+  },
+  {
+   "name": "Route 19",
+   "species": [
+    "Poliwag",
+    "Tentacool",
+    "Tentacruel",
+    "Goldeen",
+    "Staryu",
+    "Magikarp"
+   ]
+  },
+  {
+   "name": "Route 20",
+   "species": [
+    "Poliwag",
+    "Tentacool",
+    "Tentacruel",
+    "Goldeen",
+    "Staryu",
+    "Magikarp"
+   ]
+  },
+  {
+   "name": "Seafoam Islands",
+   "species": [
+    "Zubat",
+    "Golbat",
+    "Poliwag",
+    "Tentacool",
+    "Slowpoke",
+    "Slowbro",
+    "Seel",
+    "Dewgong",
+    "Krabby",
+    "Kingler",
+    "Goldeen",
+    "Staryu",
+    "Magikarp",
+    "Articuno"
+   ]
+  },
+  {
+   "name": "Cinnabar Island",
+   "species": [
+    "Poliwag",
+    "Tentacool",
+    "Dewgong",
+    "Muk",
+    "Rhydon",
+    "Goldeen",
+    "Staryu",
+    "Magikarp",
+    "Omanyte",
+    "Kabuto",
+    "Aerodactyl"
+   ]
+  },
+  {
+   "name": "Pokémon Mansion",
+   "species": [
+    "Rattata",
+    "Raticate",
+    "Growlithe",
+    "Grimer",
+    "Muk",
+    "Ditto"
+   ]
+  },
+  {
+   "name": "Route 21",
+   "species": [
+    "Pidgey",
+    "Pidgeotto",
+    "Rattata",
+    "Raticate",
+    "Poliwag",
+    "Tentacool",
+    "Tentacruel",
+    "Goldeen",
+    "Staryu",
+    "Magikarp"
+   ]
+  },
+  {
+   "name": "Power Plant",
+   "species": [
+    "Magnemite",
+    "Magneton",
+    "Grimer",
+    "Muk",
+    "Voltorb",
+    "Electrode",
+    "Zapdos"
+   ]
+  },
+  {
+   "name": "Route 23",
+   "species": [
+    "Fearow",
+    "Nidorina",
+    "Nidorino",
+    "Mankey",
+    "Primeape",
+    "Poliwag",
+    "Poliwhirl",
+    "Goldeen",
+    "Magikarp"
+   ]
+  },
+  {
+   "name": "Victory Road",
+   "species": [
+    "Zubat",
+    "Golbat",
+    "Machoke",
+    "Geodude",
+    "Graveler",
+    "Onix",
+    "Moltres"
+   ]
+  },
+  {
+   "name": "Cerulean Cave",
+   "species": [
+    "Sandslash",
+    "Golbat",
+    "Gloom",
+    "Parasect",
+    "Venomoth",
+    "Poliwag",
+    "Weepinbell",
+    "Graveler",
+    "Lickitung",
+    "Rhyhorn",
+    "Rhydon",
+    "Chansey",
+    "Goldeen",
+    "Seaking",
+    "Magikarp",
+    "Ditto",
+    "Mewtwo"
+   ]
+  }
+ ]
+}

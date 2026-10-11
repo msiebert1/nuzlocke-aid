@@ -1,0 +1,840 @@
+{
+ "game": "e",
+ "locations": [
+  {
+   "name": "Starter",
+   "species": [
+    "Treecko",
+    "Torchic",
+    "Mudkip"
+   ]
+  },
+  {
+   "name": "Littleroot Town",
+   "species": [
+    "Chikorita",
+    "Cyndaquil",
+    "Totodile"
+   ]
+  },
+  {
+   "name": "Route 101",
+   "species": [
+    "Treecko",
+    "Torchic",
+    "Mudkip",
+    "Poochyena",
+    "Zigzagoon",
+    "Wurmple"
+   ]
+  },
+  {
+   "name": "Route 103",
+   "species": [
+    "Tentacool",
+    "Magikarp",
+    "Poochyena",
+    "Zigzagoon",
+    "Wingull",
+    "Pelipper",
+    "Sharpedo",
+    "Wailmer"
+   ]
+  },
+  {
+   "name": "Route 102",
+   "species": [
+    "Goldeen",
+    "Magikarp",
+    "Marill",
+    "Poochyena",
+    "Zigzagoon",
+    "Wurmple",
+    "Lotad",
+    "Seedot",
+    "Ralts",
+    "Corphish"
+   ]
+  },
+  {
+   "name": "Petalburg City",
+   "species": [
+    "Goldeen",
+    "Magikarp",
+    "Marill",
+    "Corphish"
+   ]
+  },
+  {
+   "name": "Route 104",
+   "species": [
+    "Magikarp",
+    "Marill",
+    "Poochyena",
+    "Wurmple",
+    "Taillow",
+    "Wingull",
+    "Pelipper"
+   ]
+  },
+  {
+   "name": "Petalburg Woods",
+   "species": [
+    "Poochyena",
+    "Wurmple",
+    "Silcoon",
+    "Cascoon",
+    "Taillow",
+    "Shroomish",
+    "Slakoth"
+   ]
+  },
+  {
+   "name": "Rustboro City",
+   "species": [
+    "Seedot",
+    "Lileep",
+    "Anorith"
+   ]
+  },
+  {
+   "name": "Route 116",
+   "species": [
+    "Abra",
+    "Poochyena",
+    "Taillow",
+    "Nincada",
+    "Whismur",
+    "Skitty"
+   ]
+  },
+  {
+   "name": "Rusturf Tunnel",
+   "species": [
+    "Whismur"
+   ]
+  },
+  {
+   "name": "Route 105",
+   "species": [
+    "Tentacool",
+    "Magikarp",
+    "Wingull",
+    "Pelipper",
+    "Wailmer"
+   ]
+  },
+  {
+   "name": "Route 106",
+   "species": [
+    "Tentacool",
+    "Magikarp",
+    "Wingull",
+    "Pelipper",
+    "Wailmer"
+   ]
+  },
+  {
+   "name": "Dewford Town",
+   "species": [
+    "Tentacool",
+    "Magikarp",
+    "Wingull",
+    "Pelipper",
+    "Wailmer"
+   ]
+  },
+  {
+   "name": "Granite Cave",
+   "species": [
+    "Zubat",
+    "Abra",
+    "Geodude",
+    "Makuhita",
+    "Nosepass",
+    "Sableye",
+    "Aron"
+   ]
+  },
+  {
+   "name": "Route 107",
+   "species": [
+    "Tentacool",
+    "Magikarp",
+    "Wingull",
+    "Pelipper",
+    "Wailmer"
+   ]
+  },
+  {
+   "name": "Route 108",
+   "species": [
+    "Tentacool",
+    "Magikarp",
+    "Wingull",
+    "Pelipper",
+    "Wailmer"
+   ]
+  },
+  {
+   "name": "Route 109",
+   "species": [
+    "Tentacool",
+    "Magikarp",
+    "Wingull",
+    "Pelipper",
+    "Wailmer"
+   ]
+  },
+  {
+   "name": "Slateport City",
+   "species": [
+    "Tentacool",
+    "Magikarp",
+    "Wingull",
+    "Pelipper",
+    "Wailmer"
+   ]
+  },
+  {
+   "name": "Route 110",
+   "species": [
+    "Oddish",
+    "Tentacool",
+    "Magikarp",
+    "Poochyena",
+    "Wingull",
+    "Pelipper",
+    "Electrike",
+    "Plusle",
+    "Minun",
+    "Gulpin",
+    "Wailmer"
+   ]
+  },
+  {
+   "name": "Route 117",
+   "species": [
+    "Oddish",
+    "Goldeen",
+    "Magikarp",
+    "Marill",
+    "Poochyena",
+    "Seedot",
+    "Volbeat",
+    "Illumise",
+    "Corphish"
+   ]
+  },
+  {
+   "name": "Route 118",
+   "species": [
+    "Tentacool",
+    "Magikarp",
+    "Zigzagoon",
+    "Linoone",
+    "Wingull",
+    "Pelipper",
+    "Electrike",
+    "Manectric",
+    "Carvanha",
+    "Sharpedo",
+    "Kecleon"
+   ]
+  },
+  {
+   "name": "Route 111",
+   "species": [
+    "Sandshrew",
+    "Geodude",
+    "Goldeen",
+    "Magikarp",
+    "Marill",
+    "Trapinch",
+    "Cacnea",
+    "Barboach",
+    "Baltoy"
+   ]
+  },
+  {
+   "name": "Route 112",
+   "species": [
+    "Marill",
+    "Numel"
+   ]
+  },
+  {
+   "name": "Fiery Path",
+   "species": [
+    "Machop",
+    "Grimer",
+    "Koffing",
+    "Slugma",
+    "Numel",
+    "Torkoal"
+   ]
+  },
+  {
+   "name": "Route 113",
+   "species": [
+    "Slugma",
+    "Skarmory",
+    "Spinda"
+   ]
+  },
+  {
+   "name": "Route 114",
+   "species": [
+    "Geodude",
+    "Goldeen",
+    "Magikarp",
+    "Marill",
+    "Lotad",
+    "Lombre",
+    "Nuzleaf",
+    "Swablu",
+    "Seviper",
+    "Barboach"
+   ]
+  },
+  {
+   "name": "Meteor Falls",
+   "species": [
+    "Zubat",
+    "Golbat",
+    "Goldeen",
+    "Magikarp",
+    "Solrock",
+    "Barboach",
+    "Whiscash",
+    "Bagon"
+   ]
+  },
+  {
+   "name": "Route 115",
+   "species": [
+    "Jigglypuff",
+    "Tentacool",
+    "Magikarp",
+    "Taillow",
+    "Swellow",
+    "Wingull",
+    "Pelipper",
+    "Wailmer",
+    "Swablu"
+   ]
+  },
+  {
+   "name": "Jagged Pass",
+   "species": [
+    "Machop",
+    "Numel",
+    "Spoink"
+   ]
+  },
+  {
+   "name": "Lavaridge Town",
+   "species": [
+    "Wynaut"
+   ]
+  },
+  {
+   "name": "Desert Ruins",
+   "species": [
+    "Regirock"
+   ]
+  },
+  {
+   "name": "Mirage Tower",
+   "species": [
+    "Sandshrew",
+    "Trapinch"
+   ]
+  },
+  {
+   "name": "Island Cave",
+   "species": [
+    "Regice"
+   ]
+  },
+  {
+   "name": "Abandoned Ship",
+   "species": [
+    "Tentacool",
+    "Tentacruel",
+    "Magikarp"
+   ]
+  },
+  {
+   "name": "New Mauville",
+   "species": [
+    "Magnemite",
+    "Magneton",
+    "Voltorb",
+    "Electrode"
+   ]
+  },
+  {
+   "name": "Route 123",
+   "species": [
+    "Oddish",
+    "Gloom",
+    "Tentacool",
+    "Magikarp",
+    "Poochyena",
+    "Mightyena",
+    "Wingull",
+    "Pelipper",
+    "Wailmer",
+    "Kecleon",
+    "Shuppet"
+   ]
+  },
+  {
+   "name": "Route 119",
+   "species": [
+    "Oddish",
+    "Tentacool",
+    "Magikarp",
+    "Zigzagoon",
+    "Linoone",
+    "Wingull",
+    "Pelipper",
+    "Carvanha",
+    "Feebas",
+    "Castform",
+    "Kecleon",
+    "Tropius"
+   ]
+  },
+  {
+   "name": "Fortree City",
+   "species": [
+    "Plusle"
+   ]
+  },
+  {
+   "name": "Route 120",
+   "species": [
+    "Oddish",
+    "Goldeen",
+    "Magikarp",
+    "Marill",
+    "Poochyena",
+    "Mightyena",
+    "Seedot",
+    "Barboach",
+    "Kecleon",
+    "Absol"
+   ]
+  },
+  {
+   "name": "Ancient Tomb",
+   "species": [
+    "Registeel"
+   ]
+  },
+  {
+   "name": "Route 121",
+   "species": [
+    "Oddish",
+    "Gloom",
+    "Tentacool",
+    "Magikarp",
+    "Poochyena",
+    "Mightyena",
+    "Wingull",
+    "Pelipper",
+    "Wailmer",
+    "Kecleon",
+    "Shuppet"
+   ]
+  },
+  {
+   "name": "Lilycove City",
+   "species": [
+    "Tentacool",
+    "Staryu",
+    "Magikarp",
+    "Wingull",
+    "Pelipper",
+    "Wailmer"
+   ]
+  },
+  {
+   "name": "Route 122",
+   "species": [
+    "Tentacool",
+    "Magikarp",
+    "Wingull",
+    "Pelipper",
+    "Sharpedo",
+    "Wailmer"
+   ]
+  },
+  {
+   "name": "Mt. Pyre",
+   "species": [
+    "Vulpix",
+    "Wingull",
+    "Shuppet",
+    "Duskull",
+    "Chimecho"
+   ]
+  },
+  {
+   "name": "Magma Hideout",
+   "species": [
+    "Geodude",
+    "Graveler",
+    "Torkoal"
+   ]
+  },
+  {
+   "name": "Route 124",
+   "species": [
+    "Tentacool",
+    "Magikarp",
+    "Chinchou",
+    "Wingull",
+    "Pelipper",
+    "Sharpedo",
+    "Wailmer",
+    "Clamperl",
+    "Relicanth"
+   ]
+  },
+  {
+   "name": "Mossdeep City",
+   "species": [
+    "Tentacool",
+    "Magikarp",
+    "Wingull",
+    "Pelipper",
+    "Sharpedo",
+    "Wailmer",
+    "Beldum"
+   ]
+  },
+  {
+   "name": "Route 125",
+   "species": [
+    "Tentacool",
+    "Magikarp",
+    "Wingull",
+    "Pelipper",
+    "Sharpedo",
+    "Wailmer"
+   ]
+  },
+  {
+   "name": "Shoal Cave",
+   "species": [
+    "Zubat",
+    "Golbat",
+    "Tentacool",
+    "Magikarp",
+    "Wailmer",
+    "Snorunt",
+    "Spheal"
+   ]
+  },
+  {
+   "name": "Route 127",
+   "species": [
+    "Tentacool",
+    "Magikarp",
+    "Wingull",
+    "Pelipper",
+    "Sharpedo",
+    "Wailmer"
+   ]
+  },
+  {
+   "name": "Route 128",
+   "species": [
+    "Tentacool",
+    "Magikarp",
+    "Corsola",
+    "Wingull",
+    "Pelipper",
+    "Wailmer",
+    "Luvdisc"
+   ]
+  },
+  {
+   "name": "Seafloor Cavern",
+   "species": [
+    "Zubat",
+    "Golbat",
+    "Tentacool",
+    "Magikarp",
+    "Wailmer"
+   ]
+  },
+  {
+   "name": "Route 126",
+   "species": [
+    "Tentacool",
+    "Magikarp",
+    "Chinchou",
+    "Wingull",
+    "Pelipper",
+    "Sharpedo",
+    "Wailmer",
+    "Clamperl",
+    "Relicanth"
+   ]
+  },
+  {
+   "name": "Sootopolis City",
+   "species": [
+    "Tentacool",
+    "Magikarp",
+    "Gyarados"
+   ]
+  },
+  {
+   "name": "Cave of Origin",
+   "species": [
+    "Zubat",
+    "Golbat",
+    "Sableye"
+   ]
+  },
+  {
+   "name": "Route 129",
+   "species": [
+    "Tentacool",
+    "Magikarp",
+    "Wingull",
+    "Pelipper",
+    "Sharpedo",
+    "Wailmer",
+    "Wailord"
+   ]
+  },
+  {
+   "name": "Route 130",
+   "species": [
+    "Tentacool",
+    "Magikarp",
+    "Wingull",
+    "Pelipper",
+    "Sharpedo",
+    "Wailmer",
+    "Wynaut"
+   ]
+  },
+  {
+   "name": "Route 131",
+   "species": [
+    "Tentacool",
+    "Magikarp",
+    "Wingull",
+    "Pelipper",
+    "Sharpedo",
+    "Wailmer"
+   ]
+  },
+  {
+   "name": "Pacifidlog Town",
+   "species": [
+    "Tentacool",
+    "Horsea",
+    "Magikarp",
+    "Wingull",
+    "Pelipper",
+    "Sharpedo",
+    "Wailmer"
+   ]
+  },
+  {
+   "name": "Route 132",
+   "species": [
+    "Tentacool",
+    "Horsea",
+    "Magikarp",
+    "Wingull",
+    "Pelipper",
+    "Sharpedo",
+    "Wailmer"
+   ]
+  },
+  {
+   "name": "Route 133",
+   "species": [
+    "Tentacool",
+    "Horsea",
+    "Magikarp",
+    "Wingull",
+    "Pelipper",
+    "Sharpedo",
+    "Wailmer"
+   ]
+  },
+  {
+   "name": "Route 134",
+   "species": [
+    "Tentacool",
+    "Horsea",
+    "Magikarp",
+    "Wingull",
+    "Pelipper",
+    "Sharpedo",
+    "Wailmer"
+   ]
+  },
+  {
+   "name": "Sky Pillar",
+   "species": [
+    "Golbat",
+    "Sableye",
+    "Altaria",
+    "Claydol",
+    "Banette",
+    "Rayquaza"
+   ]
+  },
+  {
+   "name": "Ever Grande City",
+   "species": [
+    "Tentacool",
+    "Magikarp",
+    "Corsola",
+    "Wingull",
+    "Pelipper",
+    "Wailmer",
+    "Luvdisc"
+   ]
+  },
+  {
+   "name": "Victory Road",
+   "species": [
+    "Zubat",
+    "Golbat",
+    "Geodude",
+    "Graveler",
+    "Goldeen",
+    "Magikarp",
+    "Whismur",
+    "Loudred",
+    "Makuhita",
+    "Hariyama",
+    "Sableye",
+    "Mawile",
+    "Aron",
+    "Lairon",
+    "Barboach",
+    "Whiscash"
+   ]
+  },
+  {
+   "name": "Altering Cave",
+   "species": [
+    "Zubat"
+   ]
+  },
+  {
+   "name": "Desert Underpass",
+   "species": [
+    "Ditto",
+    "Whismur",
+    "Loudred"
+   ]
+  },
+  {
+   "name": "Safari Zone",
+   "species": [
+    "Pikachu",
+    "Oddish",
+    "Gloom",
+    "Psyduck",
+    "Golduck",
+    "Geodude",
+    "Doduo",
+    "Dodrio",
+    "Rhyhorn",
+    "Goldeen",
+    "Seaking",
+    "Pinsir",
+    "Magikarp",
+    "Hoothoot",
+    "Ledyba",
+    "Spinarak",
+    "Natu",
+    "Xatu",
+    "Mareep",
+    "Marill",
+    "Aipom",
+    "Sunkern",
+    "Wooper",
+    "Quagsire",
+    "Wobbuffet",
+    "Girafarig",
+    "Pineco",
+    "Gligar",
+    "Snubbull",
+    "Shuckle",
+    "Heracross",
+    "Teddiursa",
+    "Remoraid",
+    "Octillery",
+    "Houndour",
+    "Phanpy",
+    "Stantler",
+    "Miltank"
+   ]
+  },
+  {
+   "name": "Terra Cave",
+   "species": [
+    "Groudon"
+   ]
+  },
+  {
+   "name": "Marine Cave",
+   "species": [
+    "Kyogre"
+   ]
+  },
+  {
+   "name": "Battle Frontier",
+   "species": [
+    "Meowth",
+    "Sudowoodo"
+   ]
+  },
+  {
+   "name": "Artisan Cave",
+   "species": [
+    "Smeargle"
+   ]
+  },
+  {
+   "name": "Faraway Island",
+   "species": [
+    "Mew"
+   ]
+  },
+  {
+   "name": "Southern Island",
+   "species": [
+    "Latias",
+    "Latios"
+   ]
+  },
+  {
+   "name": "Team Aqua Hideout",
+   "species": [
+    "Electrode"
+   ]
+  },
+  {
+   "name": "Team Magma Hideout",
+   "species": [
+    "Electrode"
+   ]
+  }
+ ]
+}

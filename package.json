@@ -1,0 +1,9 @@
+{
+  "name": "nuzlocke-aid",
+  "private": true,
+  "type": "module",
+  "description": "Nuzlocke Aid: the site in docs/ needs no build step; Node is only used for tests.",
+  "scripts": {
+    "test": "node --test tests/"
+  }
+}

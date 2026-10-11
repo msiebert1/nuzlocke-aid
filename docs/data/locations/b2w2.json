@@ -1,0 +1,1153 @@
+{
+ "game": "b2w2",
+ "locations": [
+  {
+   "name": "Starter",
+   "species": [
+    "Snivy",
+    "Tepig",
+    "Oshawott"
+   ]
+  },
+  {
+   "name": "Aspertia City",
+   "species": [
+    "Goldeen",
+    "Seaking",
+    "Snivy",
+    "Tepig",
+    "Oshawott",
+    "Basculin"
+   ]
+  },
+  {
+   "name": "Route 19",
+   "species": [
+    "Poliwag",
+    "Poliwhirl",
+    "Politoed",
+    "Patrat",
+    "Purrloin",
+    "Basculin"
+   ]
+  },
+  {
+   "name": "Floccesy Town",
+   "species": [
+    "Dratini",
+    "Gible"
+   ]
+  },
+  {
+   "name": "Route 20",
+   "species": [
+    "Poliwag",
+    "Poliwhirl",
+    "Marill",
+    "Azumarill",
+    "Politoed",
+    "Sunkern",
+    "Dunsparce",
+    "Azurill",
+    "Patrat",
+    "Purrloin",
+    "Pidove",
+    "Audino",
+    "Sewaddle",
+    "Venipede",
+    "Basculin"
+   ]
+  },
+  {
+   "name": "Floccesy Ranch",
+   "species": [
+    "Psyduck",
+    "Poliwag",
+    "Poliwhirl",
+    "Mareep",
+    "Marill",
+    "Azumarill",
+    "Politoed",
+    "Dunsparce",
+    "Azurill",
+    "Riolu",
+    "Patrat",
+    "Lillipup",
+    "Herdier",
+    "Pidove",
+    "Audino",
+    "Basculin"
+   ]
+  },
+  {
+   "name": "Virbank City",
+   "species": [
+    "Krabby",
+    "Kingler",
+    "Qwilfish",
+    "Finneon",
+    "Lumineon",
+    "Frillish",
+    "Jellicent",
+    "Alomomola"
+   ]
+  },
+  {
+   "name": "Virbank Complex",
+   "species": [
+    "Growlithe",
+    "Magnemite",
+    "Krabby",
+    "Kingler",
+    "Koffing",
+    "Qwilfish",
+    "Elekid",
+    "Magby",
+    "Finneon",
+    "Lumineon",
+    "Patrat",
+    "Pidove",
+    "Audino",
+    "Frillish",
+    "Jellicent",
+    "Alomomola"
+   ]
+  },
+  {
+   "name": "Castelia City",
+   "species": [
+    "Rattata",
+    "Eevee",
+    "Skitty",
+    "Delcatty",
+    "Buneary",
+    "Lopunny",
+    "Pidove",
+    "Audino",
+    "Cottonee",
+    "Whimsicott",
+    "Petilil",
+    "Lilligant"
+   ]
+  },
+  {
+   "name": "Castelia Sewers",
+   "species": [
+    "Rattata",
+    "Zubat",
+    "Grimer",
+    "Muk"
+   ]
+  },
+  {
+   "name": "Route 4",
+   "species": [
+    "Qwilfish",
+    "Clamperl",
+    "Huntail",
+    "Gorebyss",
+    "Relicanth",
+    "Finneon",
+    "Lumineon",
+    "Cottonee",
+    "Petilil",
+    "Sandile",
+    "Darumaka",
+    "Scraggy",
+    "Trubbish",
+    "Minccino",
+    "Frillish",
+    "Jellicent",
+    "Alomomola",
+    "Braviary",
+    "Mandibuzz"
+   ]
+  },
+  {
+   "name": "Desert Resort",
+   "species": [
+    "Sandshrew",
+    "Trapinch",
+    "Sandile",
+    "Darumaka",
+    "Maractus",
+    "Dwebble",
+    "Scraggy",
+    "Sigilyph"
+   ]
+  },
+  {
+   "name": "Relic Castle",
+   "species": [
+    "Sandshrew",
+    "Sandslash",
+    "Baltoy",
+    "Sandile",
+    "Krokorok",
+    "Yamask",
+    "Volcarona"
+   ]
+  },
+  {
+   "name": "Route 16",
+   "species": [
+    "Liepard",
+    "Audino",
+    "Trubbish",
+    "Minccino",
+    "Cinccino",
+    "Gothita",
+    "Solosis",
+    "Emolga"
+   ]
+  },
+  {
+   "name": "Lostlorn Forest",
+   "species": [
+    "Poliwag",
+    "Poliwhirl",
+    "Pinsir",
+    "Politoed",
+    "Heracross",
+    "Roselia",
+    "Roserade",
+    "Combee",
+    "Vespiquen",
+    "Buizel",
+    "Floatzel",
+    "Pansage",
+    "Pansear",
+    "Panpour",
+    "Audino",
+    "Swadloon",
+    "Leavanny",
+    "Venipede",
+    "Whirlipede",
+    "Cottonee",
+    "Whimsicott",
+    "Petilil",
+    "Lilligant",
+    "Basculin",
+    "Emolga"
+   ]
+  },
+  {
+   "name": "Route 5",
+   "species": [
+    "Liepard",
+    "Audino",
+    "Trubbish",
+    "Minccino",
+    "Cinccino",
+    "Gothita",
+    "Solosis",
+    "Emolga",
+    "Foongus"
+   ]
+  },
+  {
+   "name": "Driftveil Drawbridge",
+   "species": [
+    "Ducklett"
+   ]
+  },
+  {
+   "name": "Driftveil City",
+   "species": [
+    "Zorua"
+   ]
+  },
+  {
+   "name": "Relic Passage",
+   "species": [
+    "Rattata",
+    "Raticate",
+    "Poliwag",
+    "Poliwhirl",
+    "Poliwrath",
+    "Onix",
+    "Marill",
+    "Azumarill",
+    "Roggenrola",
+    "Boldore",
+    "Woobat",
+    "Drilbur",
+    "Timburr",
+    "Gurdurr",
+    "Basculin"
+   ]
+  },
+  {
+   "name": "Route 6",
+   "species": [
+    "Poliwag",
+    "Poliwhirl",
+    "Marill",
+    "Azumarill",
+    "Politoed",
+    "Dunsparce",
+    "Nosepass",
+    "Castform",
+    "Tranquill",
+    "Unfezant",
+    "Woobat",
+    "Audino",
+    "Swadloon",
+    "Leavanny",
+    "Basculin",
+    "Deerling",
+    "Emolga",
+    "Karrablast",
+    "Foongus",
+    "Shelmet"
+   ]
+  },
+  {
+   "name": "Mistralton Cave",
+   "species": [
+    "Aron",
+    "Boldore",
+    "Woobat",
+    "Drilbur",
+    "Axew"
+   ]
+  },
+  {
+   "name": "Guidance Chamber",
+   "species": [
+    "Aron",
+    "Boldore",
+    "Woobat",
+    "Drilbur",
+    "Axew"
+   ]
+  },
+  {
+   "name": "Chargestone Cave",
+   "species": [
+    "Nosepass",
+    "Boldore",
+    "Drilbur",
+    "Joltik",
+    "Ferroseed",
+    "Klink",
+    "Tynamo"
+   ]
+  },
+  {
+   "name": "Route 7",
+   "species": [
+    "Zangoose",
+    "Seviper",
+    "Watchog",
+    "Tranquill",
+    "Unfezant",
+    "Zebstrika",
+    "Gigalith",
+    "Audino",
+    "Deerling",
+    "Emolga",
+    "Foongus",
+    "Cubchoo"
+   ]
+  },
+  {
+   "name": "Celestial Tower",
+   "species": [
+    "Golbat",
+    "Mesprit",
+    "Elgyem",
+    "Litwick"
+   ]
+  },
+  {
+   "name": "Twist Mountain",
+   "species": [
+    "Onix",
+    "Steelix",
+    "Regigigas",
+    "Boldore",
+    "Woobat",
+    "Excadrill",
+    "Gurdurr",
+    "Beartic",
+    "Cryogonal",
+    "Heatmor",
+    "Durant"
+   ]
+  },
+  {
+   "name": "Strange House",
+   "species": [
+    "Raticate",
+    "Golbat",
+    "Banette",
+    "Gothita",
+    "Gothorita",
+    "Solosis",
+    "Duosion",
+    "Litwick"
+   ]
+  },
+  {
+   "name": "Undella Town",
+   "species": [
+    "Shellder",
+    "Cloyster",
+    "Staryu",
+    "Starmie",
+    "Luvdisc",
+    "Basculin",
+    "Frillish",
+    "Jellicent"
+   ]
+  },
+  {
+   "name": "Undella Bay",
+   "species": [
+    "Chinchou",
+    "Lanturn",
+    "Remoraid",
+    "Octillery",
+    "Mantine",
+    "Wailmer",
+    "Wailord",
+    "Spheal",
+    "Sealeo",
+    "Walrein",
+    "Mantyke",
+    "Frillish",
+    "Jellicent"
+   ]
+  },
+  {
+   "name": "Route 13",
+   "species": [
+    "Shellder",
+    "Cloyster",
+    "Tangela",
+    "Staryu",
+    "Starmie",
+    "Pelipper",
+    "Lunatone",
+    "Solrock",
+    "Absol",
+    "Spheal",
+    "Luvdisc",
+    "Drifloon",
+    "Drifblim",
+    "Skorupi",
+    "Tangrowth",
+    "Audino",
+    "Basculin",
+    "Emolga",
+    "Foongus",
+    "Frillish",
+    "Jellicent",
+    "Cobalion"
+   ]
+  },
+  {
+   "name": "Route 12",
+   "species": [
+    "Pinsir",
+    "Dunsparce",
+    "Heracross",
+    "Roselia",
+    "Roserade",
+    "Combee",
+    "Vespiquen",
+    "Tranquill",
+    "Unfezant",
+    "Audino",
+    "Sewaddle",
+    "Leavanny",
+    "Emolga"
+   ]
+  },
+  {
+   "name": "Village Bridge",
+   "species": [
+    "Golduck",
+    "Lapras",
+    "Marill",
+    "Azumarill",
+    "Dunsparce",
+    "Carvanha",
+    "Sharpedo",
+    "Zangoose",
+    "Seviper",
+    "Audino",
+    "Basculin",
+    "Emolga"
+   ]
+  },
+  {
+   "name": "Route 11",
+   "species": [
+    "Golduck",
+    "Goldeen",
+    "Seaking",
+    "Marill",
+    "Azumarill",
+    "Gligar",
+    "Zangoose",
+    "Seviper",
+    "Buizel",
+    "Floatzel",
+    "Gliscor",
+    "Audino",
+    "Basculin",
+    "Emolga",
+    "Karrablast",
+    "Amoonguss",
+    "Shelmet",
+    "Virizion"
+   ]
+  },
+  {
+   "name": "Route 9",
+   "species": [
+    "Muk",
+    "Liepard",
+    "Audino",
+    "Garbodor",
+    "Minccino",
+    "Cinccino",
+    "Gothorita",
+    "Gothitelle",
+    "Duosion",
+    "Reuniclus",
+    "Emolga",
+    "Pawniard",
+    "Bouffalant"
+   ]
+  },
+  {
+   "name": "Humilau City",
+   "species": [
+    "Shellder",
+    "Cloyster",
+    "Staryu",
+    "Starmie",
+    "Corsola",
+    "Luvdisc",
+    "Tangrowth",
+    "Basculin",
+    "Frillish",
+    "Jellicent"
+   ]
+  },
+  {
+   "name": "Route 22",
+   "species": [
+    "Golduck",
+    "Goldeen",
+    "Seaking",
+    "Marill",
+    "Azumarill",
+    "Delibird",
+    "Pelipper",
+    "Lunatone",
+    "Solrock",
+    "Audino",
+    "Basculin",
+    "Emolga",
+    "Amoonguss",
+    "Mienfoo",
+    "Terrakion"
+   ]
+  },
+  {
+   "name": "Route 21",
+   "species": [
+    "Remoraid",
+    "Octillery",
+    "Mantine",
+    "Luvdisc",
+    "Mantyke",
+    "Frillish",
+    "Jellicent",
+    "Alomomola"
+   ]
+  },
+  {
+   "name": "Seaside Cave",
+   "species": [
+    "Golduck",
+    "Seel",
+    "Dewgong",
+    "Shellder",
+    "Cloyster",
+    "Shuckle",
+    "Luvdisc",
+    "Boldore",
+    "Woobat",
+    "Excadrill",
+    "Crustle",
+    "Frillish",
+    "Jellicent",
+    "Tynamo",
+    "Eelektrik"
+   ]
+  },
+  {
+   "name": "Giant Chasm",
+   "species": [
+    "Clefairy",
+    "Clefable",
+    "Poliwag",
+    "Poliwhirl",
+    "Poliwrath",
+    "Seel",
+    "Dewgong",
+    "Tangela",
+    "Ditto",
+    "Sneasel",
+    "Piloswine",
+    "Delibird",
+    "Pelipper",
+    "Lunatone",
+    "Solrock",
+    "Metang",
+    "Metagross",
+    "Tangrowth",
+    "Mamoswine",
+    "Excadrill",
+    "Audino",
+    "Basculin",
+    "Vanillish",
+    "Vanilluxe",
+    "Kyurem"
+   ]
+  },
+  {
+   "name": "Route 23",
+   "species": [
+    "Golduck",
+    "Poliwag",
+    "Poliwhirl",
+    "Poliwrath",
+    "Gligar",
+    "Zangoose",
+    "Seviper",
+    "Absol",
+    "Buizel",
+    "Floatzel",
+    "Gliscor",
+    "Azelf",
+    "Audino",
+    "Throh",
+    "Sawk",
+    "Basculin",
+    "Emolga",
+    "Amoonguss",
+    "Mienfoo",
+    "Mienshao",
+    "Bouffalant",
+    "Rufflet",
+    "Vullaby"
+   ]
+  },
+  {
+   "name": "Victory Road",
+   "species": [
+    "Poliwag",
+    "Poliwhirl",
+    "Poliwrath",
+    "Onix",
+    "Marill",
+    "Azumarill",
+    "Politoed",
+    "Dunsparce",
+    "Roselia",
+    "Altaria",
+    "Banette",
+    "Roserade",
+    "Buizel",
+    "Floatzel",
+    "Tranquill",
+    "Unfezant",
+    "Boldore",
+    "Excadrill",
+    "Audino",
+    "Gurdurr",
+    "Throh",
+    "Sawk",
+    "Cottonee",
+    "Whimsicott",
+    "Petilil",
+    "Lilligant",
+    "Basculin",
+    "Druddigon",
+    "Golurk",
+    "Zweilous"
+   ]
+  },
+  {
+   "name": "Clay Tunnel",
+   "species": [
+    "Poliwag",
+    "Poliwhirl",
+    "Poliwrath",
+    "Onix",
+    "Steelix",
+    "Nosepass",
+    "Lairon",
+    "Boldore",
+    "Woobat",
+    "Excadrill",
+    "Basculin",
+    "Durant"
+   ]
+  },
+  {
+   "name": "Underground Ruins",
+   "species": [
+    "Onix",
+    "Steelix",
+    "Nosepass",
+    "Lairon",
+    "Regirock",
+    "Regice",
+    "Registeel",
+    "Boldore",
+    "Woobat",
+    "Excadrill",
+    "Durant"
+   ]
+  },
+  {
+   "name": "Route 14",
+   "species": [
+    "Golduck",
+    "Goldeen",
+    "Seaking",
+    "Swablu",
+    "Altaria",
+    "Absol",
+    "Buizel",
+    "Floatzel",
+    "Drifblim",
+    "Audino",
+    "Basculin",
+    "Emolga",
+    "Mienfoo"
+   ]
+  },
+  {
+   "name": "Abundant Shrine",
+   "species": [
+    "Vulpix",
+    "Ninetales",
+    "Golduck",
+    "Goldeen",
+    "Seaking",
+    "Marill",
+    "Azumarill",
+    "Swablu",
+    "Altaria",
+    "Bronzor",
+    "Bronzong",
+    "Audino",
+    "Cottonee",
+    "Whimsicott",
+    "Petilil",
+    "Lilligant",
+    "Basculin",
+    "Emolga",
+    "Amoonguss"
+   ]
+  },
+  {
+   "name": "Route 15",
+   "species": [
+    "Sandslash",
+    "Gligar",
+    "Pupitar",
+    "Tyranitar",
+    "Gliscor",
+    "Rotom",
+    "Audino",
+    "Throh",
+    "Sawk",
+    "Scrafty",
+    "Emolga"
+   ]
+  },
+  {
+   "name": "Marvelous Bridge",
+   "species": [
+    "Magikarp",
+    "Cresselia",
+    "Swanna"
+   ]
+  },
+  {
+   "name": "Route 8",
+   "species": [
+    "Barboach",
+    "Whiscash",
+    "Croagunk",
+    "Palpitoad",
+    "Seismitoad",
+    "Karrablast",
+    "Shelmet",
+    "Stunfisk"
+   ]
+  },
+  {
+   "name": "Moor of Icirrus",
+   "species": [
+    "Barboach",
+    "Whiscash",
+    "Croagunk",
+    "Palpitoad",
+    "Seismitoad",
+    "Karrablast",
+    "Shelmet",
+    "Stunfisk"
+   ]
+  },
+  {
+   "name": "Icirrus City",
+   "species": [
+    "Barboach",
+    "Whiscash",
+    "Croagunk",
+    "Palpitoad",
+    "Seismitoad",
+    "Karrablast",
+    "Shelmet",
+    "Stunfisk"
+   ]
+  },
+  {
+   "name": "Dragonspiral Tower",
+   "species": [
+    "Dratini",
+    "Dragonair",
+    "Dragonite",
+    "Tranquill",
+    "Unfezant",
+    "Audino",
+    "Basculin",
+    "Vanillish",
+    "Vanilluxe",
+    "Sawsbuck",
+    "Emolga",
+    "Beartic",
+    "Mienfoo",
+    "Mienshao",
+    "Druddigon",
+    "Golurk",
+    "Reshiram",
+    "Zekrom"
+   ]
+  },
+  {
+   "name": "Pinwheel Forest",
+   "species": [
+    "Butterfree",
+    "Beedrill",
+    "Poliwhirl",
+    "Goldeen",
+    "Seaking",
+    "Marill",
+    "Azumarill",
+    "Yanma",
+    "Murkrow",
+    "Breloom",
+    "Vigoroth",
+    "Slaking",
+    "Hariyama",
+    "Medicham",
+    "Bagon",
+    "Toxicroak",
+    "Yanmega",
+    "Pansage",
+    "Pansear",
+    "Panpour",
+    "Audino",
+    "Gurdurr",
+    "Palpitoad",
+    "Seismitoad",
+    "Throh",
+    "Sawk",
+    "Swadloon",
+    "Whirlipede",
+    "Scolipede",
+    "Cottonee",
+    "Whimsicott",
+    "Petilil",
+    "Lilligant",
+    "Basculin",
+    "Amoonguss"
+   ]
+  },
+  {
+   "name": "Nacrene City",
+   "species": [
+    "Omanyte",
+    "Kabuto",
+    "Aerodactyl",
+    "Lileep",
+    "Anorith",
+    "Cranidos",
+    "Shieldon",
+    "Happiny",
+    "Uxie",
+    "Tirtouga",
+    "Archen"
+   ]
+  },
+  {
+   "name": "Route 3",
+   "species": [
+    "Venonat",
+    "Goldeen",
+    "Seaking",
+    "Yanma",
+    "Lombre",
+    "Manectric",
+    "Corphish",
+    "Crawdaunt",
+    "Bibarel",
+    "Pachirisu",
+    "Yanmega",
+    "Watchog",
+    "Herdier",
+    "Stoutland",
+    "Purrloin",
+    "Tranquill",
+    "Unfezant",
+    "Zebstrika",
+    "Audino",
+    "Basculin"
+   ]
+  },
+  {
+   "name": "Wellspring Cave",
+   "species": [
+    "Poliwag",
+    "Poliwhirl",
+    "Poliwrath",
+    "Boldore",
+    "Woobat",
+    "Excadrill",
+    "Basculin"
+   ]
+  },
+  {
+   "name": "Striaton City",
+   "species": [
+    "Goldeen",
+    "Seaking",
+    "Corphish",
+    "Crawdaunt",
+    "Basculin"
+   ]
+  },
+  {
+   "name": "Dreamyard",
+   "species": [
+    "Raticate",
+    "Jigglypuff",
+    "Wigglytuff",
+    "Golbat",
+    "Crobat",
+    "Dunsparce",
+    "Latias",
+    "Latios",
+    "Watchog",
+    "Liepard",
+    "Munna",
+    "Musharna",
+    "Audino"
+   ]
+  },
+  {
+   "name": "Route 2",
+   "species": [
+    "Nidoran♀",
+    "Nidoran♂",
+    "Jigglypuff",
+    "Wigglytuff",
+    "Lickitung",
+    "Dunsparce",
+    "Granbull",
+    "Lickilicky",
+    "Watchog",
+    "Herdier",
+    "Stoutland",
+    "Liepard",
+    "Audino"
+   ]
+  },
+  {
+   "name": "Accumula Town",
+   "species": [
+    "Alakazam",
+    "Ambipom"
+   ]
+  },
+  {
+   "name": "Route 1",
+   "species": [
+    "Jigglypuff",
+    "Wigglytuff",
+    "Dunsparce",
+    "Feebas",
+    "Milotic",
+    "Watchog",
+    "Herdier",
+    "Stoutland",
+    "Audino",
+    "Basculin",
+    "Scrafty"
+   ]
+  },
+  {
+   "name": "Route 17",
+   "species": [
+    "Horsea",
+    "Seadra",
+    "Kingdra",
+    "Finneon",
+    "Lumineon",
+    "Frillish",
+    "Jellicent",
+    "Alomomola"
+   ]
+  },
+  {
+   "name": "Route 18",
+   "species": [
+    "Kingler",
+    "Horsea",
+    "Seadra",
+    "Dragonite",
+    "Dunsparce",
+    "Corsola",
+    "Kingdra",
+    "Tropius",
+    "Chatot",
+    "Carnivine",
+    "Finneon",
+    "Lumineon",
+    "Watchog",
+    "Audino",
+    "Throh",
+    "Sawk",
+    "Crustle",
+    "Scrafty",
+    "Frillish",
+    "Jellicent",
+    "Alomomola"
+   ]
+  },
+  {
+   "name": "P2 Laboratory",
+   "species": [
+    "Magneton",
+    "Weezing",
+    "Horsea",
+    "Seadra",
+    "Qwilfish",
+    "Kingdra",
+    "Finneon",
+    "Lumineon",
+    "Magnezone",
+    "Watchog",
+    "Herdier",
+    "Stoutland",
+    "Audino",
+    "Scrafty",
+    "Frillish",
+    "Jellicent",
+    "Alomomola",
+    "Klang",
+    "Klinklang"
+   ]
+  },
+  {
+   "name": "Reversal Mountain",
+   "species": [
+    "Skarmory",
+    "Numel",
+    "Camerupt",
+    "Spoink",
+    "Grumpig",
+    "Trapinch",
+    "Vibrava",
+    "Drifblim",
+    "Skorupi",
+    "Heatran",
+    "Boldore",
+    "Woobat",
+    "Excadrill",
+    "Audino"
+   ]
+  },
+  {
+   "name": "Glacier Room",
+   "species": [
+    "Onix",
+    "Steelix",
+    "Nosepass",
+    "Lairon",
+    "Boldore",
+    "Woobat",
+    "Excadrill",
+    "Durant"
+   ]
+  },
+  {
+   "name": "Iron Room",
+   "species": [
+    "Onix",
+    "Steelix",
+    "Nosepass",
+    "Lairon",
+    "Boldore",
+    "Woobat",
+    "Excadrill",
+    "Durant"
+   ]
+  },
+  {
+   "name": "Nature Sanctuary",
+   "species": [
+    "Golduck",
+    "Magikarp",
+    "Gyarados",
+    "Noctowl",
+    "Girafarig",
+    "Dunsparce",
+    "Nuzleaf",
+    "Shiftry",
+    "Altaria",
+    "Kecleon",
+    "Buizel",
+    "Floatzel",
+    "Audino",
+    "Basculin",
+    "Fraxure",
+    "Haxorus"
+   ]
+  },
+  {
+   "name": "Rocky Mountain Room",
+   "species": [
+    "Onix",
+    "Steelix",
+    "Nosepass",
+    "Lairon",
+    "Boldore",
+    "Woobat",
+    "Excadrill",
+    "Durant"
+   ]
+  }
+ ]
+}

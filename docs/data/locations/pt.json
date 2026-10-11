@@ -1,0 +1,1296 @@
+{
+ "game": "pt",
+ "locations": [
+  {
+   "name": "Starter",
+   "species": [
+    "Turtwig",
+    "Chimchar",
+    "Piplup"
+   ]
+  },
+  {
+   "name": "Twinleaf Town",
+   "species": [
+    "Psyduck",
+    "Golduck",
+    "Goldeen",
+    "Seaking",
+    "Magikarp",
+    "Gyarados"
+   ]
+  },
+  {
+   "name": "Route 201",
+   "species": [
+    "Nidoran♀",
+    "Nidoran♂",
+    "Growlithe",
+    "Doduo",
+    "Turtwig",
+    "Chimchar",
+    "Piplup",
+    "Starly",
+    "Bidoof",
+    "Kricketot"
+   ]
+  },
+  {
+   "name": "Lake Verity",
+   "species": [
+    "Psyduck",
+    "Golduck",
+    "Goldeen",
+    "Seaking",
+    "Magikarp",
+    "Gyarados",
+    "Wobbuffet",
+    "Lunatone",
+    "Solrock",
+    "Starly",
+    "Bidoof"
+   ]
+  },
+  {
+   "name": "Route 202",
+   "species": [
+    "Growlithe",
+    "Sentret",
+    "Zigzagoon",
+    "Starly",
+    "Bidoof",
+    "Kricketot",
+    "Shinx"
+   ]
+  },
+  {
+   "name": "Route 203",
+   "species": [
+    "Zubat",
+    "Psyduck",
+    "Golduck",
+    "Abra",
+    "Cubone",
+    "Goldeen",
+    "Seaking",
+    "Magikarp",
+    "Gyarados",
+    "Pineco",
+    "Lotad",
+    "Seedot",
+    "Starly",
+    "Bidoof",
+    "Kricketot",
+    "Shinx"
+   ]
+  },
+  {
+   "name": "Oreburgh Gate",
+   "species": [
+    "Zubat",
+    "Golbat",
+    "Psyduck",
+    "Golduck",
+    "Geodude",
+    "Magikarp",
+    "Gyarados",
+    "Barboach",
+    "Whiscash"
+   ]
+  },
+  {
+   "name": "Oreburgh City",
+   "species": [
+    "Abra",
+    "Omanyte",
+    "Kabuto",
+    "Aerodactyl",
+    "Lileep",
+    "Anorith",
+    "Cranidos",
+    "Shieldon"
+   ]
+  },
+  {
+   "name": "Oreburgh Mine",
+   "species": [
+    "Zubat",
+    "Geodude",
+    "Onix"
+   ]
+  },
+  {
+   "name": "Route 204",
+   "species": [
+    "Caterpie",
+    "Weedle",
+    "Zubat",
+    "Psyduck",
+    "Golduck",
+    "Goldeen",
+    "Seaking",
+    "Magikarp",
+    "Gyarados",
+    "Sunkern",
+    "Pineco",
+    "Wurmple",
+    "Lotad",
+    "Seedot",
+    "Starly",
+    "Bidoof",
+    "Kricketot",
+    "Shinx",
+    "Budew"
+   ]
+  },
+  {
+   "name": "Ravaged Path",
+   "species": [
+    "Zubat",
+    "Golbat",
+    "Psyduck",
+    "Golduck",
+    "Magikarp",
+    "Gyarados",
+    "Barboach",
+    "Whiscash"
+   ]
+  },
+  {
+   "name": "Floaroma Meadow",
+   "species": [
+    "Aipom",
+    "Heracross",
+    "Wurmple",
+    "Burmy",
+    "Combee",
+    "Cherubi",
+    "Munchlax"
+   ]
+  },
+  {
+   "name": "Valley Windworks",
+   "species": [
+    "Tentacool",
+    "Tentacruel",
+    "Shellder",
+    "Magikarp",
+    "Gyarados",
+    "Mareep",
+    "Aipom",
+    "Heracross",
+    "Wurmple",
+    "Electrike",
+    "Shinx",
+    "Burmy",
+    "Combee",
+    "Pachirisu",
+    "Buizel",
+    "Cherubi",
+    "Shellos",
+    "Gastrodon",
+    "Drifloon",
+    "Munchlax",
+    "Finneon",
+    "Lumineon"
+   ]
+  },
+  {
+   "name": "Route 205",
+   "species": [
+    "Psyduck",
+    "Golduck",
+    "Tentacool",
+    "Tentacruel",
+    "Slowpoke",
+    "Shellder",
+    "Magikarp",
+    "Gyarados",
+    "Hoothoot",
+    "Hoppip",
+    "Aipom",
+    "Heracross",
+    "Wurmple",
+    "Silcoon",
+    "Beautifly",
+    "Cascoon",
+    "Dustox",
+    "Lotad",
+    "Barboach",
+    "Whiscash",
+    "Bidoof",
+    "Kricketot",
+    "Budew",
+    "Burmy",
+    "Combee",
+    "Pachirisu",
+    "Buizel",
+    "Cherubi",
+    "Shellos",
+    "Gastrodon",
+    "Munchlax",
+    "Finneon",
+    "Lumineon"
+   ]
+  },
+  {
+   "name": "Eterna Forest",
+   "species": [
+    "Caterpie",
+    "Metapod",
+    "Weedle",
+    "Kakuna",
+    "Gastly",
+    "Hoothoot",
+    "Aipom",
+    "Pineco",
+    "Heracross",
+    "Wurmple",
+    "Silcoon",
+    "Beautifly",
+    "Cascoon",
+    "Dustox",
+    "Seedot",
+    "Slakoth",
+    "Nincada",
+    "Bidoof",
+    "Kricketot",
+    "Budew",
+    "Burmy",
+    "Combee",
+    "Cherubi",
+    "Buneary",
+    "Munchlax"
+   ]
+  },
+  {
+   "name": "Eterna City",
+   "species": [
+    "Psyduck",
+    "Golduck",
+    "Magikarp",
+    "Gyarados",
+    "Togepi",
+    "Barboach",
+    "Whiscash",
+    "Chatot"
+   ]
+  },
+  {
+   "name": "Old Chateau",
+   "species": [
+    "Gastly",
+    "Gengar",
+    "Rotom"
+   ]
+  },
+  {
+   "name": "Route 206",
+   "species": [
+    "Zubat",
+    "Machop",
+    "Geodude",
+    "Ponyta",
+    "Aipom",
+    "Gligar",
+    "Heracross",
+    "Larvitar",
+    "Wurmple",
+    "Baltoy",
+    "Kricketune",
+    "Burmy",
+    "Combee",
+    "Cherubi",
+    "Munchlax"
+   ]
+  },
+  {
+   "name": "Wayward Cave",
+   "species": [
+    "Sandshrew",
+    "Zubat",
+    "Geodude",
+    "Onix",
+    "Bronzor",
+    "Gible"
+   ]
+  },
+  {
+   "name": "Route 207",
+   "species": [
+    "Zubat",
+    "Machop",
+    "Geodude",
+    "Ponyta",
+    "Aipom",
+    "Heracross",
+    "Phanpy",
+    "Stantler",
+    "Wurmple",
+    "Kricketot",
+    "Burmy",
+    "Combee",
+    "Cherubi",
+    "Munchlax"
+   ]
+  },
+  {
+   "name": "Mt. Coronet",
+   "species": [
+    "Clefairy",
+    "Zubat",
+    "Golbat",
+    "Machop",
+    "Machoke",
+    "Geodude",
+    "Graveler",
+    "Magikarp",
+    "Gyarados",
+    "Dratini",
+    "Dragonair",
+    "Noctowl",
+    "Cleffa",
+    "Loudred",
+    "Nosepass",
+    "Meditite",
+    "Medicham",
+    "Lunatone",
+    "Solrock",
+    "Barboach",
+    "Whiscash",
+    "Feebas",
+    "Chimecho",
+    "Absol",
+    "Chingling",
+    "Bronzor",
+    "Bronzong",
+    "Snover",
+    "Abomasnow"
+   ]
+  },
+  {
+   "name": "Route 208",
+   "species": [
+    "Zubat",
+    "Psyduck",
+    "Golduck",
+    "Goldeen",
+    "Seaking",
+    "Magikarp",
+    "Gyarados",
+    "Aipom",
+    "Dunsparce",
+    "Heracross",
+    "Smeargle",
+    "Wurmple",
+    "Ralts",
+    "Roselia",
+    "Zangoose",
+    "Seviper",
+    "Bidoof",
+    "Bibarel",
+    "Budew",
+    "Burmy",
+    "Combee",
+    "Cherubi",
+    "Munchlax"
+   ]
+  },
+  {
+   "name": "Hearthome City",
+   "species": [
+    "Eevee"
+   ]
+  },
+  {
+   "name": "Route 209",
+   "species": [
+    "Vulpix",
+    "Zubat",
+    "Psyduck",
+    "Golduck",
+    "Chansey",
+    "Goldeen",
+    "Seaking",
+    "Magikarp",
+    "Gyarados",
+    "Aipom",
+    "Snubbull",
+    "Heracross",
+    "Wurmple",
+    "Ralts",
+    "Kirlia",
+    "Roselia",
+    "Duskull",
+    "Staravia",
+    "Bibarel",
+    "Burmy",
+    "Combee",
+    "Cherubi",
+    "Spiritomb",
+    "Munchlax"
+   ]
+  },
+  {
+   "name": "Solaceon Ruins",
+   "species": [
+    "Unown"
+   ]
+  },
+  {
+   "name": "Lost Tower",
+   "species": [
+    "Zubat",
+    "Golbat",
+    "Gastly",
+    "Duskull"
+   ]
+  },
+  {
+   "name": "Route 210",
+   "species": [
+    "Psyduck",
+    "Golduck",
+    "Machop",
+    "Machoke",
+    "Geodude",
+    "Ponyta",
+    "Chansey",
+    "Scyther",
+    "Tauros",
+    "Magikarp",
+    "Gyarados",
+    "Hoothoot",
+    "Noctowl",
+    "Aipom",
+    "Pineco",
+    "Heracross",
+    "Miltank",
+    "Wurmple",
+    "Seedot",
+    "Nuzleaf",
+    "Meditite",
+    "Roselia",
+    "Swablu",
+    "Zangoose",
+    "Seviper",
+    "Barboach",
+    "Whiscash",
+    "Bagon",
+    "Staravia",
+    "Bibarel",
+    "Burmy",
+    "Combee",
+    "Cherubi",
+    "Munchlax"
+   ]
+  },
+  {
+   "name": "Route 215",
+   "species": [
+    "Abra",
+    "Kadabra",
+    "Drowzee",
+    "Lickitung",
+    "Scyther",
+    "Marill",
+    "Aipom",
+    "Heracross",
+    "Wurmple",
+    "Staravia",
+    "Burmy",
+    "Combee",
+    "Cherubi",
+    "Munchlax"
+   ]
+  },
+  {
+   "name": "Veilstone City",
+   "species": [
+    "Porygon"
+   ]
+  },
+  {
+   "name": "Route 214",
+   "species": [
+    "Vulpix",
+    "Zubat",
+    "Psyduck",
+    "Golduck",
+    "Geodude",
+    "Graveler",
+    "Rhyhorn",
+    "Goldeen",
+    "Seaking",
+    "Magikarp",
+    "Gyarados",
+    "Aipom",
+    "Heracross",
+    "Houndour",
+    "Poochyena",
+    "Wurmple",
+    "Spoink",
+    "Burmy",
+    "Combee",
+    "Cherubi",
+    "Munchlax"
+   ]
+  },
+  {
+   "name": "Maniac Tunnel",
+   "species": [
+    "Geodude",
+    "Hippopotas"
+   ]
+  },
+  {
+   "name": "Valor Lakefront",
+   "species": [
+    "Nidorina",
+    "Nidorino",
+    "Girafarig",
+    "Houndour",
+    "Staravia",
+    "Bibarel",
+    "Kricketune"
+   ]
+  },
+  {
+   "name": "Route 213",
+   "species": [
+    "Tentacool",
+    "Tentacruel",
+    "Magikarp",
+    "Gyarados",
+    "Aipom",
+    "Heracross",
+    "Remoraid",
+    "Octillery",
+    "Wurmple",
+    "Swellow",
+    "Wingull",
+    "Burmy",
+    "Combee",
+    "Buizel",
+    "Cherubi",
+    "Shellos",
+    "Gastrodon",
+    "Chatot",
+    "Munchlax"
+   ]
+  },
+  {
+   "name": "Pastoria City",
+   "species": [
+    "Tentacool",
+    "Tentacruel",
+    "Magikarp",
+    "Gyarados",
+    "Remoraid",
+    "Octillery",
+    "Wingull",
+    "Shellos",
+    "Gastrodon"
+   ]
+  },
+  {
+   "name": "Route 212",
+   "species": [
+    "Ekans",
+    "Psyduck",
+    "Golduck",
+    "Tentacool",
+    "Tentacruel",
+    "Grimer",
+    "Goldeen",
+    "Seaking",
+    "Magikarp",
+    "Gyarados",
+    "Marill",
+    "Aipom",
+    "Quagsire",
+    "Heracross",
+    "Remoraid",
+    "Octillery",
+    "Smeargle",
+    "Wurmple",
+    "Lotad",
+    "Lombre",
+    "Ralts",
+    "Kirlia",
+    "Roselia",
+    "Staravia",
+    "Burmy",
+    "Combee",
+    "Buizel",
+    "Cherubi",
+    "Shellos",
+    "Gastrodon",
+    "Munchlax",
+    "Croagunk"
+   ]
+  },
+  {
+   "name": "Celestic Town",
+   "species": [
+    "Psyduck",
+    "Golduck",
+    "Goldeen",
+    "Seaking",
+    "Magikarp",
+    "Gyarados",
+    "Corphish",
+    "Crawdaunt"
+   ]
+  },
+  {
+   "name": "Fuego Ironworks",
+   "species": [
+    "Tentacool",
+    "Tentacruel",
+    "Magnemite",
+    "Shellder",
+    "Magmar",
+    "Magikarp",
+    "Gyarados",
+    "Aipom",
+    "Heracross",
+    "Wurmple",
+    "Aron",
+    "Burmy",
+    "Combee",
+    "Floatzel",
+    "Cherubi",
+    "Shellos",
+    "Gastrodon",
+    "Munchlax",
+    "Finneon",
+    "Lumineon"
+   ]
+  },
+  {
+   "name": "Route 219",
+   "species": [
+    "Tentacool",
+    "Tentacruel",
+    "Magikarp",
+    "Gyarados",
+    "Wingull",
+    "Pelipper",
+    "Finneon",
+    "Lumineon"
+   ]
+  },
+  {
+   "name": "Route 220",
+   "species": [
+    "Tentacool",
+    "Tentacruel",
+    "Magikarp",
+    "Gyarados",
+    "Chinchou",
+    "Wingull",
+    "Pelipper",
+    "Finneon",
+    "Lumineon"
+   ]
+  },
+  {
+   "name": "Route 221",
+   "species": [
+    "Nidorina",
+    "Nidorino",
+    "Tentacool",
+    "Tentacruel",
+    "Farfetch'd",
+    "Magikarp",
+    "Gyarados",
+    "Sudowoodo",
+    "Aipom",
+    "Girafarig",
+    "Heracross",
+    "Wurmple",
+    "Wingull",
+    "Pelipper",
+    "Roselia",
+    "Burmy",
+    "Combee",
+    "Floatzel",
+    "Cherubi",
+    "Munchlax",
+    "Finneon",
+    "Lumineon"
+   ]
+  },
+  {
+   "name": "Route 218",
+   "species": [
+    "Tentacool",
+    "Tentacruel",
+    "Voltorb",
+    "Mr. Mime",
+    "Magikarp",
+    "Gyarados",
+    "Aipom",
+    "Heracross",
+    "Wurmple",
+    "Burmy",
+    "Combee",
+    "Floatzel",
+    "Cherubi",
+    "Shellos",
+    "Gastrodon",
+    "Chatot",
+    "Munchlax",
+    "Finneon",
+    "Lumineon"
+   ]
+  },
+  {
+   "name": "Canalave City",
+   "species": [
+    "Tentacool",
+    "Tentacruel",
+    "Staryu",
+    "Magikarp",
+    "Gyarados",
+    "Shellos",
+    "Gastrodon",
+    "Finneon",
+    "Lumineon"
+   ]
+  },
+  {
+   "name": "Iron Island",
+   "species": [
+    "Zubat",
+    "Golbat",
+    "Tentacool",
+    "Tentacruel",
+    "Geodude",
+    "Graveler",
+    "Onix",
+    "Magikarp",
+    "Gyarados",
+    "Steelix",
+    "Qwilfish",
+    "Wingull",
+    "Pelipper",
+    "Sableye",
+    "Mawile",
+    "Riolu",
+    "Finneon",
+    "Lumineon"
+   ]
+  },
+  {
+   "name": "Lake Valor",
+   "species": [
+    "Psyduck",
+    "Golduck",
+    "Goldeen",
+    "Seaking",
+    "Magikarp",
+    "Gyarados",
+    "Wobbuffet",
+    "Lunatone",
+    "Solrock",
+    "Staravia",
+    "Bibarel",
+    "Azelf"
+   ]
+  },
+  {
+   "name": "Route 211",
+   "species": [
+    "Zubat",
+    "Machop",
+    "Machoke",
+    "Graveler",
+    "Hoothoot",
+    "Noctowl",
+    "Aipom",
+    "Heracross",
+    "Teddiursa",
+    "Tyrogue",
+    "Wurmple",
+    "Meditite",
+    "Bidoof",
+    "Burmy",
+    "Combee",
+    "Cherubi",
+    "Chingling",
+    "Bronzor",
+    "Munchlax"
+   ]
+  },
+  {
+   "name": "Route 216",
+   "species": [
+    "Zubat",
+    "Graveler",
+    "Sneasel",
+    "Ursaring",
+    "Meditite",
+    "Snorunt",
+    "Snover"
+   ]
+  },
+  {
+   "name": "Route 217",
+   "species": [
+    "Sneasel",
+    "Ursaring",
+    "Swinub",
+    "Piloswine",
+    "Delibird",
+    "Snorunt",
+    "Snover"
+   ]
+  },
+  {
+   "name": "Acuity Lakefront",
+   "species": [
+    "Sneasel",
+    "Ursaring",
+    "Swinub",
+    "Snorunt",
+    "Snover"
+   ]
+  },
+  {
+   "name": "Snowpoint City",
+   "species": [
+    "Haunter"
+   ]
+  },
+  {
+   "name": "Lake Acuity",
+   "species": [
+    "Psyduck",
+    "Golduck",
+    "Goldeen",
+    "Seaking",
+    "Magikarp",
+    "Gyarados",
+    "Sneasel",
+    "Teddiursa",
+    "Lunatone",
+    "Solrock",
+    "Snorunt",
+    "Bibarel",
+    "Snover",
+    "Uxie"
+   ]
+  },
+  {
+   "name": "Spear Pillar",
+   "species": [
+    "Dialga",
+    "Palkia"
+   ]
+  },
+  {
+   "name": "Distortion World",
+   "species": [
+    "Giratina"
+   ]
+  },
+  {
+   "name": "Sendoff Spring",
+   "species": [
+    "Golbat",
+    "Golduck",
+    "Graveler",
+    "Goldeen",
+    "Seaking",
+    "Magikarp",
+    "Gyarados",
+    "Lunatone",
+    "Solrock",
+    "Dusclops",
+    "Staravia",
+    "Bibarel",
+    "Chingling"
+   ]
+  },
+  {
+   "name": "Route 222",
+   "species": [
+    "Tentacool",
+    "Tentacruel",
+    "Magnemite",
+    "Magneton",
+    "Electabuzz",
+    "Magikarp",
+    "Gyarados",
+    "Flaaffy",
+    "Aipom",
+    "Heracross",
+    "Remoraid",
+    "Octillery",
+    "Wurmple",
+    "Wingull",
+    "Pelipper",
+    "Skitty",
+    "Luxio",
+    "Burmy",
+    "Combee",
+    "Floatzel",
+    "Cherubi",
+    "Chatot",
+    "Munchlax"
+   ]
+  },
+  {
+   "name": "Sunyshore City",
+   "species": [
+    "Tentacool",
+    "Tentacruel",
+    "Staryu",
+    "Magikarp",
+    "Gyarados",
+    "Remoraid",
+    "Octillery",
+    "Wingull",
+    "Pelipper"
+   ]
+  },
+  {
+   "name": "Route 223",
+   "species": [
+    "Tentacruel",
+    "Magikarp",
+    "Gyarados",
+    "Remoraid",
+    "Octillery",
+    "Pelipper",
+    "Wailmer",
+    "Wailord",
+    "Mantyke"
+   ]
+  },
+  {
+   "name": "Pokémon League",
+   "species": [
+    "Tentacruel",
+    "Magikarp",
+    "Gyarados",
+    "Remoraid",
+    "Octillery",
+    "Wingull",
+    "Pelipper",
+    "Luvdisc"
+   ]
+  },
+  {
+   "name": "Victory Road",
+   "species": [
+    "Golbat",
+    "Graveler",
+    "Magneton",
+    "Dewgong",
+    "Onix",
+    "Rhyhorn",
+    "Rhydon",
+    "Magikarp",
+    "Gyarados",
+    "Lapras",
+    "Azumarill",
+    "Steelix",
+    "Floatzel",
+    "Gabite"
+   ]
+  },
+  {
+   "name": "Great Marsh",
+   "species": [
+    "Arbok",
+    "Paras",
+    "Exeggcute",
+    "Tangela",
+    "Kangaskhan",
+    "Magikarp",
+    "Gyarados",
+    "Hoothoot",
+    "Noctowl",
+    "Yanma",
+    "Wooper",
+    "Quagsire",
+    "Shroomish",
+    "Gulpin",
+    "Carvanha",
+    "Barboach",
+    "Whiscash",
+    "Kecleon",
+    "Tropius",
+    "Bibarel",
+    "Skorupi",
+    "Drapion",
+    "Croagunk",
+    "Toxicroak",
+    "Carnivine"
+   ]
+  },
+  {
+   "name": "Trophy Garden",
+   "species": [
+    "Pikachu",
+    "Clefairy",
+    "Jigglypuff",
+    "Meowth",
+    "Chansey",
+    "Ditto",
+    "Eevee",
+    "Pichu",
+    "Cleffa",
+    "Igglybuff",
+    "Marill",
+    "Azurill",
+    "Plusle",
+    "Minun",
+    "Roselia",
+    "Castform",
+    "Staravia",
+    "Kricketune",
+    "Bonsly",
+    "Mime Jr.",
+    "Happiny"
+   ]
+  },
+  {
+   "name": "Snowpoint Temple",
+   "species": [
+    "Golbat",
+    "Jynx",
+    "Sneasel",
+    "Smoochum",
+    "Regigigas"
+   ]
+  },
+  {
+   "name": "Turnback Cave",
+   "species": [
+    "Golbat",
+    "Gastly",
+    "Haunter",
+    "Lunatone",
+    "Solrock",
+    "Duskull",
+    "Dusclops",
+    "Chimecho",
+    "Chingling",
+    "Bronzor",
+    "Bronzong",
+    "Giratina"
+   ]
+  },
+  {
+   "name": "Route 224",
+   "species": [
+    "Oddish",
+    "Gloom",
+    "Bellsprout",
+    "Weepinbell",
+    "Tentacruel",
+    "Magikarp",
+    "Gyarados",
+    "Natu",
+    "Shuckle",
+    "Remoraid",
+    "Octillery",
+    "Beautifly",
+    "Dustox",
+    "Pelipper",
+    "Roselia",
+    "Luvdisc",
+    "Floatzel",
+    "Gastrodon"
+   ]
+  },
+  {
+   "name": "Route 225",
+   "species": [
+    "Rattata",
+    "Raticate",
+    "Spearow",
+    "Fearow",
+    "Psyduck",
+    "Golduck",
+    "Mankey",
+    "Primeape",
+    "Machoke",
+    "Graveler",
+    "Magikarp",
+    "Gyarados",
+    "Makuhita",
+    "Barboach",
+    "Whiscash",
+    "Banette"
+   ]
+  },
+  {
+   "name": "Route 226",
+   "species": [
+    "Rattata",
+    "Raticate",
+    "Fearow",
+    "Mankey",
+    "Primeape",
+    "Machoke",
+    "Tentacruel",
+    "Graveler",
+    "Krabby",
+    "Horsea",
+    "Seadra",
+    "Magikarp",
+    "Gyarados",
+    "Wingull",
+    "Pelipper",
+    "Banette",
+    "Relicanth"
+   ]
+  },
+  {
+   "name": "Route 227",
+   "species": [
+    "Fearow",
+    "Golbat",
+    "Poliwag",
+    "Poliwhirl",
+    "Graveler",
+    "Weezing",
+    "Rhyhorn",
+    "Rhydon",
+    "Magikarp",
+    "Gyarados",
+    "Skarmory",
+    "Numel",
+    "Camerupt",
+    "Torkoal",
+    "Spinda",
+    "Barboach",
+    "Whiscash"
+   ]
+  },
+  {
+   "name": "Stark Mountain",
+   "species": [
+    "Fearow",
+    "Golbat",
+    "Graveler",
+    "Koffing",
+    "Weezing",
+    "Rhyhorn",
+    "Rhydon",
+    "Slugma",
+    "Magcargo",
+    "Skarmory",
+    "Numel",
+    "Camerupt",
+    "Torkoal",
+    "Heatran"
+   ]
+  },
+  {
+   "name": "Route 228",
+   "species": [
+    "Sandslash",
+    "Diglett",
+    "Dugtrio",
+    "Poliwag",
+    "Poliwhirl",
+    "Rhydon",
+    "Magikarp",
+    "Gyarados",
+    "Cacnea",
+    "Cacturne",
+    "Barboach",
+    "Whiscash",
+    "Beldum",
+    "Hippowdon"
+   ]
+  },
+  {
+   "name": "Route 229",
+   "species": [
+    "Pidgey",
+    "Venonat",
+    "Venomoth",
+    "Goldeen",
+    "Seaking",
+    "Pinsir",
+    "Magikarp",
+    "Gyarados",
+    "Ledian",
+    "Ariados",
+    "Pineco",
+    "Beautifly",
+    "Dustox",
+    "Lombre",
+    "Nuzleaf",
+    "Surskit",
+    "Masquerain",
+    "Volbeat",
+    "Illumise",
+    "Roselia"
+   ]
+  },
+  {
+   "name": "Resort Area",
+   "species": [
+    "Psyduck",
+    "Golduck",
+    "Magikarp"
+   ]
+  },
+  {
+   "name": "Route 230",
+   "species": [
+    "Oddish",
+    "Gloom",
+    "Bellsprout",
+    "Weepinbell",
+    "Tentacruel",
+    "Magikarp",
+    "Gyarados",
+    "Togepi",
+    "Corsola",
+    "Remoraid",
+    "Octillery",
+    "Wingull",
+    "Pelipper",
+    "Roselia",
+    "Wailmer",
+    "Wailord",
+    "Sealeo",
+    "Floatzel"
+   ]
+  },
+  {
+   "name": "Flower Paradise",
+   "species": [
+    "Shaymin"
+   ]
+  },
+  {
+   "name": "Hall of Origin",
+   "species": [
+    "Arceus"
+   ]
+  },
+  {
+   "name": "Newmoon Island",
+   "species": [
+    "Darkrai"
+   ]
+  },
+  {
+   "name": "Ruin Maniac Cave",
+   "species": [
+    "Geodude",
+    "Hippopotas"
+   ]
+  }
+ ]
+}

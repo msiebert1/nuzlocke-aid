@@ -1,0 +1,10 @@
+# One pair per line: Player 1's Pokémon / Player 2's Pokémon
+# Nicknames go in parentheses. Forms: "Raichu-Alola" or "Alolan Raichu".
+title: Soul Link — Scarlet
+players: Matt, Partner
+Pikachu (Sparky) / Eevee (Fluff)
+Alolan Raichu / mr. mime
+ho-oh / Porygon-Z
+Rotom-Wash (Spin Cycle) / jangmo-o
+Type: Null / Nidoran♀
+Farfetch'd / Lucario (Aura)

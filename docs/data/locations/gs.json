@@ -1,0 +1,1156 @@
+{
+ "game": "gs",
+ "locations": [
+  {
+   "name": "Starter",
+   "species": [
+    "Chikorita",
+    "Cyndaquil",
+    "Totodile"
+   ]
+  },
+  {
+   "name": "New Bark Town",
+   "species": [
+    "Tentacool",
+    "Tentacruel",
+    "Shellder",
+    "Magikarp",
+    "Chikorita",
+    "Cyndaquil",
+    "Totodile",
+    "Chinchou",
+    "Lanturn"
+   ]
+  },
+  {
+   "name": "Route 29",
+   "species": [
+    "Pidgey",
+    "Rattata",
+    "Spearow",
+    "Sentret",
+    "Hoothoot",
+    "Aipom",
+    "Heracross"
+   ]
+  },
+  {
+   "name": "Route 46",
+   "species": [
+    "Rattata",
+    "Spearow",
+    "Jigglypuff",
+    "Geodude",
+    "Aipom",
+    "Heracross"
+   ]
+  },
+  {
+   "name": "Cherrygrove City",
+   "species": [
+    "Tentacool",
+    "Tentacruel",
+    "Krabby",
+    "Kingler",
+    "Staryu",
+    "Magikarp",
+    "Corsola"
+   ]
+  },
+  {
+   "name": "Route 30",
+   "species": [
+    "Caterpie",
+    "Metapod",
+    "Weedle",
+    "Kakuna",
+    "Pidgey",
+    "Rattata",
+    "Spearow",
+    "Poliwag",
+    "Poliwhirl",
+    "Magikarp",
+    "Hoothoot",
+    "Ledyba",
+    "Spinarak",
+    "Aipom",
+    "Heracross"
+   ]
+  },
+  {
+   "name": "Route 31",
+   "species": [
+    "Caterpie",
+    "Metapod",
+    "Weedle",
+    "Kakuna",
+    "Pidgey",
+    "Rattata",
+    "Spearow",
+    "Poliwag",
+    "Poliwhirl",
+    "Bellsprout",
+    "Magikarp",
+    "Hoothoot",
+    "Ledyba",
+    "Spinarak",
+    "Aipom",
+    "Heracross"
+   ]
+  },
+  {
+   "name": "Dark Cave",
+   "species": [
+    "Zubat",
+    "Golbat",
+    "Geodude",
+    "Graveler",
+    "Krabby",
+    "Goldeen",
+    "Seaking",
+    "Magikarp",
+    "Wobbuffet",
+    "Dunsparce",
+    "Shuckle"
+   ]
+  },
+  {
+   "name": "Violet City",
+   "species": [
+    "Poliwag",
+    "Poliwhirl",
+    "Onix",
+    "Magikarp",
+    "Togepi"
+   ]
+  },
+  {
+   "name": "Sprout Tower",
+   "species": [
+    "Rattata",
+    "Gastly"
+   ]
+  },
+  {
+   "name": "Route 36",
+   "species": [
+    "Caterpie",
+    "Metapod",
+    "Butterfree",
+    "Weedle",
+    "Kakuna",
+    "Beedrill",
+    "Pidgey",
+    "Nidoran♀",
+    "Nidoran♂",
+    "Vulpix",
+    "Growlithe",
+    "Exeggcute",
+    "Hoothoot",
+    "Sudowoodo",
+    "Pineco",
+    "Stantler"
+   ]
+  },
+  {
+   "name": "Route 32",
+   "species": [
+    "Rattata",
+    "Spearow",
+    "Ekans",
+    "Zubat",
+    "Bellsprout",
+    "Tentacool",
+    "Tentacruel",
+    "Magikarp",
+    "Mareep",
+    "Hoppip",
+    "Aipom",
+    "Wooper",
+    "Quagsire",
+    "Qwilfish",
+    "Heracross"
+   ]
+  },
+  {
+   "name": "Ruins of Alph",
+   "species": [
+    "Poliwag",
+    "Magikarp",
+    "Natu",
+    "Wooper",
+    "Quagsire",
+    "Unown",
+    "Smeargle"
+   ]
+  },
+  {
+   "name": "Union Cave",
+   "species": [
+    "Rattata",
+    "Raticate",
+    "Sandshrew",
+    "Zubat",
+    "Golbat",
+    "Tentacool",
+    "Tentacruel",
+    "Geodude",
+    "Onix",
+    "Krabby",
+    "Kingler",
+    "Goldeen",
+    "Seaking",
+    "Staryu",
+    "Magikarp",
+    "Lapras",
+    "Wooper",
+    "Quagsire",
+    "Corsola"
+   ]
+  },
+  {
+   "name": "Route 33",
+   "species": [
+    "Rattata",
+    "Spearow",
+    "Ekans",
+    "Zubat",
+    "Hoppip",
+    "Aipom",
+    "Heracross"
+   ]
+  },
+  {
+   "name": "Azalea Town",
+   "species": [
+    "Caterpie",
+    "Metapod",
+    "Butterfree",
+    "Weedle",
+    "Kakuna",
+    "Beedrill",
+    "Exeggcute",
+    "Pineco"
+   ]
+  },
+  {
+   "name": "Slowpoke Well",
+   "species": [
+    "Zubat",
+    "Golbat",
+    "Slowpoke",
+    "Slowbro",
+    "Goldeen",
+    "Seaking",
+    "Magikarp"
+   ]
+  },
+  {
+   "name": "Ilex Forest",
+   "species": [
+    "Caterpie",
+    "Metapod",
+    "Butterfree",
+    "Weedle",
+    "Kakuna",
+    "Beedrill",
+    "Zubat",
+    "Oddish",
+    "Paras",
+    "Psyduck",
+    "Golduck",
+    "Poliwag",
+    "Exeggcute",
+    "Magikarp",
+    "Pineco"
+   ]
+  },
+  {
+   "name": "Route 34",
+   "species": [
+    "Caterpie",
+    "Metapod",
+    "Butterfree",
+    "Weedle",
+    "Kakuna",
+    "Beedrill",
+    "Rattata",
+    "Abra",
+    "Tentacool",
+    "Tentacruel",
+    "Drowzee",
+    "Krabby",
+    "Kingler",
+    "Exeggcute",
+    "Staryu",
+    "Magikarp",
+    "Ditto",
+    "Pineco",
+    "Corsola"
+   ]
+  },
+  {
+   "name": "Goldenrod City",
+   "species": [
+    "Spearow",
+    "Ekans",
+    "Sandshrew",
+    "Abra",
+    "Machop",
+    "Eevee",
+    "Dratini"
+   ]
+  },
+  {
+   "name": "Route 35",
+   "species": [
+    "Caterpie",
+    "Metapod",
+    "Butterfree",
+    "Weedle",
+    "Kakuna",
+    "Beedrill",
+    "Pidgey",
+    "Nidoran♀",
+    "Nidoran♂",
+    "Psyduck",
+    "Golduck",
+    "Poliwag",
+    "Abra",
+    "Drowzee",
+    "Exeggcute",
+    "Magikarp",
+    "Ditto",
+    "Hoothoot",
+    "Yanma",
+    "Pineco"
+   ]
+  },
+  {
+   "name": "National Park",
+   "species": [
+    "Caterpie",
+    "Metapod",
+    "Weedle",
+    "Kakuna",
+    "Pidgey",
+    "Hoothoot",
+    "Sunkern"
+   ]
+  },
+  {
+   "name": "Route 37",
+   "species": [
+    "Caterpie",
+    "Metapod",
+    "Butterfree",
+    "Weedle",
+    "Kakuna",
+    "Beedrill",
+    "Pidgey",
+    "Pidgeotto",
+    "Vulpix",
+    "Growlithe",
+    "Exeggcute",
+    "Hoothoot",
+    "Ledyba",
+    "Spinarak",
+    "Pineco",
+    "Stantler"
+   ]
+  },
+  {
+   "name": "Ecruteak City",
+   "species": [
+    "Poliwag",
+    "Poliwhirl",
+    "Magikarp"
+   ]
+  },
+  {
+   "name": "Burned Tower",
+   "species": [
+    "Rattata",
+    "Raticate",
+    "Zubat",
+    "Koffing",
+    "Magmar"
+   ]
+  },
+  {
+   "name": "Route 38",
+   "species": [
+    "Caterpie",
+    "Metapod",
+    "Butterfree",
+    "Weedle",
+    "Kakuna",
+    "Beedrill",
+    "Rattata",
+    "Raticate",
+    "Meowth",
+    "Magnemite",
+    "Farfetch'd",
+    "Exeggcute",
+    "Tauros",
+    "Pineco",
+    "Snubbull",
+    "Miltank"
+   ]
+  },
+  {
+   "name": "Route 39",
+   "species": [
+    "Caterpie",
+    "Metapod",
+    "Butterfree",
+    "Weedle",
+    "Kakuna",
+    "Beedrill",
+    "Rattata",
+    "Raticate",
+    "Meowth",
+    "Magnemite",
+    "Farfetch'd",
+    "Exeggcute",
+    "Tauros",
+    "Pineco",
+    "Miltank"
+   ]
+  },
+  {
+   "name": "Olivine City",
+   "species": [
+    "Tentacool",
+    "Tentacruel",
+    "Krabby",
+    "Kingler",
+    "Voltorb",
+    "Staryu",
+    "Magikarp",
+    "Corsola"
+   ]
+  },
+  {
+   "name": "Route 40",
+   "species": [
+    "Tentacool",
+    "Tentacruel",
+    "Krabby",
+    "Kingler",
+    "Staryu",
+    "Magikarp",
+    "Shuckle",
+    "Corsola"
+   ]
+  },
+  {
+   "name": "Route 41",
+   "species": [
+    "Tentacool",
+    "Tentacruel",
+    "Shellder",
+    "Magikarp",
+    "Chinchou",
+    "Lanturn",
+    "Mantine"
+   ]
+  },
+  {
+   "name": "Whirl Islands",
+   "species": [
+    "Zubat",
+    "Golbat",
+    "Tentacool",
+    "Tentacruel",
+    "Seel",
+    "Krabby",
+    "Kingler",
+    "Horsea",
+    "Seadra",
+    "Magikarp",
+    "Lugia"
+   ]
+  },
+  {
+   "name": "Cianwood City",
+   "species": [
+    "Tentacool",
+    "Tentacruel",
+    "Krabby",
+    "Kingler",
+    "Staryu",
+    "Magikarp",
+    "Shuckle",
+    "Corsola"
+   ]
+  },
+  {
+   "name": "Route 42",
+   "species": [
+    "Spearow",
+    "Zubat",
+    "Mankey",
+    "Goldeen",
+    "Seaking",
+    "Magikarp",
+    "Mareep",
+    "Flaaffy",
+    "Aipom",
+    "Heracross"
+   ]
+  },
+  {
+   "name": "Mt. Mortar",
+   "species": [
+    "Rattata",
+    "Raticate",
+    "Zubat",
+    "Golbat",
+    "Machop",
+    "Machoke",
+    "Geodude",
+    "Graveler",
+    "Goldeen",
+    "Seaking",
+    "Magikarp",
+    "Marill",
+    "Tyrogue"
+   ]
+  },
+  {
+   "name": "Route 43",
+   "species": [
+    "Pidgeotto",
+    "Spearow",
+    "Venonat",
+    "Poliwag",
+    "Magikarp",
+    "Noctowl",
+    "Mareep",
+    "Flaaffy",
+    "Aipom",
+    "Girafarig",
+    "Heracross"
+   ]
+  },
+  {
+   "name": "Lake of Rage",
+   "species": [
+    "Caterpie",
+    "Metapod",
+    "Butterfree",
+    "Weedle",
+    "Kakuna",
+    "Beedrill",
+    "Exeggcute",
+    "Magikarp",
+    "Gyarados",
+    "Pineco"
+   ]
+  },
+  {
+   "name": "Route 44",
+   "species": [
+    "Spearow",
+    "Poliwag",
+    "Poliwhirl",
+    "Bellsprout",
+    "Weepinbell",
+    "Lickitung",
+    "Tangela",
+    "Magikarp",
+    "Aipom",
+    "Heracross",
+    "Remoraid"
+   ]
+  },
+  {
+   "name": "Ice Path",
+   "species": [
+    "Zubat",
+    "Golbat",
+    "Jynx",
+    "Swinub",
+    "Delibird"
+   ]
+  },
+  {
+   "name": "Blackthorn City",
+   "species": [
+    "Poliwag",
+    "Rhydon",
+    "Magikarp"
+   ]
+  },
+  {
+   "name": "Dragon's Den",
+   "species": [
+    "Magikarp",
+    "Dratini",
+    "Dragonair"
+   ]
+  },
+  {
+   "name": "Route 45",
+   "species": [
+    "Spearow",
+    "Geodude",
+    "Graveler",
+    "Magikarp",
+    "Dratini",
+    "Dragonair",
+    "Aipom",
+    "Gligar",
+    "Heracross",
+    "Teddiursa",
+    "Skarmory",
+    "Phanpy"
+   ]
+  },
+  {
+   "name": "Route 27",
+   "species": [
+    "Caterpie",
+    "Metapod",
+    "Butterfree",
+    "Weedle",
+    "Kakuna",
+    "Beedrill",
+    "Raticate",
+    "Arbok",
+    "Sandslash",
+    "Tentacool",
+    "Tentacruel",
+    "Ponyta",
+    "Doduo",
+    "Dodrio",
+    "Shellder",
+    "Exeggcute",
+    "Magikarp",
+    "Chinchou",
+    "Lanturn",
+    "Quagsire",
+    "Pineco"
+   ]
+  },
+  {
+   "name": "Tohjo Falls",
+   "species": [
+    "Rattata",
+    "Raticate",
+    "Zubat",
+    "Golbat",
+    "Slowpoke",
+    "Goldeen",
+    "Seaking",
+    "Magikarp"
+   ]
+  },
+  {
+   "name": "Route 26",
+   "species": [
+    "Caterpie",
+    "Metapod",
+    "Butterfree",
+    "Weedle",
+    "Kakuna",
+    "Beedrill",
+    "Raticate",
+    "Arbok",
+    "Sandslash",
+    "Tentacool",
+    "Tentacruel",
+    "Ponyta",
+    "Doduo",
+    "Dodrio",
+    "Shellder",
+    "Exeggcute",
+    "Magikarp",
+    "Chinchou",
+    "Lanturn",
+    "Quagsire",
+    "Pineco"
+   ]
+  },
+  {
+   "name": "Victory Road",
+   "species": [
+    "Golbat",
+    "Graveler",
+    "Onix",
+    "Rhyhorn",
+    "Ursaring",
+    "Donphan"
+   ]
+  },
+  {
+   "name": "Vermilion City",
+   "species": [
+    "Tentacool",
+    "Tentacruel",
+    "Shellder",
+    "Magikarp",
+    "Snorlax",
+    "Chinchou",
+    "Lanturn"
+   ]
+  },
+  {
+   "name": "Route 6",
+   "species": [
+    "Pidgey",
+    "Oddish",
+    "Meowth",
+    "Psyduck",
+    "Golduck",
+    "Poliwag",
+    "Abra",
+    "Bellsprout",
+    "Magnemite",
+    "Magikarp"
+   ]
+  },
+  {
+   "name": "Route 8",
+   "species": [
+    "Pidgeotto",
+    "Rattata",
+    "Vulpix",
+    "Meowth",
+    "Growlithe",
+    "Abra",
+    "Kadabra",
+    "Haunter",
+    "Noctowl"
+   ]
+  },
+  {
+   "name": "Route 10",
+   "species": [
+    "Raticate",
+    "Spearow",
+    "Fearow",
+    "Voltorb",
+    "Goldeen",
+    "Seaking",
+    "Electabuzz",
+    "Magikarp",
+    "Quagsire"
+   ]
+  },
+  {
+   "name": "Rock Tunnel",
+   "species": [
+    "Zubat",
+    "Machop",
+    "Machoke",
+    "Geodude",
+    "Onix",
+    "Cubone",
+    "Marowak",
+    "Kangaskhan"
+   ]
+  },
+  {
+   "name": "Route 9",
+   "species": [
+    "Rattata",
+    "Raticate",
+    "Spearow",
+    "Fearow",
+    "Mankey",
+    "Primeape",
+    "Goldeen",
+    "Seaking",
+    "Magikarp"
+   ]
+  },
+  {
+   "name": "Cerulean City",
+   "species": [
+    "Goldeen",
+    "Seaking",
+    "Magikarp"
+   ]
+  },
+  {
+   "name": "Route 24",
+   "species": [
+    "Oddish",
+    "Venonat",
+    "Venomoth",
+    "Abra",
+    "Bellsprout",
+    "Weepinbell",
+    "Goldeen",
+    "Seaking",
+    "Magikarp",
+    "Sunkern"
+   ]
+  },
+  {
+   "name": "Route 25",
+   "species": [
+    "Pidgey",
+    "Pidgeotto",
+    "Oddish",
+    "Venonat",
+    "Venomoth",
+    "Abra",
+    "Bellsprout",
+    "Weepinbell",
+    "Goldeen",
+    "Seaking",
+    "Magikarp"
+   ]
+  },
+  {
+   "name": "Route 5",
+   "species": [
+    "Pidgey",
+    "Oddish",
+    "Gloom",
+    "Meowth",
+    "Abra",
+    "Bellsprout"
+   ]
+  },
+  {
+   "name": "Route 7",
+   "species": [
+    "Rattata",
+    "Raticate",
+    "Spearow",
+    "Vulpix",
+    "Meowth",
+    "Persian",
+    "Growlithe",
+    "Murkrow",
+    "Houndour"
+   ]
+  },
+  {
+   "name": "Celadon City",
+   "species": [
+    "Grimer",
+    "Muk",
+    "Mr. Mime",
+    "Eevee",
+    "Porygon"
+   ]
+  },
+  {
+   "name": "Route 16",
+   "species": [
+    "Fearow",
+    "Grimer",
+    "Muk",
+    "Murkrow",
+    "Slugma"
+   ]
+  },
+  {
+   "name": "Route 17",
+   "species": [
+    "Fearow",
+    "Grimer",
+    "Muk",
+    "Slugma"
+   ]
+  },
+  {
+   "name": "Route 18",
+   "species": [
+    "Fearow",
+    "Grimer",
+    "Muk",
+    "Murkrow",
+    "Slugma"
+   ]
+  },
+  {
+   "name": "Fuchsia City",
+   "species": [
+    "Magikarp",
+    "Gyarados"
+   ]
+  },
+  {
+   "name": "Route 15",
+   "species": [
+    "Pidgeotto",
+    "Nidorina",
+    "Nidorino",
+    "Chansey",
+    "Noctowl",
+    "Hoppip",
+    "Quagsire"
+   ]
+  },
+  {
+   "name": "Route 14",
+   "species": [
+    "Pidgeotto",
+    "Nidorina",
+    "Nidorino",
+    "Chansey",
+    "Aerodactyl",
+    "Noctowl",
+    "Hoppip",
+    "Skiploom",
+    "Quagsire"
+   ]
+  },
+  {
+   "name": "Route 13",
+   "species": [
+    "Pidgeotto",
+    "Nidorina",
+    "Nidorino",
+    "Tentacool",
+    "Tentacruel",
+    "Chansey",
+    "Magikarp",
+    "Noctowl",
+    "Hoppip",
+    "Quagsire",
+    "Qwilfish"
+   ]
+  },
+  {
+   "name": "Route 12",
+   "species": [
+    "Tentacool",
+    "Tentacruel",
+    "Magikarp",
+    "Quagsire",
+    "Qwilfish"
+   ]
+  },
+  {
+   "name": "Route 11",
+   "species": [
+    "Rattata",
+    "Magnemite",
+    "Drowzee",
+    "Hypno"
+   ]
+  },
+  {
+   "name": "Diglett's Cave",
+   "species": [
+    "Diglett",
+    "Dugtrio"
+   ]
+  },
+  {
+   "name": "Route 2",
+   "species": [
+    "Caterpie",
+    "Metapod",
+    "Butterfree",
+    "Weedle",
+    "Kakuna",
+    "Beedrill",
+    "Pidgey",
+    "Pidgeotto",
+    "Pikachu",
+    "Hoothoot",
+    "Noctowl",
+    "Ledyba",
+    "Ledian",
+    "Spinarak",
+    "Ariados"
+   ]
+  },
+  {
+   "name": "Pewter City",
+   "species": [
+    "Rapidash"
+   ]
+  },
+  {
+   "name": "Route 3",
+   "species": [
+    "Rattata",
+    "Spearow",
+    "Ekans",
+    "Arbok",
+    "Jigglypuff",
+    "Zubat"
+   ]
+  },
+  {
+   "name": "Mt. Moon",
+   "species": [
+    "Sandshrew",
+    "Sandslash",
+    "Clefairy",
+    "Zubat",
+    "Paras",
+    "Geodude"
+   ]
+  },
+  {
+   "name": "Route 4",
+   "species": [
+    "Rattata",
+    "Spearow",
+    "Ekans",
+    "Arbok",
+    "Jigglypuff",
+    "Zubat",
+    "Goldeen",
+    "Seaking"
+   ]
+  },
+  {
+   "name": "Viridian City",
+   "species": [
+    "Poliwag",
+    "Poliwhirl"
+   ]
+  },
+  {
+   "name": "Route 1",
+   "species": [
+    "Pidgey",
+    "Rattata",
+    "Sentret",
+    "Furret",
+    "Hoothoot"
+   ]
+  },
+  {
+   "name": "Pallet Town",
+   "species": [
+    "Tentacool",
+    "Tentacruel",
+    "Shellder",
+    "Magikarp",
+    "Chinchou",
+    "Lanturn"
+   ]
+  },
+  {
+   "name": "Route 21",
+   "species": [
+    "Tentacool",
+    "Tentacruel",
+    "Shellder",
+    "Tangela",
+    "Mr. Mime",
+    "Magikarp",
+    "Chinchou",
+    "Lanturn"
+   ]
+  },
+  {
+   "name": "Cinnabar Island",
+   "species": [
+    "Tentacool",
+    "Tentacruel",
+    "Shellder",
+    "Magikarp",
+    "Chinchou",
+    "Lanturn"
+   ]
+  },
+  {
+   "name": "Route 20",
+   "species": [
+    "Tentacool",
+    "Tentacruel",
+    "Shellder",
+    "Magikarp",
+    "Chinchou",
+    "Lanturn"
+   ]
+  },
+  {
+   "name": "Route 19",
+   "species": [
+    "Tentacool",
+    "Tentacruel",
+    "Krabby",
+    "Kingler",
+    "Staryu",
+    "Magikarp",
+    "Corsola"
+   ]
+  },
+  {
+   "name": "Route 22",
+   "species": [
+    "Rattata",
+    "Spearow",
+    "Fearow",
+    "Poliwag",
+    "Poliwhirl",
+    "Ponyta",
+    "Doduo",
+    "Magikarp"
+   ]
+  },
+  {
+   "name": "Route 28",
+   "species": [
+    "Poliwag",
+    "Poliwhirl",
+    "Ponyta",
+    "Rapidash",
+    "Doduo",
+    "Dodrio",
+    "Tangela",
+    "Magikarp",
+    "Sneasel",
+    "Ursaring",
+    "Donphan"
+   ]
+  },
+  {
+   "name": "Mt. Silver",
+   "species": [
+    "Golbat",
+    "Golduck",
+    "Poliwag",
+    "Poliwhirl",
+    "Graveler",
+    "Ponyta",
+    "Rapidash",
+    "Doduo",
+    "Dodrio",
+    "Onix",
+    "Tangela",
+    "Goldeen",
+    "Seaking",
+    "Magikarp",
+    "Quagsire",
+    "Misdreavus",
+    "Sneasel",
+    "Ursaring",
+    "Donphan",
+    "Larvitar"
+   ]
+  },
+  {
+   "name": "Bell Tower",
+   "species": [
+    "Rattata",
+    "Gastly",
+    "Ho-Oh"
+   ]
+  },
+  {
+   "name": "Team Rocket HQ",
+   "species": [
+    "Geodude",
+    "Voltorb",
+    "Electrode",
+    "Koffing"
+   ]
+  }
+ ]
+}

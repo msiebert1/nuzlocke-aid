@@ -1,0 +1,32 @@
+Nuzlocke website/app design notes:
+
+Goal
+	- A very simple mobile-friendly website to track progress in a pokemon nuzlocke game
+
+Basic functionality
+	- Supports both normal nuzlocke (1 player) and soul-link (2 player, linked pokemon)
+	- Encounter tracking
+		- players are allowed to encounter and catch one new pokemon on each unique named location
+		- there should be an easy way to log every encounter. Ideally the player can select the location from a dropdown menu that is ordered by the order in which players progress through each game
+		- once an encounter has been logged, that location should be removed from the pool
+		- user should be able to add a custom location in case the aid has not perfectly identified all available locations
+		- encounters can have three states (caught, invalid, and failed)
+	- Caught pokemon categorization
+		- a complete list of logged encounters and status
+		- caught pokemon enter one of two states:
+			- party: added to party of six
+			- boxed: added to available pokemon in the box
+			- if party is full, caught pokemon will need to swap with existing pokemon and move the existing pair to the box
+				- similarly, the user should be able to swap any boxed pokemon with a party pokemon
+		- graveyard: when a players party pokemon faints in battle user moves them to the graveyard (including soul linked partner if necessary)
+		- soul links are tracked if necessary
+	- the user should be able view a graphic of their team similar what has already been developed here
+		- similar graphics should be developed for the box and graveyard
+			- these should be simpler, mainly to provide information, but use a similar aesthetic
+	- after a user begins a game, there info should get saved so that they can exit the website, come back and continue where they left off
+
+Design
+	- the aesthetic of the website should follow the aesthetic of the chosen pokemon game(s)
+	- the landing page (with game selection/creation) should have a professor oak graphic the loads in two random pokemon images
+	- friendly mobile design is very important, this is mainly meant to provide user with a quick way to log encounters
+

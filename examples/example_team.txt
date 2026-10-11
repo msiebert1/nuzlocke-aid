@@ -1,0 +1,9 @@
+# Example Soul Link team using Pokémon found in every game from Red/Blue to Black 2/White 2
+title: Soul Link
+players: Matt, Callie
+Charmeleon (Ember) / Wartortle (Shelly)
+Pikachu (Sparky) / Nidorina
+Gengar / Onix (Rocky)
+Pidgeotto / Butterfree (Flutter)
+Machoke / Psyduck
+Eevee (Fluff) / Snorlax

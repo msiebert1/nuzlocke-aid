@@ -1,0 +1,7 @@
+# downloaded art and API responses (rebuilt by the tools)
+.artwork_cache/
+__pycache__/
+node_modules/
+.DS_Store
+# desktop GUI's saved team (personal)
+team.json
