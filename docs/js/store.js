@@ -11,7 +11,7 @@
 //   updateRun(code, fn) -> result               fn(run) returns {run, ...result}; applied atomically
 //   shared                                      true when runs are shared between devices
 
-import { firebaseConfig } from "../firebase-config.js?v=33ad1649";
+import { firebaseConfig } from "../firebase-config.js?v=52715517";
 
 const FIREBASE = "https://www.gstatic.com/firebasejs/10.12.2";
 
@@ -52,7 +52,7 @@ function localBackend() {
     watchRun(code, callback) {
       if (!listeners.has(code)) listeners.set(code, new Set());
       listeners.get(code).add(callback);
-      queueMicrotask(() => callback(read(code)));
+      queueMicrotask(() => callback(read(code), { from: "device" }));
       return () => listeners.get(code).delete(callback);
     },
     async updateRun(code, fn) {
@@ -95,8 +95,14 @@ async function firebaseBackend(config) {
       return code;
     },
     watchRun(code, callback) {
-      return fs.onSnapshot(ref(code), (snap) => callback(snap.exists() ? snap.data() : null),
-                           () => callback(null));
+      // callback(run, status): status.from is "server" or "cache"; status.error
+      // is set if the run couldn't be loaded. A run missing from this phone's
+      // copy may just not have downloaded yet, so wait for the server.
+      return fs.onSnapshot(ref(code), { includeMetadataChanges: true }, (snap) => {
+        const from = snap.metadata.fromCache ? "cache" : "server";
+        if (!snap.exists() && from === "cache") return callback(undefined, { from, waiting: true });
+        callback(snap.exists() ? snap.data() : null, { from });
+      }, (err) => callback(undefined, { error: err.code || err.message || "unknown error" }));
     },
     async updateRun(code, fn) {
       if (!navigator.onLine) {
@@ -124,18 +130,27 @@ async function firebaseBackend(config) {
 let backend = null;
 
 /** The active backend: Firebase if configured and reachable, else this browser. */
+export let storeError = null; // why shared saves couldn't be reached, if they couldn't
+
 export async function store() {
   if (backend) return backend;
   if (firebaseConfig) {
     try {
       backend = await firebaseBackend(firebaseConfig);
+      storeError = null;
       return backend;
     } catch (err) {
       console.error("Firebase unavailable; saving in this browser only.", err);
+      storeError = err?.code || err?.message || "couldn't connect";
     }
   }
   backend = localBackend();
   return backend;
+}
+
+/** Forget a failed connection so the next store() tries Firebase again. */
+export function resetStore() {
+  if (backend && !backend.shared) backend = null;
 }
 
 // Runs this device has opened, newest first (for the landing page's Continue list)

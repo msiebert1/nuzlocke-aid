@@ -3,11 +3,11 @@
 //   #/new                  start a run
 //   #/run/<code>/<tab>     a run: log | team | box | grave | list | settings
 
-import { store, rememberRun } from "./store.js?v=33ad1649";
-import { applyTheme, esc, loadGame, toast } from "./ui.js?v=33ad1649";
-import * as landing from "./pages/landing.js?v=33ad1649";
-import * as newRun from "./pages/newrun.js?v=33ad1649";
-import * as runPages from "./pages/run.js?v=33ad1649";
+import { store, rememberRun, resetStore, storeError } from "./store.js?v=52715517";
+import { applyTheme, esc, loadGame, toast } from "./ui.js?v=52715517";
+import * as landing from "./pages/landing.js?v=52715517";
+import * as newRun from "./pages/newrun.js?v=52715517";
+import * as runPages from "./pages/run.js?v=52715517";
 
 const app = document.getElementById("app");
 let session = null; // the open run: {code, run, game, db, me, update}
@@ -78,14 +78,53 @@ async function openRun(code, tab) {
   session.refresh = () => runPages.show(app, session); // page-driven redraw
 
   app.innerHTML = `<p class="loading">Loading run…</p>`;
-  current.unsubscribe = db.watchRun(code, async (run) => {
+  const problem = (title, text) => {
+    app.innerHTML = `<div class="box"><h2>${title}</h2>${text}
+      <div class="btn-row" style="margin-top:10px">
+        <button class="primary" id="retry">Try again</button>
+        <a class="btn" href="#/">Back to start</a></div></div>`;
+    app.querySelector("#retry").addEventListener("click", () => {
+      closeSession();
+      resetStore();
+      openRun(code, session?.tab || tab);
+    });
+  };
+  const connectionHelp = `<p><small class="muted">Check the phone is online. Ad or content blockers
+    (and some apps' built-in browsers) can block the save server: try opening the link in
+    Safari or Chrome, or turning the blocker off for this site.</small></p>`;
+
+  // A run you were given a link to can only be found if shared saves connect
+  if (!db.shared && storeError && !localStorage.getItem(`nuzlocke-run:${code}`)) {
+    problem("Couldn't connect", `<p>The shared save server couldn't be reached
+      (${esc(storeError)}), so run <b>${esc(code)}</b> can't be opened.</p>${connectionHelp}`);
+    return;
+  }
+  let loaded = false;
+  const slow = setTimeout(() => {
+    if (session === current && !loaded) {
+      problem("Still connecting…", `<p>Run <b>${esc(code)}</b> hasn't loaded yet.</p>${connectionHelp}`);
+    }
+  }, 12000);
+
+  current.unsubscribe = db.watchRun(code, async (run, status = {}) => {
     if (session !== current) return;
+    if (status.error) {
+      clearTimeout(slow);
+      problem("Couldn't load the run", `<p>Run <b>${esc(code)}</b> couldn't be loaded
+        (${esc(status.error)}).</p>${connectionHelp}`);
+      return;
+    }
+    if (run === undefined) return; // still waiting for the server
     if (!run) {
+      clearTimeout(slow);
       app.innerHTML = `<div class="box"><h2>Run not found</h2>
-        <p>No run with code <b>${esc(code)}</b>${db.shared ? "" : " on this device"}.</p>
+        <p>No run with code <b>${esc(code)}</b>${db.shared ? "" : " on this device"}.
+        Check the link or code is complete.</p>
         <p><a class="btn" href="#/">Back to start</a></p></div>`;
       return;
     }
+    loaded = true;
+    clearTimeout(slow);
     if (!current.game || current.game.key !== run.game) {
       current.game = await loadGame(run.game);
     }

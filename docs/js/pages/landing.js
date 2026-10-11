@@ -1,7 +1,7 @@
 // Landing page: Professor Oak with two random Pokémon, start or continue a run.
 
-import { store, recentRuns, forgetRun } from "../store.js?v=33ad1649";
-import { applyTheme, esc, loadGame, loadStyles, sprite } from "../ui.js?v=33ad1649";
+import { store, recentRuns, forgetRun, storeError } from "../store.js?v=52715517";
+import { applyTheme, esc, loadGame, loadStyles, sprite } from "../ui.js?v=52715517";
 
 const DS_GAMES = ["dp", "pt", "hgss", "b2w2"];
 
@@ -49,8 +49,11 @@ export async function show(app) {
           ${r.mode === "soul" ? "Soul link" : "Nuzlocke"}</small></span>
         <button class="small" data-forget="${esc(r.code)}" aria-label="Remove from this list">✕</button>
       </a>`).join("")}</div>` : ""}
-    ${db.shared ? "" : `<p class="box"><small class="warn">Runs are saved on this device only
-      (shared saves aren't set up yet).</small></p>`}
+    ${db.shared ? "" : `<p class="box"><small class="warn">${storeError
+      ? `Couldn't reach the shared save server (${esc(storeError)}), so new runs are saved on this
+         device only and links from others won't open. Check your connection or content blocker,
+         then reload.`
+      : "Runs are saved on this device only (shared saves aren't set up yet)."}</small></p>`}
   `;
 
   app.querySelector("#join").addEventListener("submit", (e) => {
