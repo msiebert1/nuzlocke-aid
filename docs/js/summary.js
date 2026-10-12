@@ -1,7 +1,7 @@
 // What the shared summary page shows, worked out from a run: its stats and
 // its history as plain lines of text. Pure functions (tests/summary.test.js).
 
-import { graveyard, isUsable, party, tally } from "./rules.js?v=d34b2750";
+import { graveyard, isUsable, party, tally } from "./rules.js?v=e78cdade";
 
 const DAY = 24 * 60 * 60 * 1000;
 

@@ -2,11 +2,11 @@
 // live updates of the team, badges, history, graveyard and box. It reads only
 // the run's view copy, so it never sees (or needs) the run's edit code.
 
-import * as R from "../rules.js?v=d34b2750";
-import { store } from "../store.js?v=d34b2750";
-import * as Sum from "../summary.js?v=d34b2750";
-import { applyTheme, badgeCount, badgeRow, esc, gameName, loadGame, monName, resultBanner, trainerImg } from "../ui.js?v=d34b2750";
-import { unitHTML } from "./units.js?v=d34b2750";
+import * as R from "../rules.js?v=e78cdade";
+import { store } from "../store.js?v=e78cdade";
+import * as Sum from "../summary.js?v=e78cdade";
+import { applyTheme, badgeCount, badgeRow, esc, gameName, loadGame, monName, resultBanner, trainerImg } from "../ui.js?v=e78cdade";
+import { unitHTML } from "./units.js?v=e78cdade";
 
 const TIMELINE_STEP = 25;
 

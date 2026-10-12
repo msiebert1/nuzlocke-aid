@@ -1,11 +1,11 @@
 // Start a run: name, game, single nuzlocke or soul link, players.
 // "Other game" runs any game: the players supply its name and locations.
 
-import { parseLocationList } from "../rules.js?v=d34b2750";
-import { store } from "../store.js?v=d34b2750";
+import { parseLocationList } from "../rules.js?v=e78cdade";
+import { newCode, store } from "../store.js?v=e78cdade";
 import {
   ART_CHOICES, GENERIC, MAX_CUSTOM_LOCATIONS, applyTheme, esc, hasGoalChoice, loadGame, loadStyles, toast, trainerImg,
-} from "../ui.js?v=d34b2750";
+} from "../ui.js?v=e78cdade";
 
 export async function show(app) {
   const styles = await loadStyles();
@@ -125,7 +125,14 @@ export async function show(app) {
       if (generic) run.gameName = state.gameName.trim() || "Other game";
       form.querySelector("button[type=submit]").disabled = true;
       try {
-        const code = await (await store()).createRun(run);
+        const db = await store();
+        // sharing is on from the start: the live summary link works right away
+        // (the app creates the view copy when it opens the run)
+        if (db.saveView) {
+          run.share = { on: true, code: newCode(12) };
+          run.editors = [db.uid];
+        }
+        const code = await db.createRun(run);
         location.hash = `#/run/${code}/${state.mode === "soul" ? "settings" : "log"}`;
         toast(state.mode === "soul" ? "Run started: share the link with your partner" : "Run started");
       } catch (err) {

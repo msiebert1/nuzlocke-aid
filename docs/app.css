@@ -506,3 +506,9 @@ body[data-look="modern"] .result-banner.victory { background: linear-gradient(13
 .badge img[src$="red.png"] { image-rendering: pixelated; }
 
 .goal-choice span small { display: block; font-size: 14px; color: var(--ink-light); font-weight: 400; margin-top: 2px; }
+
+/* Live summary / Share run link in the run header */
+.summary-link { display: inline-block; margin-top: 2px; font-size: 15px; color: #2a6fd6; text-decoration: none; font-weight: 600; }
+.summary-link:hover { text-decoration: underline; }
+body[data-look="modern"] .summary-link { color: #7fb0ff; }
+body:not([data-look="modern"]) .topbar .title .summary-link { font-size: var(--fs); }

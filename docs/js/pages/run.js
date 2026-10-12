@@ -1,11 +1,11 @@
 // A run's pages: header, bottom tab bar, and the current tab.
 
-import * as R from "../rules.js?v=d34b2750";
-import { esc, gameName, resultBanner, resultLabel } from "../ui.js?v=d34b2750";
-import * as log from "./log.js?v=d34b2750";
-import * as units from "./units.js?v=d34b2750";
-import * as list from "./list.js?v=d34b2750";
-import * as settings from "./settings.js?v=d34b2750";
+import * as R from "../rules.js?v=e78cdade";
+import { esc, gameName, resultBanner, resultLabel } from "../ui.js?v=e78cdade";
+import * as log from "./log.js?v=e78cdade";
+import * as units from "./units.js?v=e78cdade";
+import * as list from "./list.js?v=e78cdade";
+import * as settings from "./settings.js?v=e78cdade";
 
 const TABS = {
   log: { label: "Log", page: log },
@@ -17,7 +17,7 @@ const TABS = {
 };
 
 export function show(app, session) {
-  const { run, code } = session;
+  const { run, code, db } = session;
   const tab = TABS[session.tab] ? session.tab : "log";
   const counts = {
     team: `${R.party(run).length}/${R.PARTY_SIZE}`,
@@ -32,6 +32,9 @@ export function show(app, session) {
       <div class="box title">
         <h1>${esc(run.name)}</h1>
         <small>${esc(gameName(session))} · ${run.mode === "soul" ? "Soul link" : "Nuzlocke"}${R.isRandomizer(run) ? " · Randomizer" : ""} · ${who}${R.isOver(run) ? ` · ${resultLabel(run)}` : ""}</small>
+        ${run.share?.on && run.share.code
+          ? `<a class="summary-link" href="#/view/${esc(run.share.code)}" target="_blank" rel="noopener">👁 Live summary</a>`
+          : db.saveView ? `<a class="summary-link" href="#/run/${code}/settings" data-goto="viewshare">👁 Share run</a>` : ""}
       </div>
       <a class="btn" href="#/run/${code}/settings" aria-label="Settings">⚙</a>
     </div>
@@ -43,4 +46,12 @@ export function show(app, session) {
         </a>`).join("")}
     </nav>`;
   TABS[tab].page.bind?.(app.querySelector("#page"), session);
+  // "Share run" in the header jumps to the sharing section of Settings
+  if (tab === "settings" && session.scrollTo) {
+    const target = session.scrollTo;
+    session.scrollTo = null;
+    // after the page switch has scrolled to the top
+    setTimeout(() => app.querySelector(`#${target}`)?.scrollIntoView({ block: "start" }), 60);
+  }
+  app.querySelector("[data-goto]")?.addEventListener("click", (e) => (session.scrollTo = e.currentTarget.dataset.goto));
 }
