@@ -361,7 +361,7 @@ export function sharePost(run, kind, { game, site }) {
     lines.splice(1, 0, run.result.reason === "abandoned"
       ? `🏳️ Run abandoned${run.result.note ? `: ${run.result.note}` : "."}` : "💀 Defeat: wiped out.");
   }
-  if (site) lines.push(`Made with Nuzlocke Aid: ${site}`);
+  if (site) lines.push(`Made with NuzLog: ${site}`);
   return lines.join("\n");
 }
 

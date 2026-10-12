@@ -1,8 +1,8 @@
 // Settings: share link, player names and sprites, wallpapers, link icon.
 
-import { canWin, endRun, finalMilestone, isOver, isWipedOut, parseLocationList, reopenRun, setCustomLocations, setGoal } from "../rules.js?v=e78cdade";
-import { forgetRun, newCode } from "../store.js?v=e78cdade";
-import { ART_CHOICES, MAX_CUSTOM_LOCATIONS, closeModal, confirmBox, esc, hasGoalChoice, modal, resultBanner, toast, trainerImg } from "../ui.js?v=e78cdade";
+import { canWin, endRun, finalMilestone, isOver, isWipedOut, parseLocationList, reopenRun, setCustomLocations, setGoal } from "../rules.js?v=04cba4ac";
+import { forgetRun, newCode } from "../store.js?v=04cba4ac";
+import { ART_CHOICES, MAX_CUSTOM_LOCATIONS, closeModal, confirmBox, esc, hasGoalChoice, modal, resultBanner, toast, trainerImg } from "../ui.js?v=04cba4ac";
 
 function shareLink(code) {
   return `${location.origin}${location.pathname}#/run/${code}/log`;

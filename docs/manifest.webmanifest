@@ -1,6 +1,6 @@
 {
-  "name": "Nuzlocke Aid",
-  "short_name": "Nuzlocke",
+  "name": "NuzLog",
+  "short_name": "NuzLog",
   "description": "Log encounters and track your team in a Pokémon nuzlocke or soul link.",
   "start_url": "./",
   "display": "standalone",

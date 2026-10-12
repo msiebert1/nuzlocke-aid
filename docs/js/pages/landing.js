@@ -1,7 +1,7 @@
 // Landing page: Professor Oak with two random Pokémon, start or continue a run.
 
-import { store, recentRuns, forgetRun, storeError } from "../store.js?v=e78cdade";
-import { applyTheme, esc, loadGame, loadStyles, sprite } from "../ui.js?v=e78cdade";
+import { store, recentRuns, forgetRun, storeError } from "../store.js?v=04cba4ac";
+import { applyTheme, esc, loadGame, loadStyles, sprite } from "../ui.js?v=04cba4ac";
 
 const DS_GAMES = ["dp", "pt", "hgss", "b2w2"];
 
@@ -30,7 +30,7 @@ export async function show(app) {
     </div>
     <div class="box">
       <p><b>OAK:</b> Hello there! Welcome to the world of POKéMON!</p>
-      <p>This is your NUZLOCKE AID. Log every encounter and keep track of your team.</p>
+      <p>This is your NUZLOG. Log every encounter and keep track of your team.</p>
     </div>
     <div class="btn-row" style="margin-bottom:12px">
       <a class="btn primary" href="#/new">New run</a>

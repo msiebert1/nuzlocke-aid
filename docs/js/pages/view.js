@@ -2,11 +2,11 @@
 // live updates of the team, badges, history, graveyard and box. It reads only
 // the run's view copy, so it never sees (or needs) the run's edit code.
 
-import * as R from "../rules.js?v=e78cdade";
-import { store } from "../store.js?v=e78cdade";
-import * as Sum from "../summary.js?v=e78cdade";
-import { applyTheme, badgeCount, badgeRow, esc, gameName, loadGame, monName, resultBanner, trainerImg } from "../ui.js?v=e78cdade";
-import { unitHTML } from "./units.js?v=e78cdade";
+import * as R from "../rules.js?v=04cba4ac";
+import { store } from "../store.js?v=04cba4ac";
+import * as Sum from "../summary.js?v=04cba4ac";
+import { applyTheme, badgeCount, badgeRow, esc, gameName, loadGame, monName, resultBanner, trainerImg } from "../ui.js?v=04cba4ac";
+import { unitHTML } from "./units.js?v=04cba4ac";
 
 const TIMELINE_STEP = 25;
 
@@ -151,13 +151,13 @@ export async function show(app, code) {
     if (run === undefined) return; // waiting for the server
     if (!run) {
       app.innerHTML = `<div class="box"><h2>Not shared</h2><p>This run isn't being shared any more,
-        or the link is incomplete.</p><p><a class="btn" href="#/">Nuzlocke Aid home</a></p></div>`;
+        or the link is incomplete.</p><p><a class="btn" href="#/">NuzLog home</a></p></div>`;
       return;
     }
     if (!state.game || state.game.key !== run.game) state.game = await loadGame(run.game);
     const session = { run, game: state.game, code: null };
     applyTheme(run.game, state.game.style, run.options?.look || "game");
-    document.title = `${run.name} · Nuzlocke Aid`;
+    document.title = `${run.name} · NuzLog`;
     // keep any sections the reader opened
     app.querySelectorAll("details[data-key]").forEach((d) => d.open ? state.openDetails.add(d.dataset.key) : state.openDetails.delete(d.dataset.key));
     const now = Date.now();
@@ -173,7 +173,7 @@ export async function show(app, code) {
         <div class="v-rest">${graveBox(session)}${boxBox(session)}${routeBox(session)}</div>
       </div>
     </div>
-    <p class="view-foot"><small>Made with <a href="#/">Nuzlocke Aid</a>: track your own nuzlocke or soul link.</small></p>`;
+    <p class="view-foot"><small>Made with <a href="#/">NuzLog</a>: track your own nuzlocke or soul link.</small></p>`;
     app.querySelectorAll("details.box").forEach((d, i) => {
       d.dataset.key = String(i);
       if (state.openDetails.has(d.dataset.key)) d.open = true;

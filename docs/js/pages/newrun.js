@@ -1,11 +1,11 @@
 // Start a run: name, game, single nuzlocke or soul link, players.
 // "Other game" runs any game: the players supply its name and locations.
 
-import { parseLocationList } from "../rules.js?v=e78cdade";
-import { newCode, store } from "../store.js?v=e78cdade";
+import { parseLocationList } from "../rules.js?v=04cba4ac";
+import { newCode, store } from "../store.js?v=04cba4ac";
 import {
   ART_CHOICES, GENERIC, MAX_CUSTOM_LOCATIONS, applyTheme, esc, hasGoalChoice, loadGame, loadStyles, toast, trainerImg,
-} from "../ui.js?v=e78cdade";
+} from "../ui.js?v=04cba4ac";
 
 export async function show(app) {
   const styles = await loadStyles();

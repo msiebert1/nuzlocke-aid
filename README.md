@@ -1,4 +1,4 @@
-# Nuzlocke Aid
+# NuzLog
 
 A free, mobile-friendly website for running a Pokémon nuzlocke or soul link:
 log one encounter per location (in game order), track your party, box and

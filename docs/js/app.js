@@ -1,15 +1,15 @@
-// Nuzlocke Aid: hash router and run session.
+// NuzLog: hash router and run session.
 //   #/                     landing (Professor Oak)
 //   #/new                  start a run
 //   #/run/<code>/<tab>     a run: log | team | box | grave | list | settings
 //   #/view/<code>          a run's read-only summary (its "share run" link)
 
-import { store, rememberRun, resetStore, storeError } from "./store.js?v=e78cdade";
-import { applyTheme, esc, loadGame, toast } from "./ui.js?v=e78cdade";
-import * as landing from "./pages/landing.js?v=e78cdade";
-import * as newRun from "./pages/newrun.js?v=e78cdade";
-import * as viewPage from "./pages/view.js?v=e78cdade";
-import * as runPages from "./pages/run.js?v=e78cdade";
+import { store, rememberRun, resetStore, storeError } from "./store.js?v=04cba4ac";
+import { applyTheme, esc, loadGame, toast } from "./ui.js?v=04cba4ac";
+import * as landing from "./pages/landing.js?v=04cba4ac";
+import * as newRun from "./pages/newrun.js?v=04cba4ac";
+import * as viewPage from "./pages/view.js?v=04cba4ac";
+import * as runPages from "./pages/run.js?v=04cba4ac";
 
 const app = document.getElementById("app");
 let session = null; // the open run: {code, run, game, db, me, update}
