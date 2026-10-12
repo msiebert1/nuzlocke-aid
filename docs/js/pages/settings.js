@@ -1,11 +1,24 @@
 // Settings: share link, player names and sprites, wallpapers, link icon.
 
-import { parseLocationList, setCustomLocations } from "../rules.js?v=4e1cb12c";
-import { forgetRun } from "../store.js?v=4e1cb12c";
-import { ART_CHOICES, MAX_CUSTOM_LOCATIONS, confirmBox, esc, toast, trainerImg } from "../ui.js?v=4e1cb12c";
+import { parseLocationList, setCustomLocations } from "../rules.js?v=19436aea";
+import { forgetRun, newCode } from "../store.js?v=19436aea";
+import { ART_CHOICES, MAX_CUSTOM_LOCATIONS, confirmBox, esc, toast, trainerImg } from "../ui.js?v=19436aea";
 
 function shareLink(code) {
   return `${location.origin}${location.pathname}#/run/${code}/log`;
+}
+
+function viewLink(code) {
+  return `${location.origin}${location.pathname}#/view/${code}`;
+}
+
+async function copy(text, done) {
+  try {
+    await navigator.clipboard.writeText(text);
+    toast(done);
+  } catch {
+    toast(text);
+  }
 }
 
 export function render(session) {
@@ -20,14 +33,34 @@ export function render(session) {
     : generic ? "official" : "sprites";
   return `
     <div class="box">
-      <h2>Share</h2>
+      <h2>${soul ? "Invite your partner" : "Continue on another device"} <small class="muted">(can edit)</small></h2>
       ${db.shared
         ? `<p>${soul ? "Send this link to your partner so you both log to this run." :
-            "Open this link on any device to continue this run."}</p>`
+            "Open this link on any device to continue this run."} Anyone with it can change the run.</p>`
         : `<p class="warn"><small>Shared saves aren't set up yet, so this run lives on this device only.</small></p>`}
       <p class="share-code">${esc(code)}</p>
       <div class="btn-row"><button type="button" id="copy">Copy link</button>
         ${navigator.share ? `<button type="button" id="share">Share…</button>` : ""}</div>
+    </div>
+    <div class="box" id="viewshare">
+      <h2>Share run <small class="muted">(view only)</small></h2>
+      ${!db.saveView ? `<p class="muted"><small>Needs shared saves, which aren't connected.</small></p>`
+        : run.share?.on ? `
+          <p>Anyone with this link sees a live summary of the run (team, badges, history, graveyard),
+             but can't change anything.</p>
+          <p class="share-code" style="font-size:16px;overflow-wrap:anywhere">${esc(viewLink(run.share.code))}</p>
+          <div class="btn-row">
+            <button type="button" class="primary" id="view-copy">Copy link</button>
+            ${navigator.share ? `<button type="button" id="view-share">Share…</button>` : ""}
+            <a class="btn" href="#/view/${esc(run.share.code)}" target="_blank" rel="noopener">Open</a>
+          </div>
+          <div class="btn-row" style="margin-top:8px">
+            <button type="button" class="small" id="view-new">New link</button>
+            <button type="button" class="small danger" id="view-stop">Stop sharing</button>
+          </div>`
+        : `<p>Make a link to a live, read-only summary of the run to show friends or viewers:
+             your team, badges, history and graveyard.</p>
+           <button type="button" class="primary" id="view-start" style="width:100%">👁 Share run</button>`}
     </div>
     <form class="box" id="look">
       <h2>Look</h2>
@@ -106,6 +139,36 @@ export function bind(root, session) {
   root.querySelector("#share")?.addEventListener("click", () =>
     navigator.share({ title: run.name, text: `Join my ${run.mode === "soul" ? "soul link" : "nuzlocke"}: ${run.name}`,
                       url: shareLink(code) }).catch(() => {}));
+  // --- read-only view link
+  const startSharing = async (oldCode) => {
+    const viewCode = newCode(12);
+    if (oldCode) await session.db.deleteView(oldCode).catch(() => {});
+    // the update below also creates the view copy (app.js keeps it in sync)
+    await session.update((r) => ({ ...r, share: { on: true, code: viewCode },
+      editors: [...new Set([...(r.editors || []), session.db.uid])] }));
+  };
+  root.querySelector("#view-start")?.addEventListener("click", async () => {
+    await startSharing();
+    toast("Share link ready");
+  });
+  root.querySelector("#view-copy")?.addEventListener("click", () =>
+    copy(viewLink(run.share.code), "View link copied"));
+  root.querySelector("#view-share")?.addEventListener("click", () =>
+    navigator.share({ title: run.name, text: `Follow my ${run.mode === "soul" ? "soul link" : "nuzlocke"}: ${run.name}`,
+                      url: viewLink(run.share.code) }).catch(() => {}));
+  root.querySelector("#view-new")?.addEventListener("click", async () => {
+    if (!(await confirmBox("Make a new view link? The old link stops working.", "New link"))) return;
+    await startSharing(run.share.code);
+    toast("New view link ready");
+  });
+  root.querySelector("#view-stop")?.addEventListener("click", async () => {
+    if (!(await confirmBox("Stop sharing? The view link stops working. (You can share again later with a new link.)", "Stop sharing"))) return;
+    const old = run.share.code;
+    await session.update((r) => ({ ...r, share: { on: false } }));
+    await session.db.deleteView(old).catch(() => {});
+    toast("Sharing stopped");
+  });
+
   // look and art apply as soon as they're picked
   const look = root.querySelector("#look");
   look.addEventListener("change", async () => {

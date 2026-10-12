@@ -2,12 +2,14 @@
 //   #/                     landing (Professor Oak)
 //   #/new                  start a run
 //   #/run/<code>/<tab>     a run: log | team | box | grave | list | settings
+//   #/view/<code>          a run's read-only summary (its "share run" link)
 
-import { store, rememberRun, resetStore, storeError } from "./store.js?v=4e1cb12c";
-import { applyTheme, esc, loadGame, toast } from "./ui.js?v=4e1cb12c";
-import * as landing from "./pages/landing.js?v=4e1cb12c";
-import * as newRun from "./pages/newrun.js?v=4e1cb12c";
-import * as runPages from "./pages/run.js?v=4e1cb12c";
+import { store, rememberRun, resetStore, storeError } from "./store.js?v=19436aea";
+import { applyTheme, esc, loadGame, toast } from "./ui.js?v=19436aea";
+import * as landing from "./pages/landing.js?v=19436aea";
+import * as newRun from "./pages/newrun.js?v=19436aea";
+import * as viewPage from "./pages/view.js?v=19436aea";
+import * as runPages from "./pages/run.js?v=19436aea";
 
 const app = document.getElementById("app");
 let session = null; // the open run: {code, run, game, db, me, update}
@@ -16,6 +18,7 @@ function parseHash() {
   const parts = location.hash.replace(/^#\/?/, "").split("/").filter(Boolean);
   if (parts[0] === "new") return { page: "new" };
   if (parts[0] === "run" && parts[1]) return { page: "run", code: parts[1].toLowerCase(), tab: parts[2] || "log" };
+  if (parts[0] === "view" && parts[1]) return { page: "view", code: parts[1].toLowerCase() };
   return { page: "landing" };
 }
 
@@ -28,6 +31,9 @@ async function route() {
       await newRun.show(app);
     } else if (r.page === "run") {
       await openRun(r.code, r.tab);
+    } else if (r.page === "view") {
+      closeView();
+      viewUnsubscribe = await viewPage.show(app, r.code);
     } else {
       await landing.show(app);
     }
@@ -39,9 +45,23 @@ async function route() {
   window.scrollTo(0, 0);
 }
 
+let viewUnsubscribe = null;
+function closeView() {
+  viewUnsubscribe?.();
+  viewUnsubscribe = null;
+}
+
 function closeSession() {
   session?.unsubscribe?.();
   session = null;
+  closeView();
+}
+
+/** Keep the run's read-only view copy (its "share run" link) up to date. Best
+ *  effort: the view is a convenience, so a failed sync never blocks a save. */
+function syncView(db, run) {
+  if (!db.saveView || !run.share?.on || !run.share.code) return;
+  db.saveView(run.share.code, run).catch((err) => console.warn("Couldn't update the shared view:", err));
 }
 
 async function openRun(code, tab) {
@@ -69,6 +89,7 @@ async function openRun(code, tab) {
         current.run = result.run;
         renderRun();
       }
+      syncView(db, result.run);
       return result;
     } catch (err) {
       toast(err.message);
@@ -132,6 +153,12 @@ async function openRun(code, tab) {
     current.run = run;
     rememberRun(code, run);
     renderRun();
+    // this device can edit the run, so it may also update its shared view
+    if (db.shared && db.uid && !(run.editors || []).includes(db.uid) && !current.joining) {
+      current.joining = true;
+      session.update((r) => ({ ...r, editors: [...new Set([...(r.editors || []), db.uid])].slice(-40) }))
+        .catch(() => {});
+    }
   });
 }
 

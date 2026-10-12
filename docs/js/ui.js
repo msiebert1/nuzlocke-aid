@@ -38,9 +38,10 @@ export const MAX_CUSTOM_LOCATIONS = 100;
 /** Everything a game's pages need, loaded once. */
 export async function loadGame(game) {
   const generic = game === GENERIC;
-  const [styles, species, locations, sheet, art, evolutions] = await Promise.all([
+  const [styles, species, locations, sheet, art, evolutions, badges] = await Promise.all([
     loadStyles(), loadSpecies(), generic ? [] : loadLocations(game), generic ? {} : loadSheet(game),
     loadArt(), getJSON("data/evolutions.json").catch(() => ({})),
+    getJSON("data/badges.json").catch(() => ({})),
   ]);
   const style = generic ? GENERIC_STYLE : styles[game];
   return {
@@ -52,6 +53,8 @@ export async function loadGame(game) {
     dex: Object.fromEntries(species.map((s) => [s.name, s.dex])),
     art: Object.fromEntries(Object.entries(art).map(([k, list]) => [k, new Set(list)])),
     evolutions, // {species: [what it evolves into]}
+    // badges, Elite Four and Champion, in the order they're earned
+    milestones: badges[game] || badges.generic || [],
   };
 }
 
@@ -290,4 +293,27 @@ export async function removeEncounter(session, id, removeRule) {
 /** Display name for a catch: nickname, else species. */
 export function monName(c) {
   return c.nickname || c.species || "—";
+}
+
+/** The run's badges and League progress as a row of icons; earned ones in
+ *  colour, the rest greyed out. */
+export function badgeRow(session, { size = 34, tappable = false } = {}) {
+  const { run, game } = session;
+  const items = game.milestones;
+  if (!items.length) return "";
+  const icon = (m) => {
+    const earned = !!run.progress?.[m.key];
+    const title = `${m.name}${m.leader ? ` (${m.leader})` : ""}${earned ? "" : ": not yet"}`;
+    const inner = `<img src="assets/${m.icon}" alt="${esc(title)}" title="${esc(title)}"
+        style="width:${size}px;height:${size}px">${m.number ? `<span class="badge-num">${m.number}</span>` : ""}`;
+    return tappable
+      ? `<button type="button" class="badge ${earned ? "earned" : ""}" data-milestone="${esc(m.key)}">${inner}</button>`
+      : `<span class="badge ${earned ? "earned" : ""}">${inner}</span>`;
+  };
+  return `<div class="badge-row">${items.map(icon).join("")}</div>`;
+}
+
+export function badgeCount(session) {
+  const badges = session.game.milestones.filter((m) => m.kind === "badge");
+  return { earned: badges.filter((m) => session.run.progress?.[m.key]).length, total: badges.length };
 }

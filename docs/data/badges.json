@@ -1,0 +1,1042 @@
+{
+ "rb": [
+  {
+   "key": "boulder",
+   "name": "Boulder Badge",
+   "leader": "Brock",
+   "kind": "badge",
+   "icon": "badges/boulder.png"
+  },
+  {
+   "key": "cascade",
+   "name": "Cascade Badge",
+   "leader": "Misty",
+   "kind": "badge",
+   "icon": "badges/cascade.png"
+  },
+  {
+   "key": "thunder",
+   "name": "Thunder Badge",
+   "leader": "Lt. Surge",
+   "kind": "badge",
+   "icon": "badges/thunder.png"
+  },
+  {
+   "key": "rainbow",
+   "name": "Rainbow Badge",
+   "leader": "Erika",
+   "kind": "badge",
+   "icon": "badges/rainbow.png"
+  },
+  {
+   "key": "soul",
+   "name": "Soul Badge",
+   "leader": "Koga",
+   "kind": "badge",
+   "icon": "badges/soul.png"
+  },
+  {
+   "key": "marsh",
+   "name": "Marsh Badge",
+   "leader": "Sabrina",
+   "kind": "badge",
+   "icon": "badges/marsh.png"
+  },
+  {
+   "key": "volcano",
+   "name": "Volcano Badge",
+   "leader": "Blaine",
+   "kind": "badge",
+   "icon": "badges/volcano.png"
+  },
+  {
+   "key": "earth",
+   "name": "Earth Badge",
+   "leader": "Giovanni",
+   "kind": "badge",
+   "icon": "badges/earth.png"
+  },
+  {
+   "key": "elite4",
+   "name": "Elite Four",
+   "leader": "Lorelei, Bruno, Agatha & Lance",
+   "kind": "elite4",
+   "icon": "badges/elite-four.png"
+  },
+  {
+   "key": "champion",
+   "name": "Champion",
+   "leader": "Blue",
+   "kind": "champion",
+   "icon": "badges/champion.png"
+  }
+ ],
+ "y": [
+  {
+   "key": "boulder",
+   "name": "Boulder Badge",
+   "leader": "Brock",
+   "kind": "badge",
+   "icon": "badges/boulder.png"
+  },
+  {
+   "key": "cascade",
+   "name": "Cascade Badge",
+   "leader": "Misty",
+   "kind": "badge",
+   "icon": "badges/cascade.png"
+  },
+  {
+   "key": "thunder",
+   "name": "Thunder Badge",
+   "leader": "Lt. Surge",
+   "kind": "badge",
+   "icon": "badges/thunder.png"
+  },
+  {
+   "key": "rainbow",
+   "name": "Rainbow Badge",
+   "leader": "Erika",
+   "kind": "badge",
+   "icon": "badges/rainbow.png"
+  },
+  {
+   "key": "soul",
+   "name": "Soul Badge",
+   "leader": "Koga",
+   "kind": "badge",
+   "icon": "badges/soul.png"
+  },
+  {
+   "key": "marsh",
+   "name": "Marsh Badge",
+   "leader": "Sabrina",
+   "kind": "badge",
+   "icon": "badges/marsh.png"
+  },
+  {
+   "key": "volcano",
+   "name": "Volcano Badge",
+   "leader": "Blaine",
+   "kind": "badge",
+   "icon": "badges/volcano.png"
+  },
+  {
+   "key": "earth",
+   "name": "Earth Badge",
+   "leader": "Giovanni",
+   "kind": "badge",
+   "icon": "badges/earth.png"
+  },
+  {
+   "key": "elite4",
+   "name": "Elite Four",
+   "leader": "Lorelei, Bruno, Agatha & Lance",
+   "kind": "elite4",
+   "icon": "badges/elite-four.png"
+  },
+  {
+   "key": "champion",
+   "name": "Champion",
+   "leader": "Blue",
+   "kind": "champion",
+   "icon": "badges/champion.png"
+  }
+ ],
+ "frlg": [
+  {
+   "key": "boulder",
+   "name": "Boulder Badge",
+   "leader": "Brock",
+   "kind": "badge",
+   "icon": "badges/boulder.png"
+  },
+  {
+   "key": "cascade",
+   "name": "Cascade Badge",
+   "leader": "Misty",
+   "kind": "badge",
+   "icon": "badges/cascade.png"
+  },
+  {
+   "key": "thunder",
+   "name": "Thunder Badge",
+   "leader": "Lt. Surge",
+   "kind": "badge",
+   "icon": "badges/thunder.png"
+  },
+  {
+   "key": "rainbow",
+   "name": "Rainbow Badge",
+   "leader": "Erika",
+   "kind": "badge",
+   "icon": "badges/rainbow.png"
+  },
+  {
+   "key": "soul",
+   "name": "Soul Badge",
+   "leader": "Koga",
+   "kind": "badge",
+   "icon": "badges/soul.png"
+  },
+  {
+   "key": "marsh",
+   "name": "Marsh Badge",
+   "leader": "Sabrina",
+   "kind": "badge",
+   "icon": "badges/marsh.png"
+  },
+  {
+   "key": "volcano",
+   "name": "Volcano Badge",
+   "leader": "Blaine",
+   "kind": "badge",
+   "icon": "badges/volcano.png"
+  },
+  {
+   "key": "earth",
+   "name": "Earth Badge",
+   "leader": "Giovanni",
+   "kind": "badge",
+   "icon": "badges/earth.png"
+  },
+  {
+   "key": "elite4",
+   "name": "Elite Four",
+   "leader": "Lorelei, Bruno, Agatha & Lance",
+   "kind": "elite4",
+   "icon": "badges/elite-four.png"
+  },
+  {
+   "key": "champion",
+   "name": "Champion",
+   "leader": "Blue",
+   "kind": "champion",
+   "icon": "badges/champion.png"
+  }
+ ],
+ "gs": [
+  {
+   "key": "zephyr",
+   "name": "Zephyr Badge",
+   "leader": "Falkner",
+   "kind": "badge",
+   "icon": "badges/zephyr.png"
+  },
+  {
+   "key": "hive",
+   "name": "Hive Badge",
+   "leader": "Bugsy",
+   "kind": "badge",
+   "icon": "badges/hive.png"
+  },
+  {
+   "key": "plain",
+   "name": "Plain Badge",
+   "leader": "Whitney",
+   "kind": "badge",
+   "icon": "badges/plain.png"
+  },
+  {
+   "key": "fog",
+   "name": "Fog Badge",
+   "leader": "Morty",
+   "kind": "badge",
+   "icon": "badges/fog.png"
+  },
+  {
+   "key": "storm",
+   "name": "Storm Badge",
+   "leader": "Chuck",
+   "kind": "badge",
+   "icon": "badges/storm.png"
+  },
+  {
+   "key": "mineral",
+   "name": "Mineral Badge",
+   "leader": "Jasmine",
+   "kind": "badge",
+   "icon": "badges/mineral.png"
+  },
+  {
+   "key": "glacier",
+   "name": "Glacier Badge",
+   "leader": "Pryce",
+   "kind": "badge",
+   "icon": "badges/glacier.png"
+  },
+  {
+   "key": "rising",
+   "name": "Rising Badge",
+   "leader": "Clair",
+   "kind": "badge",
+   "icon": "badges/rising.png"
+  },
+  {
+   "key": "elite4",
+   "name": "Elite Four",
+   "leader": "Will, Koga, Bruno & Karen",
+   "kind": "elite4",
+   "icon": "badges/elite-four.png"
+  },
+  {
+   "key": "champion",
+   "name": "Champion",
+   "leader": "Lance",
+   "kind": "champion",
+   "icon": "badges/champion.png"
+  },
+  {
+   "key": "kanto-boulder",
+   "name": "Boulder Badge",
+   "leader": "Brock",
+   "kind": "badge",
+   "icon": "badges/boulder.png"
+  },
+  {
+   "key": "kanto-cascade",
+   "name": "Cascade Badge",
+   "leader": "Misty",
+   "kind": "badge",
+   "icon": "badges/cascade.png"
+  },
+  {
+   "key": "kanto-thunder",
+   "name": "Thunder Badge",
+   "leader": "Lt. Surge",
+   "kind": "badge",
+   "icon": "badges/thunder.png"
+  },
+  {
+   "key": "kanto-rainbow",
+   "name": "Rainbow Badge",
+   "leader": "Erika",
+   "kind": "badge",
+   "icon": "badges/rainbow.png"
+  },
+  {
+   "key": "kanto-soul",
+   "name": "Soul Badge",
+   "leader": "Janine",
+   "kind": "badge",
+   "icon": "badges/soul.png"
+  },
+  {
+   "key": "kanto-marsh",
+   "name": "Marsh Badge",
+   "leader": "Sabrina",
+   "kind": "badge",
+   "icon": "badges/marsh.png"
+  },
+  {
+   "key": "kanto-volcano",
+   "name": "Volcano Badge",
+   "leader": "Blaine",
+   "kind": "badge",
+   "icon": "badges/volcano.png"
+  },
+  {
+   "key": "kanto-earth",
+   "name": "Earth Badge",
+   "leader": "Blue",
+   "kind": "badge",
+   "icon": "badges/earth.png"
+  }
+ ],
+ "c": [
+  {
+   "key": "zephyr",
+   "name": "Zephyr Badge",
+   "leader": "Falkner",
+   "kind": "badge",
+   "icon": "badges/zephyr.png"
+  },
+  {
+   "key": "hive",
+   "name": "Hive Badge",
+   "leader": "Bugsy",
+   "kind": "badge",
+   "icon": "badges/hive.png"
+  },
+  {
+   "key": "plain",
+   "name": "Plain Badge",
+   "leader": "Whitney",
+   "kind": "badge",
+   "icon": "badges/plain.png"
+  },
+  {
+   "key": "fog",
+   "name": "Fog Badge",
+   "leader": "Morty",
+   "kind": "badge",
+   "icon": "badges/fog.png"
+  },
+  {
+   "key": "storm",
+   "name": "Storm Badge",
+   "leader": "Chuck",
+   "kind": "badge",
+   "icon": "badges/storm.png"
+  },
+  {
+   "key": "mineral",
+   "name": "Mineral Badge",
+   "leader": "Jasmine",
+   "kind": "badge",
+   "icon": "badges/mineral.png"
+  },
+  {
+   "key": "glacier",
+   "name": "Glacier Badge",
+   "leader": "Pryce",
+   "kind": "badge",
+   "icon": "badges/glacier.png"
+  },
+  {
+   "key": "rising",
+   "name": "Rising Badge",
+   "leader": "Clair",
+   "kind": "badge",
+   "icon": "badges/rising.png"
+  },
+  {
+   "key": "elite4",
+   "name": "Elite Four",
+   "leader": "Will, Koga, Bruno & Karen",
+   "kind": "elite4",
+   "icon": "badges/elite-four.png"
+  },
+  {
+   "key": "champion",
+   "name": "Champion",
+   "leader": "Lance",
+   "kind": "champion",
+   "icon": "badges/champion.png"
+  },
+  {
+   "key": "kanto-boulder",
+   "name": "Boulder Badge",
+   "leader": "Brock",
+   "kind": "badge",
+   "icon": "badges/boulder.png"
+  },
+  {
+   "key": "kanto-cascade",
+   "name": "Cascade Badge",
+   "leader": "Misty",
+   "kind": "badge",
+   "icon": "badges/cascade.png"
+  },
+  {
+   "key": "kanto-thunder",
+   "name": "Thunder Badge",
+   "leader": "Lt. Surge",
+   "kind": "badge",
+   "icon": "badges/thunder.png"
+  },
+  {
+   "key": "kanto-rainbow",
+   "name": "Rainbow Badge",
+   "leader": "Erika",
+   "kind": "badge",
+   "icon": "badges/rainbow.png"
+  },
+  {
+   "key": "kanto-soul",
+   "name": "Soul Badge",
+   "leader": "Janine",
+   "kind": "badge",
+   "icon": "badges/soul.png"
+  },
+  {
+   "key": "kanto-marsh",
+   "name": "Marsh Badge",
+   "leader": "Sabrina",
+   "kind": "badge",
+   "icon": "badges/marsh.png"
+  },
+  {
+   "key": "kanto-volcano",
+   "name": "Volcano Badge",
+   "leader": "Blaine",
+   "kind": "badge",
+   "icon": "badges/volcano.png"
+  },
+  {
+   "key": "kanto-earth",
+   "name": "Earth Badge",
+   "leader": "Blue",
+   "kind": "badge",
+   "icon": "badges/earth.png"
+  }
+ ],
+ "hgss": [
+  {
+   "key": "zephyr",
+   "name": "Zephyr Badge",
+   "leader": "Falkner",
+   "kind": "badge",
+   "icon": "badges/zephyr.png"
+  },
+  {
+   "key": "hive",
+   "name": "Hive Badge",
+   "leader": "Bugsy",
+   "kind": "badge",
+   "icon": "badges/hive.png"
+  },
+  {
+   "key": "plain",
+   "name": "Plain Badge",
+   "leader": "Whitney",
+   "kind": "badge",
+   "icon": "badges/plain.png"
+  },
+  {
+   "key": "fog",
+   "name": "Fog Badge",
+   "leader": "Morty",
+   "kind": "badge",
+   "icon": "badges/fog.png"
+  },
+  {
+   "key": "storm",
+   "name": "Storm Badge",
+   "leader": "Chuck",
+   "kind": "badge",
+   "icon": "badges/storm.png"
+  },
+  {
+   "key": "mineral",
+   "name": "Mineral Badge",
+   "leader": "Jasmine",
+   "kind": "badge",
+   "icon": "badges/mineral.png"
+  },
+  {
+   "key": "glacier",
+   "name": "Glacier Badge",
+   "leader": "Pryce",
+   "kind": "badge",
+   "icon": "badges/glacier.png"
+  },
+  {
+   "key": "rising",
+   "name": "Rising Badge",
+   "leader": "Clair",
+   "kind": "badge",
+   "icon": "badges/rising.png"
+  },
+  {
+   "key": "elite4",
+   "name": "Elite Four",
+   "leader": "Will, Koga, Bruno & Karen",
+   "kind": "elite4",
+   "icon": "badges/elite-four.png"
+  },
+  {
+   "key": "champion",
+   "name": "Champion",
+   "leader": "Lance",
+   "kind": "champion",
+   "icon": "badges/champion.png"
+  },
+  {
+   "key": "kanto-boulder",
+   "name": "Boulder Badge",
+   "leader": "Brock",
+   "kind": "badge",
+   "icon": "badges/boulder.png"
+  },
+  {
+   "key": "kanto-cascade",
+   "name": "Cascade Badge",
+   "leader": "Misty",
+   "kind": "badge",
+   "icon": "badges/cascade.png"
+  },
+  {
+   "key": "kanto-thunder",
+   "name": "Thunder Badge",
+   "leader": "Lt. Surge",
+   "kind": "badge",
+   "icon": "badges/thunder.png"
+  },
+  {
+   "key": "kanto-rainbow",
+   "name": "Rainbow Badge",
+   "leader": "Erika",
+   "kind": "badge",
+   "icon": "badges/rainbow.png"
+  },
+  {
+   "key": "kanto-soul",
+   "name": "Soul Badge",
+   "leader": "Janine",
+   "kind": "badge",
+   "icon": "badges/soul.png"
+  },
+  {
+   "key": "kanto-marsh",
+   "name": "Marsh Badge",
+   "leader": "Sabrina",
+   "kind": "badge",
+   "icon": "badges/marsh.png"
+  },
+  {
+   "key": "kanto-volcano",
+   "name": "Volcano Badge",
+   "leader": "Blaine",
+   "kind": "badge",
+   "icon": "badges/volcano.png"
+  },
+  {
+   "key": "kanto-earth",
+   "name": "Earth Badge",
+   "leader": "Blue",
+   "kind": "badge",
+   "icon": "badges/earth.png"
+  }
+ ],
+ "rs": [
+  {
+   "key": "stone",
+   "name": "Stone Badge",
+   "leader": "Roxanne",
+   "kind": "badge",
+   "icon": "badges/stone.png"
+  },
+  {
+   "key": "knuckle",
+   "name": "Knuckle Badge",
+   "leader": "Brawly",
+   "kind": "badge",
+   "icon": "badges/knuckle.png"
+  },
+  {
+   "key": "dynamo",
+   "name": "Dynamo Badge",
+   "leader": "Wattson",
+   "kind": "badge",
+   "icon": "badges/dynamo.png"
+  },
+  {
+   "key": "heat",
+   "name": "Heat Badge",
+   "leader": "Flannery",
+   "kind": "badge",
+   "icon": "badges/heat.png"
+  },
+  {
+   "key": "balance",
+   "name": "Balance Badge",
+   "leader": "Norman",
+   "kind": "badge",
+   "icon": "badges/balance.png"
+  },
+  {
+   "key": "feather",
+   "name": "Feather Badge",
+   "leader": "Winona",
+   "kind": "badge",
+   "icon": "badges/feather.png"
+  },
+  {
+   "key": "mind",
+   "name": "Mind Badge",
+   "leader": "Tate & Liza",
+   "kind": "badge",
+   "icon": "badges/mind.png"
+  },
+  {
+   "key": "rain",
+   "name": "Rain Badge",
+   "leader": "Wallace",
+   "kind": "badge",
+   "icon": "badges/rain.png"
+  },
+  {
+   "key": "elite4",
+   "name": "Elite Four",
+   "leader": "Sidney, Phoebe, Glacia & Drake",
+   "kind": "elite4",
+   "icon": "badges/elite-four.png"
+  },
+  {
+   "key": "champion",
+   "name": "Champion",
+   "leader": "Steven",
+   "kind": "champion",
+   "icon": "badges/champion.png"
+  }
+ ],
+ "e": [
+  {
+   "key": "stone",
+   "name": "Stone Badge",
+   "leader": "Roxanne",
+   "kind": "badge",
+   "icon": "badges/stone.png"
+  },
+  {
+   "key": "knuckle",
+   "name": "Knuckle Badge",
+   "leader": "Brawly",
+   "kind": "badge",
+   "icon": "badges/knuckle.png"
+  },
+  {
+   "key": "dynamo",
+   "name": "Dynamo Badge",
+   "leader": "Wattson",
+   "kind": "badge",
+   "icon": "badges/dynamo.png"
+  },
+  {
+   "key": "heat",
+   "name": "Heat Badge",
+   "leader": "Flannery",
+   "kind": "badge",
+   "icon": "badges/heat.png"
+  },
+  {
+   "key": "balance",
+   "name": "Balance Badge",
+   "leader": "Norman",
+   "kind": "badge",
+   "icon": "badges/balance.png"
+  },
+  {
+   "key": "feather",
+   "name": "Feather Badge",
+   "leader": "Winona",
+   "kind": "badge",
+   "icon": "badges/feather.png"
+  },
+  {
+   "key": "mind",
+   "name": "Mind Badge",
+   "leader": "Tate & Liza",
+   "kind": "badge",
+   "icon": "badges/mind.png"
+  },
+  {
+   "key": "rain",
+   "name": "Rain Badge",
+   "leader": "Juan",
+   "kind": "badge",
+   "icon": "badges/rain.png"
+  },
+  {
+   "key": "elite4",
+   "name": "Elite Four",
+   "leader": "Sidney, Phoebe, Glacia & Drake",
+   "kind": "elite4",
+   "icon": "badges/elite-four.png"
+  },
+  {
+   "key": "champion",
+   "name": "Champion",
+   "leader": "Wallace",
+   "kind": "champion",
+   "icon": "badges/champion.png"
+  }
+ ],
+ "dp": [
+  {
+   "key": "coal",
+   "name": "Coal Badge",
+   "leader": "Roark",
+   "kind": "badge",
+   "icon": "badges/coal.png"
+  },
+  {
+   "key": "forest",
+   "name": "Forest Badge",
+   "leader": "Gardenia",
+   "kind": "badge",
+   "icon": "badges/forest.png"
+  },
+  {
+   "key": "cobble",
+   "name": "Cobble Badge",
+   "leader": "Maylene",
+   "kind": "badge",
+   "icon": "badges/cobble.png"
+  },
+  {
+   "key": "fen",
+   "name": "Fen Badge",
+   "leader": "Crasher Wake",
+   "kind": "badge",
+   "icon": "badges/fen.png"
+  },
+  {
+   "key": "relic",
+   "name": "Relic Badge",
+   "leader": "Fantina",
+   "kind": "badge",
+   "icon": "badges/relic.png"
+  },
+  {
+   "key": "mine",
+   "name": "Mine Badge",
+   "leader": "Byron",
+   "kind": "badge",
+   "icon": "badges/mine.png"
+  },
+  {
+   "key": "icicle",
+   "name": "Icicle Badge",
+   "leader": "Candice",
+   "kind": "badge",
+   "icon": "badges/icicle.png"
+  },
+  {
+   "key": "beacon",
+   "name": "Beacon Badge",
+   "leader": "Volkner",
+   "kind": "badge",
+   "icon": "badges/beacon.png"
+  },
+  {
+   "key": "elite4",
+   "name": "Elite Four",
+   "leader": "Aaron, Bertha, Flint & Lucian",
+   "kind": "elite4",
+   "icon": "badges/elite-four.png"
+  },
+  {
+   "key": "champion",
+   "name": "Champion",
+   "leader": "Cynthia",
+   "kind": "champion",
+   "icon": "badges/champion.png"
+  }
+ ],
+ "pt": [
+  {
+   "key": "coal",
+   "name": "Coal Badge",
+   "leader": "Roark",
+   "kind": "badge",
+   "icon": "badges/coal.png"
+  },
+  {
+   "key": "forest",
+   "name": "Forest Badge",
+   "leader": "Gardenia",
+   "kind": "badge",
+   "icon": "badges/forest.png"
+  },
+  {
+   "key": "relic",
+   "name": "Relic Badge",
+   "leader": "Fantina",
+   "kind": "badge",
+   "icon": "badges/relic.png"
+  },
+  {
+   "key": "cobble",
+   "name": "Cobble Badge",
+   "leader": "Maylene",
+   "kind": "badge",
+   "icon": "badges/cobble.png"
+  },
+  {
+   "key": "fen",
+   "name": "Fen Badge",
+   "leader": "Crasher Wake",
+   "kind": "badge",
+   "icon": "badges/fen.png"
+  },
+  {
+   "key": "mine",
+   "name": "Mine Badge",
+   "leader": "Byron",
+   "kind": "badge",
+   "icon": "badges/mine.png"
+  },
+  {
+   "key": "icicle",
+   "name": "Icicle Badge",
+   "leader": "Candice",
+   "kind": "badge",
+   "icon": "badges/icicle.png"
+  },
+  {
+   "key": "beacon",
+   "name": "Beacon Badge",
+   "leader": "Volkner",
+   "kind": "badge",
+   "icon": "badges/beacon.png"
+  },
+  {
+   "key": "elite4",
+   "name": "Elite Four",
+   "leader": "Aaron, Bertha, Flint & Lucian",
+   "kind": "elite4",
+   "icon": "badges/elite-four.png"
+  },
+  {
+   "key": "champion",
+   "name": "Champion",
+   "leader": "Cynthia",
+   "kind": "champion",
+   "icon": "badges/champion.png"
+  }
+ ],
+ "b2w2": [
+  {
+   "key": "basic",
+   "name": "Basic Badge",
+   "leader": "Cheren",
+   "kind": "badge",
+   "icon": "badges/basic.png"
+  },
+  {
+   "key": "toxic",
+   "name": "Toxic Badge",
+   "leader": "Roxie",
+   "kind": "badge",
+   "icon": "badges/toxic.png"
+  },
+  {
+   "key": "insect",
+   "name": "Insect Badge",
+   "leader": "Burgh",
+   "kind": "badge",
+   "icon": "badges/insect.png"
+  },
+  {
+   "key": "bolt",
+   "name": "Bolt Badge",
+   "leader": "Elesa",
+   "kind": "badge",
+   "icon": "badges/bolt.png"
+  },
+  {
+   "key": "quake",
+   "name": "Quake Badge",
+   "leader": "Clay",
+   "kind": "badge",
+   "icon": "badges/quake.png"
+  },
+  {
+   "key": "jet",
+   "name": "Jet Badge",
+   "leader": "Skyla",
+   "kind": "badge",
+   "icon": "badges/jet.png"
+  },
+  {
+   "key": "legend",
+   "name": "Legend Badge",
+   "leader": "Drayden",
+   "kind": "badge",
+   "icon": "badges/legend.png"
+  },
+  {
+   "key": "wave",
+   "name": "Wave Badge",
+   "leader": "Marlon",
+   "kind": "badge",
+   "icon": "badges/wave.png"
+  },
+  {
+   "key": "elite4",
+   "name": "Elite Four",
+   "leader": "Shauntal, Marshal, Grimsley & Caitlin",
+   "kind": "elite4",
+   "icon": "badges/elite-four.png"
+  },
+  {
+   "key": "champion",
+   "name": "Champion",
+   "leader": "Iris",
+   "kind": "champion",
+   "icon": "badges/champion.png"
+  }
+ ],
+ "generic": [
+  {
+   "key": "badge1",
+   "name": "Badge 1",
+   "leader": "",
+   "kind": "badge",
+   "icon": "badges/badge.png",
+   "number": 1
+  },
+  {
+   "key": "badge2",
+   "name": "Badge 2",
+   "leader": "",
+   "kind": "badge",
+   "icon": "badges/badge.png",
+   "number": 2
+  },
+  {
+   "key": "badge3",
+   "name": "Badge 3",
+   "leader": "",
+   "kind": "badge",
+   "icon": "badges/badge.png",
+   "number": 3
+  },
+  {
+   "key": "badge4",
+   "name": "Badge 4",
+   "leader": "",
+   "kind": "badge",
+   "icon": "badges/badge.png",
+   "number": 4
+  },
+  {
+   "key": "badge5",
+   "name": "Badge 5",
+   "leader": "",
+   "kind": "badge",
+   "icon": "badges/badge.png",
+   "number": 5
+  },
+  {
+   "key": "badge6",
+   "name": "Badge 6",
+   "leader": "",
+   "kind": "badge",
+   "icon": "badges/badge.png",
+   "number": 6
+  },
+  {
+   "key": "badge7",
+   "name": "Badge 7",
+   "leader": "",
+   "kind": "badge",
+   "icon": "badges/badge.png",
+   "number": 7
+  },
+  {
+   "key": "badge8",
+   "name": "Badge 8",
+   "leader": "",
+   "kind": "badge",
+   "icon": "badges/badge.png",
+   "number": 8
+  },
+  {
+   "key": "elite4",
+   "name": "Elite Four",
+   "leader": "",
+   "kind": "elite4",
+   "icon": "badges/elite-four.png"
+  },
+  {
+   "key": "champion",
+   "name": "Champion",
+   "leader": "",
+   "kind": "champion",
+   "icon": "badges/champion.png"
+  }
+ ]
+}

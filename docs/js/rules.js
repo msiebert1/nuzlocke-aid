@@ -39,6 +39,31 @@ function find(run, id) {
   return enc;
 }
 
+// --- History -------------------------------------------------------------------
+// run.events is the run's story, newest last: {t, type, ...}. Each entry keeps
+// the names as they were at the time, so evolutions don't rewrite the past.
+//   encounter {id, location, status, catches: [{player, species, nickname}]}
+//   party / box {id, names}            joined the party / went to the box
+//   faint {id, names, where}           fainted (where it happened, if given)
+//   evolve {id, player, nickname, from, to}
+//   milestone {key}                    a badge, the Elite Four or the Champion
+// Corrections (removing an encounter, undoing a faint) remove their entries.
+export const MAX_EVENTS = 600;
+
+function addEvent(run, event, now) {
+  run.events = [...(run.events || []), { t: now ?? Date.now(), ...event }].slice(-MAX_EVENTS);
+}
+
+function dropEvents(run, test) {
+  if (run.events) run.events = run.events.filter((e) => !test(e));
+}
+
+/** Names of an encounter's Pokémon as shown in history ("Ember (Charmander)"). */
+export function unitNames(enc) {
+  return enc.catches.filter((c) => c.species)
+    .map((c) => (c.nickname ? `${c.nickname} (${c.species})` : c.species));
+}
+
 function newId() {
   return Math.random().toString(36).slice(2, 10) + Date.now().toString(36).slice(-4);
 }
@@ -178,16 +203,21 @@ export function logEncounter(run, { location, catches, status, id, now }) {
     result = logCatch(result.run, { location, player: c.player, species: c.species,
                                     nickname: c.nickname, status, id: result.id || id, now });
   }
+  dropEvents(result.run, (e) => e.type === "encounter" && e.id === result.id); // re-logged
+  addEvent(result.run, { type: "encounter", id: result.id, location, status,
+    catches: catches.map((c) => ({ player: c.player, species: c.species || "",
+                                   nickname: (c.nickname || "").trim() })) }, now);
   return result;
 }
 
 /** Put a usable encounter in the party or box. Adding to a full party needs
  *  `swapWith`: that party member goes to the box and this one takes its slot. */
-export function place(run, id, target, swapWith = null) {
+export function place(run, id, target, swapWith = null, now) {
   if (!["party", "box"].includes(target)) throw new RuleError(`Bad place ${target}`);
   run = clone(run);
   const enc = find(run, id);
   if (!isUsable(run, enc)) throw new RuleError("Only caught Pokémon can join the party or box");
+  if (enc.place !== target) addEvent(run, { type: target, id, names: unitNames(enc) }, now);
   if (target === "box") {
     enc.place = "box";
   } else if (enc.place !== "party") {
@@ -202,24 +232,39 @@ export function place(run, id, target, swapWith = null) {
       enc.place = "party";
       enc.partySlot = out.partySlot;
       out.place = "box";
+      addEvent(run, { type: "box", id: out.id, names: unitNames(out) }, now);
     }
   }
   return normalize(run);
 }
 
 /** A party member fainted: it (and its soul-linked partner) go to the graveyard. */
-export function faint(run, id) {
+export function faint(run, id, { where = "", now } = {}) {
   run = clone(run);
   const enc = find(run, id);
   if (enc.place !== "party") throw new RuleError("Only party Pokémon can faint");
   enc.place = "grave";
+  enc.diedAt = String(where || "").trim().slice(0, 40);
+  enc.diedTime = now ?? Date.now();
+  addEvent(run, { type: "faint", id, names: unitNames(enc), where: enc.diedAt }, now);
   return normalize(run);
 }
 
 /** Undo a mistake: move any encounter to any place the rules allow. */
 export function setPlace(run, id, target) {
   if (!PLACES.includes(target)) throw new RuleError(`Bad place ${target}`);
-  if (target === "party" || target === "box") return place(run, id, target);
+  if (target === "party" || target === "box") {
+    // undoing a faint: it never happened
+    run = clone(run);
+    const enc = find(run, id);
+    if (enc.place === "grave") {
+      delete enc.diedAt;
+      delete enc.diedTime;
+      dropEvents(run, (e) => e.type === "faint" && e.id === id);
+      enc.place = "none";
+    }
+    return place(run, id, target);
+  }
   run = clone(run);
   find(run, id).place = target;
   return normalize(run);
@@ -253,6 +298,7 @@ export function deleteEncounter(run, id) {
   run = clone(run);
   find(run, id);
   run.encounters = run.encounters.filter((e) => e.id !== id);
+  dropEvents(run, (e) => e.id === id); // a mistake leaves no history
   return normalize(run);
 }
 
@@ -261,7 +307,10 @@ export function deleteCatch(run, id, player) {
   run = clone(run);
   const enc = find(run, id);
   enc.catches = enc.catches.filter((c) => c.player !== player);
-  if (!enc.catches.length) run.encounters = run.encounters.filter((e) => e.id !== id);
+  if (!enc.catches.length) {
+    run.encounters = run.encounters.filter((e) => e.id !== id);
+    dropEvents(run, (e) => e.id === id);
+  }
   return normalize(run);
 }
 
@@ -313,6 +362,7 @@ export function evolveCatch(run, id, player, species) {
   if (!c || !c.species) throw new RuleError("Nothing to evolve");
   if (c.species === species) return run;
   if (!c.caughtAs) c.caughtAs = c.species;
+  addEvent(run, { type: "evolve", id, player, nickname: c.nickname || "", from: c.species, to: species });
   c.species = species;
   return run;
 }
@@ -321,4 +371,26 @@ export function evolveCatch(run, id, player, species) {
  *  {species: [next stages]} table; `inGame(name)` says if the game has it. */
 export function evolutionOptions(species, evolutions, inGame = () => true) {
   return (evolutions[species] || []).filter(inGame);
+}
+
+// --- Badges and the League -------------------------------------------------------
+// run.progress = {milestoneKey: time earned}. The milestones (badges, Elite
+// Four, Champion) for each game are in data/badges.json.
+
+export function hasMilestone(run, key) {
+  return !!run.progress?.[key];
+}
+
+/** Earn (or un-earn, to fix a mistake) a badge or League milestone. */
+export function setMilestone(run, key, earned, now) {
+  run = clone(run);
+  run.progress = { ...(run.progress || {}) };
+  if (earned && !run.progress[key]) {
+    run.progress[key] = now ?? Date.now();
+    addEvent(run, { type: "milestone", key }, now);
+  } else if (!earned && run.progress[key]) {
+    delete run.progress[key];
+    dropEvents(run, (e) => e.type === "milestone" && e.key === key);
+  }
+  return run;
 }

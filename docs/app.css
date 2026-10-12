@@ -417,3 +417,66 @@ body[data-look="modern"] .list-row { border-bottom-color: #343e52; }
 .list-catch .spr, .list-catch img.art { flex: none; }
 .list-text { flex: 1 1 auto; min-width: 0; overflow-wrap: anywhere; line-height: 1.25; }
 .list-text > * { margin-right: 4px; }
+
+/* ---------------------------------------------------------------------------
+   Badges */
+.badge-row { display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; }
+.badge, body[data-look] button.badge {
+  all: unset; position: relative; display: inline-flex; padding: 3px; border-radius: 8px; cursor: default;
+}
+button.badge { cursor: pointer; }
+button.badge:focus-visible { outline: 3px solid #5090f0; }
+.badge img { object-fit: contain; image-rendering: auto; filter: grayscale(1) contrast(0.9); opacity: 0.5; }
+.badge.earned img { filter: none; opacity: 1; }
+.badge-num { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+  font-weight: 700; color: #6a4a00; font-size: 14px; }
+.badges-head { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; margin-bottom: 6px; }
+.badges-head h3 { margin: 0; }
+
+/* ---------------------------------------------------------------------------
+   Shared summary page (#/view/...) */
+body.viewing #app { max-width: 1040px; padding-bottom: 24px; }
+.view { display: grid; gap: 0 14px; }
+@media (min-width: 860px) { .view { grid-template-columns: 1.4fr 1fr; align-items: start; } }
+.view-head { text-align: center; }
+.view-head h1 { margin: 6px 0 2px; }
+.view-head p { margin: 2px 0; }
+.view-trainers { display: flex; justify-content: center; align-items: flex-end; gap: 10px; }
+.view-trainer { display: flex; flex-direction: column; align-items: center; gap: 2px; }
+.view-trainer img { image-rendering: pixelated; }
+.view-link { font-size: 22px; padding-bottom: 20px; }
+.view-live { color: var(--ink-light); font-size: 15px; }
+.live-dot { display: inline-block; width: 9px; height: 9px; border-radius: 50%; background: #2fbf5b;
+  box-shadow: 0 0 0 0 rgba(47, 191, 91, 0.6); animation: live 2s infinite; vertical-align: 1px; }
+@keyframes live { 70% { box-shadow: 0 0 0 7px rgba(47, 191, 91, 0); } 100% { box-shadow: 0 0 0 0 rgba(47, 191, 91, 0); } }
+.view-team { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 12px; }
+.view-team.soul { grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); }
+.view-member { min-width: 0; }
+.view-origin { text-align: center; font-size: 14px; color: var(--ink-light); margin-top: 2px; overflow-wrap: anywhere; }
+.tiles { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.tile { display: flex; flex-direction: column; align-items: center; padding: 8px 4px; border-radius: 8px;
+  background: rgba(127, 127, 140, 0.1); text-align: center; }
+.tile b { font-size: 24px; line-height: 1.1; }
+.tile span { font-size: 14px; color: var(--ink-light); }
+.tile.good b { color: #1f9d5b; }
+.tile.bad b { color: #c03030; }
+.journey-day { margin: 12px 0 4px; font-size: 16px; color: var(--ink-light); }
+.journey, .route-list { list-style: none; margin: 0; padding: 0; }
+.journey li, .route-list li { display: flex; gap: 8px; align-items: baseline; padding: 3px 0; overflow-wrap: anywhere; }
+.route-list li { flex-wrap: wrap; column-gap: 8px; }
+.j-icon { flex: none; width: 22px; text-align: center; }
+.mini-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(76px, 1fr)); gap: 8px; }
+.mini-grid.soul { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); }
+body[data-look="modern"] .mini .mon .name { font-size: 14px; }
+body[data-look="modern"] .mini .mon .species { font-size: 12px; }
+details.box summary { cursor: pointer; list-style-position: outside; }
+details.box[open] summary { margin-bottom: 8px; }
+.view-foot { text-align: center; color: var(--ink-light); }
+body:not([data-look="modern"]) .view-foot small { color: #fff; background: rgba(16, 20, 28, 0.72); padding: 3px 10px; border-radius: 10px; }
+body:not([data-look="modern"]) .view-foot a { color: #ffd166; }
+body:not([data-look="modern"]) .tile b { font-size: var(--fl); }
+
+/* Pairs line up at the top even when only one has a nickname */
+.unit { align-items: flex-start; }
+.unit > .link { align-self: flex-start; margin-top: 20%; }
+.mini .mon .name, .mini .mon .species { white-space: normal; overflow-wrap: anywhere; }

@@ -1,9 +1,9 @@
 // Team, Box and Graveyard tabs, plus the shared "where does this catch go?" step.
 // A unit is one encounter: a single Pokémon, or a soul-linked pair.
 
-import * as R from "../rules.js?v=4e1cb12c";
-import { cellStyle, closeModal, confirmBox, esc, isModern, linkIcon, modal, monImage, monName, removeEncounter, spriteScale, toast, boxFit } from "../ui.js?v=4e1cb12c";
-import { prepareGraphic, shareGraphic, viewGraphic } from "../render.js?v=4e1cb12c";
+import * as R from "../rules.js?v=19436aea";
+import { cellStyle, closeModal, confirmBox, esc, isModern, linkIcon, modal, monImage, monName, removeEncounter, spriteScale, toast, boxFit, badgeRow, badgeCount } from "../ui.js?v=19436aea";
+import { prepareGraphic, shareGraphic, viewGraphic } from "../render.js?v=19436aea";
 
 /** All sprite names on a page, for one shared scale. */
 function namesOf(encs) {
@@ -84,6 +84,31 @@ function graphicButton(kind) {
 // --- Evolving -----------------------------------------------------------------
 
 const REMOVE = "__remove__";
+const FAINT_NOWHERE = "__nowhere__";
+
+// The faint form submits by closing the dialog with the place (or a marker for none)
+document.addEventListener("submit", (e) => {
+  if (e.target.id !== "faint-form") return;
+  e.preventDefault();
+  closeModal(e.target.where.value.trim() || FAINT_NOWHERE);
+});
+
+/** Earn a badge / League milestone, or take it back if tapped by mistake. */
+async function milestoneDialog(session, key) {
+  const m = session.game.milestones.find((x) => x.key === key);
+  if (!m) return;
+  const earned = R.hasMilestone(session.run, key);
+  const what = m.kind === "champion" ? "Champion" : m.kind === "elite4" ? "the Elite Four" : `the ${m.name}`;
+  const ok = await confirmBox(earned
+    ? `Remove ${esc(what)} from your progress? (Only if it was marked by mistake.)`
+    : `<img src="assets/${esc(m.icon)}" alt="" style="width:56px;height:56px;display:block;margin:0 auto 8px">
+       ${m.kind === "champion" ? "Did you become the <b>Champion</b>" : m.kind === "elite4" ? "Did you beat the <b>Elite Four</b>"
+         : `Did you earn the <b>${esc(m.name)}</b>`}${m.leader ? ` (${esc(m.leader)})` : ""}?`,
+    earned ? "Remove" : "Yes!");
+  if (!ok) return;
+  await session.update((r) => R.setMilestone(r, key, !earned));
+  if (!earned) toast(m.kind === "champion" ? "🏆 Champion!" : m.kind === "elite4" ? "⭐ Elite Four beaten!" : `🏅 ${m.name} earned!`);
+}
 
 /** A Pokémon's menu: evolve it (its next stages in this game, or any other
  *  Pokémon by name), or remove its encounter if it was logged by mistake. */
@@ -145,15 +170,20 @@ function bindGraphic(root, session) {
 export const team = {
   render(session) {
     const party = R.party(session.run);
+    const { earned, total } = badgeCount(session);
+    const badges = session.game.milestones.length ? `<div class="box badges-box">
+      <div class="badges-head"><h3>Badges <small class="muted">${earned}/${total}</small></h3>
+        <small class="muted">Tap one you've earned</small></div>
+      ${badgeRow(session, { tappable: true })}</div>` : "";
     if (!party.length) {
-      return `<div class="box"><h2>Team</h2><p>No one in your party yet. Log a catch and it
+      return `${badges}<div class="box"><h2>Team</h2><p>No one in your party yet. Log a catch and it
         joins the party automatically.</p></div>`;
     }
     const soul = session.run.mode === "soul";
     const size = soul ? 120 : 100;
     const scale = spriteScale(session.game, namesOf(party), size);
     const names = namesOf(party); // one shared sprite scale per page, like the picture
-    return `${graphicButton("team")}
+    return `${badges}${graphicButton("team")}
       ${party.map((enc, i) => `<div class="box unit-card team-card ${soul ? "soul" : ""}">
         ${unitHTML(session, enc, scale, size, { evolvable: true, fitNames: names })}
         <div class="btn-row actions">
@@ -166,6 +196,8 @@ export const team = {
   bind(root, session) {
     bindGraphic(root, session);
     bindEvolve(root, session);
+    root.querySelectorAll("[data-milestone]").forEach((b) =>
+      b.addEventListener("click", () => milestoneDialog(session, b.dataset.milestone)));
     root.querySelectorAll("[data-up]").forEach((b) =>
       b.addEventListener("click", () => session.update((r) => R.movePartySlot(r, b.dataset.up, -1))));
     root.querySelectorAll("[data-down]").forEach((b) =>
@@ -177,10 +209,18 @@ export const team = {
         const enc = session.run.encounters.find((e) => e.id === b.dataset.faint);
         const who = enc.catches.map(monName).join(" & ");
         const linked = session.run.mode === "soul" ? " Its soul-linked partner goes with it." : "";
-        if (await confirmBox(`Did <b>${esc(who)}</b> faint? It moves to the graveyard.${linked}`, "Fainted")) {
-          await session.update((r) => R.faint(r, enc.id));
-          toast(`Rest in peace, ${who}`);
-        }
+        // suggest the most recent location logged as where it happened
+        const recent = [...session.run.encounters].sort((a, c) => (c.createdAt || 0) - (a.createdAt || 0))[0];
+        const where = await modal(`<form id="faint-form"><h2>Fainted?</h2>
+          <p>Did <b>${esc(who)}</b> faint? It moves to the graveyard.${linked}</p>
+          <label for="faint-where">Where? <small class="muted">(optional, for the history)</small></label>
+          <input id="faint-where" name="where" maxlength="40" value="${esc(recent?.location || "")}"
+                 placeholder="e.g. Route 6, or the Gym">
+          <div class="btn-row" style="margin-top:12px"><button type="button" data-value="">Cancel</button>
+            <button class="primary" type="submit">Fainted</button></div></form>`);
+        if (where === null || where === "") return;
+        await session.update((r) => R.faint(r, enc.id, { where: where === FAINT_NOWHERE ? "" : where }));
+        toast(`Rest in peace, ${who}`);
       }));
   },
 };

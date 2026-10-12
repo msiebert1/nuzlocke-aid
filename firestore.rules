@@ -1,8 +1,12 @@
 rules_version = '2';
 
-// Nuzlocke Aid: anyone using the app (signed in anonymously) can read and
-// write a run if they know its 10-character share code. Runs can't be listed,
-// so a code can't be discovered, and documents must look like a run.
+// Nuzlocke Aid.
+//  runs/{code}:  anyone using the app (signed in anonymously) can read and
+//                write a run if they know its 10-character edit code.
+//  views/{code}: a read-only copy of a run for its "share run" link
+//                (12-character code). Anyone can read it; only the run's
+//                players' devices (listed in `editors`) can change it.
+// Nothing can be listed, so codes can't be discovered.
 service cloud.firestore {
   match /databases/{database}/documents {
     match /runs/{code} {
@@ -13,6 +17,19 @@ service cloud.firestore {
         && isRun(request.resource.data);
       allow delete: if false;
     }
+
+    match /views/{code} {
+      allow get: if true;
+      allow list: if false;
+      allow create: if request.auth != null
+        && code.matches('^[a-z0-9]{12}$')
+        && request.auth.uid in request.resource.data.editors
+        && isRun(request.resource.data);
+      allow update: if request.auth != null
+        && request.auth.uid in resource.data.editors
+        && isRun(request.resource.data);
+      allow delete: if request.auth != null && request.auth.uid in resource.data.editors;
+    }
   }
 
   function isRun(run) {
@@ -22,6 +39,8 @@ service cloud.firestore {
       && run.mode in ['single', 'soul']
       && run.players is list && run.players.size() <= 2
       && run.encounters is list && run.encounters.size() <= 400
-      && run.customLocations is list && run.customLocations.size() <= 100;
+      && run.customLocations is list && run.customLocations.size() <= 100
+      && (!('events' in run) || (run.events is list && run.events.size() <= 600))
+      && (!('editors' in run) || (run.editors is list && run.editors.size() <= 40));
   }
 }
