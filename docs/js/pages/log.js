@@ -1,9 +1,9 @@
 // Log tab: pick the next location, each player's Pokémon, and one
 // Caught / Failed / Invalid for the whole encounter (both players in a soul link).
 
-import * as R from "../rules.js?v=3438c4d6";
-import { closeModal, esc, modal, monImage, monName, toast } from "../ui.js?v=3438c4d6";
-import { placeNew } from "./units.js?v=3438c4d6";
+import * as R from "../rules.js?v=a30f06c2";
+import { closeModal, esc, modal, monImage, monName, toast } from "../ui.js?v=a30f06c2";
+import { placeNew } from "./units.js?v=a30f06c2";
 
 const CUSTOM = "__custom__";
 const forms = new Map(); // run code -> in-progress form, kept across live updates

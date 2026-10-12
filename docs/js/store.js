@@ -14,7 +14,7 @@
 //   uid                                         this device's anonymous user id
 //   saveView(viewCode, run), deleteView(viewCode), watchView(viewCode, callback)
 
-import { firebaseConfig } from "../firebase-config.js?v=3438c4d6";
+import { firebaseConfig } from "../firebase-config.js?v=a30f06c2";
 
 const FIREBASE = "https://www.gstatic.com/firebasejs/10.12.2";
 

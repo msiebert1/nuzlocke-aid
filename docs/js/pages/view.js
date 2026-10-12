@@ -2,11 +2,11 @@
 // live updates of the team, badges, history, graveyard and box. It reads only
 // the run's view copy, so it never sees (or needs) the run's edit code.
 
-import * as R from "../rules.js?v=3438c4d6";
-import { store } from "../store.js?v=3438c4d6";
-import * as Sum from "../summary.js?v=3438c4d6";
-import { applyTheme, badgeCount, badgeRow, esc, gameName, loadGame, monName, resultBanner, trainerImg } from "../ui.js?v=3438c4d6";
-import { unitHTML } from "./units.js?v=3438c4d6";
+import * as R from "../rules.js?v=a30f06c2";
+import { store } from "../store.js?v=a30f06c2";
+import * as Sum from "../summary.js?v=a30f06c2";
+import { applyTheme, badgeCount, badgeRow, esc, gameName, loadGame, monName, resultBanner, trainerImg } from "../ui.js?v=a30f06c2";
+import { unitHTML } from "./units.js?v=a30f06c2";
 
 const TIMELINE_STEP = 25;
 
@@ -160,17 +160,14 @@ export async function show(app, code) {
     const now = Date.now();
     app.innerHTML = `<div class="view">
       <div class="view-main">
-        ${header(session, now)}
-        ${resultBanner(run)}
-        ${teamBox(session)}
-        ${journeyBox(session, state.shown)}
+        <div class="v-head">${header(session, now)}${resultBanner(run)}</div>
+        <div class="v-team">${teamBox(session)}</div>
+        <div class="v-journey">${journeyBox(session, state.shown)}</div>
       </div>
       <div class="view-side">
-        ${badgesBox(session)}
-        <div class="box"><h2>At a glance</h2>${tiles(Sum.stats(run, now))}</div>
-        ${graveBox(session)}
-        ${boxBox(session)}
-        ${routeBox(session)}
+        <div class="v-badges">${badgesBox(session)}</div>
+        <div class="v-stats"><div class="box"><h2>Summary</h2>${tiles(Sum.stats(run, now))}</div></div>
+        <div class="v-rest">${graveBox(session)}${boxBox(session)}${routeBox(session)}</div>
       </div>
     </div>
     <p class="view-foot"><small>Made with <a href="#/">Nuzlocke Aid</a>: track your own nuzlocke or soul link.</small></p>`;
