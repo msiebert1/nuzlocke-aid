@@ -317,3 +317,26 @@ export function badgeCount(session) {
   const badges = session.game.milestones.filter((m) => m.kind === "badge");
   return { earned: badges.filter((m) => session.run.progress?.[m.key]).length, total: badges.length };
 }
+
+/** The run's ending, as a banner (empty while it's still going). */
+export function resultBanner(run) {
+  const r = run.result;
+  if (!r?.outcome) return "";
+  const when = r.t ? new Date(r.t).toLocaleDateString(undefined, { day: "numeric", month: "short", year: "numeric" }) : "";
+  const [icon, title, text] = r.outcome === "victory"
+    ? ["🏆", "Victory!", "The Champion has been defeated. Congratulations!"]
+    : r.reason === "abandoned"
+      ? ["🏳️", "Run abandoned", "The players called it a day."]
+      : ["💀", "Defeat", "No Pokémon left alive to continue."];
+  return `<div class="box result-banner ${esc(r.outcome)}">
+    <span class="result-icon">${icon}</span>
+    <div><h2>${title}</h2><p>${text}${when ? ` <small class="muted">${esc(when)}</small>` : ""}</p></div>
+  </div>`;
+}
+
+/** A short label for the run's ending, e.g. for headers and lists. */
+export function resultLabel(run) {
+  const r = run.result;
+  if (!r?.outcome) return "";
+  return r.outcome === "victory" ? "🏆 Victory" : r.reason === "abandoned" ? "🏳️ Abandoned" : "💀 Defeat";
+}

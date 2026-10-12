@@ -1,9 +1,9 @@
 // Log tab: pick the next location, each player's Pokémon, and one
 // Caught / Failed / Invalid for the whole encounter (both players in a soul link).
 
-import * as R from "../rules.js?v=c89666fd";
-import { closeModal, esc, modal, monImage, monName, toast } from "../ui.js?v=c89666fd";
-import { placeNew } from "./units.js?v=c89666fd";
+import * as R from "../rules.js?v=6ca6e3da";
+import { closeModal, esc, modal, monImage, monName, toast } from "../ui.js?v=6ca6e3da";
+import { placeNew } from "./units.js?v=6ca6e3da";
 
 const CUSTOM = "__custom__";
 const forms = new Map(); // run code -> in-progress form, kept across live updates
@@ -72,6 +72,11 @@ function pickerHTML(session, player, loc) {
 
 export function render(session) {
   const { run, game } = session;
+  if (R.isOver(run)) {
+    return `<div class="box"><h2>Log an encounter</h2><p class="muted">This run has ended, so there's
+      nothing more to log. (Reopen it in <a href="#/run/${session.code}/settings">Settings</a> if it
+      ended by mistake.)</p></div>`;
+  }
   const f = form(session);
   const players = Array.from({ length: R.playerCount(run) }, (_, i) => i);
   const open = R.remainingLocations(run, game.locations);
@@ -115,6 +120,7 @@ function prefill(session, f) {
 export function bind(root, session) {
   const f = form(session);
   const el = root.querySelector("#log");
+  if (!el) return; // the run has ended
 
   el.loc.addEventListener("change", async () => {
     if (el.loc.value === CUSTOM) {

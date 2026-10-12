@@ -1,7 +1,7 @@
 // Landing page: Professor Oak with two random Pokémon, start or continue a run.
 
-import { store, recentRuns, forgetRun, storeError } from "../store.js?v=c89666fd";
-import { applyTheme, esc, loadGame, loadStyles, sprite } from "../ui.js?v=c89666fd";
+import { store, recentRuns, forgetRun, storeError } from "../store.js?v=6ca6e3da";
+import { applyTheme, esc, loadGame, loadStyles, sprite } from "../ui.js?v=6ca6e3da";
 
 const DS_GAMES = ["dp", "pt", "hgss", "b2w2"];
 
@@ -46,7 +46,8 @@ export async function show(app) {
     ${recent.length ? `<div class="box recent"><h2>Continue</h2>
       ${recent.map((r) => `<a href="#/run/${esc(r.code)}/log">
         <span><b>${esc(r.name)}</b><br><small>${esc(r.gameName || styles[r.game]?.name || "Other game")} ·
-          ${r.mode === "soul" ? "Soul link" : "Nuzlocke"}</small></span>
+          ${r.mode === "soul" ? "Soul link" : "Nuzlocke"}${r.outcome === "victory" ? " · 🏆 Victory"
+            : r.outcome === "defeat" ? (r.reason === "abandoned" ? " · 🏳️ Abandoned" : " · 💀 Defeat") : ""}</small></span>
         <button class="small" data-forget="${esc(r.code)}" aria-label="Remove from this list">✕</button>
       </a>`).join("")}</div>` : ""}
     ${db.shared ? "" : `<p class="box"><small class="warn">${storeError

@@ -275,3 +275,31 @@ test("randomizer runs are flagged in the share post", () => {
   assert.equal(R.isRandomizer(newRun()), false);
   assert.match(R.sharePost(run, "team", { game: "Emerald" }), /^⚔️ Nuzlocke \(randomizer\): Test \(Emerald\)/);
 });
+
+test("victory needs the Champion; an ended run is frozen until reopened", () => {
+  let run = newRun();
+  assert.throws(() => R.endRun(run, "victory"), /Champion/);
+  run = R.setMilestone(run, "champion", true);
+  run = R.endRun(run, "victory");
+  assert.equal(R.isOver(run), true);
+  assert.deepEqual([run.result.outcome, run.result.reason], ["victory", "champion"]);
+  assert.throws(() => R.logEncounter(run, { location: "Route 19", status: "caught",
+    catches: [{ player: 0, species: "Patrat" }] }), /ended/);
+  assert.match(R.sharePost(run, "team", { game: "X" }), /Victory/);
+  run = R.reopenRun(run);
+  assert.equal(R.isOver(run), false);
+  assert.ok(!run.events.some((e) => e.type === "end"));
+});
+
+test("defeat: wiped out only when nobody is left; abandoning any time", () => {
+  let res = R.logEncounter(newRun(), { location: "Starter", status: "caught", catches: [{ player: 0, species: "Snivy" }] });
+  let run = R.place(res.run, res.id, "party");
+  assert.equal(R.isWipedOut(run), false);
+  assert.throws(() => R.endRun(run, "defeat", "wipe"), /still Pokémon/);
+  run = R.faint(run, res.id);
+  assert.equal(R.isWipedOut(run), true);
+  const lost = R.endRun(run, "defeat", "wipe");
+  assert.deepEqual([lost.result.outcome, lost.result.reason], ["defeat", "wipe"]);
+  assert.equal(R.endRun(newRun(), "defeat", "abandoned").result.reason, "abandoned");
+  assert.equal(R.isWipedOut(newRun()), false); // nothing caught yet isn't a wipe
+});

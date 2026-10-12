@@ -14,7 +14,7 @@
 //   uid                                         this device's anonymous user id
 //   saveView(viewCode, run), deleteView(viewCode), watchView(viewCode, callback)
 
-import { firebaseConfig } from "../firebase-config.js?v=c89666fd";
+import { firebaseConfig } from "../firebase-config.js?v=6ca6e3da";
 
 const FIREBASE = "https://www.gstatic.com/firebasejs/10.12.2";
 
@@ -211,7 +211,8 @@ export function recentRuns() {
 
 export function rememberRun(code, run) {
   const entry = { code, name: run.name, game: run.game, gameName: run.gameName || "",
-                  mode: run.mode, seen: Date.now() };
+                  mode: run.mode, outcome: run.result?.outcome || "", reason: run.result?.reason || "",
+                  seen: Date.now() };
   const list = [entry, ...recentRuns().filter((r) => r.code !== code)].slice(0, 12);
   try {
     localStorage.setItem(RECENT, JSON.stringify(list));

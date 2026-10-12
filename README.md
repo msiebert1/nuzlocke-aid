@@ -92,6 +92,10 @@ app icon.
   caught as.
 - **Badges:** the Team page shows the game's badges (greyed out until
   earned), the Elite Four and the Champion. Tap one when you earn it.
+- **Ending a run:** marking the Champion offers to record a **victory**; a
+  faint that leaves nobody alive in the party or box offers to record a
+  **defeat**; **Settings → Abandon** ends it any time. An ended run is frozen
+  (Settings → **Reopen run** undoes a mistake).
 - **Share run (view only):** in **Settings**, **👁 Share run** makes a link to
   a live, read-only summary: your team, badges, stats, the run's history,
   graveyard and box. Viewers can't change anything. **New link** or **Stop

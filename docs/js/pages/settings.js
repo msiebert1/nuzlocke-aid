@@ -1,8 +1,8 @@
 // Settings: share link, player names and sprites, wallpapers, link icon.
 
-import { parseLocationList, setCustomLocations } from "../rules.js?v=c89666fd";
-import { forgetRun, newCode } from "../store.js?v=c89666fd";
-import { ART_CHOICES, MAX_CUSTOM_LOCATIONS, confirmBox, esc, toast, trainerImg } from "../ui.js?v=c89666fd";
+import { canWin, endRun, isOver, isWipedOut, parseLocationList, reopenRun, setCustomLocations } from "../rules.js?v=6ca6e3da";
+import { forgetRun, newCode } from "../store.js?v=6ca6e3da";
+import { ART_CHOICES, MAX_CUSTOM_LOCATIONS, confirmBox, esc, resultBanner, toast, trainerImg } from "../ui.js?v=6ca6e3da";
 
 function shareLink(code) {
   return `${location.origin}${location.pathname}#/run/${code}/log`;
@@ -119,6 +119,21 @@ export function render(session) {
       <textarea name="list" rows="${generic ? 10 : 4}">${esc(run.customLocations.join("\n"))}</textarea>
       <div style="margin-top:10px"><button class="primary" type="submit" style="width:100%">Save locations</button></div>
     </form>
+    ${isOver(run) ? `${resultBanner(run)}<div class="box">
+        <p>Ended by mistake? Reopening lets you keep logging.</p>
+        <button type="button" id="reopen" style="width:100%">↩ Reopen run</button></div>`
+      : `<div class="box" id="ending">
+        <h2>End the run</h2>
+        <div class="btn-row">
+          <button type="button" class="primary" id="end-victory" ${canWin(run) ? "" : "disabled"}>🏆 Victory</button>
+          ${isWipedOut(run) ? `<button type="button" id="end-wipe">💀 Defeat</button>` : ""}
+          <button type="button" id="end-abandon">🏳️ Abandon</button>
+        </div>
+        <p class="muted" style="margin-top:6px"><small>${canWin(run)
+          ? "You've beaten the Champion: record your victory."
+          : "Victory unlocks once the Champion badge is marked on the Team page."}
+          A defeat is offered when nobody's left alive; abandoning ends the run any time.</small></p>
+      </div>`}
     <div class="box">
       <h2>On this device</h2>
       <p><small>Removes this run from the start page's list here. ${db.shared ? "The run itself is kept: open the link again to get back to it." : "<b>This deletes the run</b>, since it's only saved here."}</small></p>
@@ -205,6 +220,24 @@ export function bind(root, session) {
     const on = rando.randomizer.checked;
     await session.update((r) => ({ ...r, options: { ...r.options, randomizer: on } }));
     toast(on ? "Randomizer on: route suggestions hidden" : "Randomizer off");
+  });
+
+  // --- ending the run
+  const finish = async (outcome, reason, question, done) => {
+    if (!(await confirmBox(question, outcome === "victory" ? "🏆 Record victory" : "End the run"))) return;
+    await session.update((r) => endRun(r, outcome, reason));
+    toast(done);
+  };
+  root.querySelector("#end-victory")?.addEventListener("click", () =>
+    finish("victory", "champion", "Record a <b>victory</b>? This ends the run.", "🏆 Victory recorded. Congratulations!"));
+  root.querySelector("#end-wipe")?.addEventListener("click", () =>
+    finish("defeat", "wipe", "Nobody's left alive. Record a <b>defeat</b>? This ends the run.", "💀 Defeat recorded"));
+  root.querySelector("#end-abandon")?.addEventListener("click", () =>
+    finish("defeat", "abandoned", "<b>Abandon</b> this run? It's recorded as a defeat and ends the run.", "🏳️ Run abandoned"));
+  root.querySelector("#reopen")?.addEventListener("click", async () => {
+    if (!(await confirmBox("Reopen this run? Its ending is removed.", "Reopen"))) return;
+    await session.update((r) => reopenRun(r));
+    toast("Run reopened");
   });
 
   const locs = root.querySelector("#locations");

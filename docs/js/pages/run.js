@@ -1,11 +1,11 @@
 // A run's pages: header, bottom tab bar, and the current tab.
 
-import * as R from "../rules.js?v=c89666fd";
-import { esc, gameName } from "../ui.js?v=c89666fd";
-import * as log from "./log.js?v=c89666fd";
-import * as units from "./units.js?v=c89666fd";
-import * as list from "./list.js?v=c89666fd";
-import * as settings from "./settings.js?v=c89666fd";
+import * as R from "../rules.js?v=6ca6e3da";
+import { esc, gameName, resultBanner, resultLabel } from "../ui.js?v=6ca6e3da";
+import * as log from "./log.js?v=6ca6e3da";
+import * as units from "./units.js?v=6ca6e3da";
+import * as list from "./list.js?v=6ca6e3da";
+import * as settings from "./settings.js?v=6ca6e3da";
 
 const TABS = {
   log: { label: "Log", page: log },
@@ -31,11 +31,11 @@ export function show(app, session) {
       <a class="btn" href="#/" aria-label="All runs">‹</a>
       <div class="box title">
         <h1>${esc(run.name)}</h1>
-        <small>${esc(gameName(session))} · ${run.mode === "soul" ? "Soul link" : "Nuzlocke"}${R.isRandomizer(run) ? " · Randomizer" : ""} · ${who}</small>
+        <small>${esc(gameName(session))} · ${run.mode === "soul" ? "Soul link" : "Nuzlocke"}${R.isRandomizer(run) ? " · Randomizer" : ""} · ${who}${R.isOver(run) ? ` · ${resultLabel(run)}` : ""}</small>
       </div>
       <a class="btn" href="#/run/${code}/settings" aria-label="Settings">⚙</a>
     </div>
-    <main id="page">${TABS[tab].page.render(session)}</main>
+    <main id="page">${tab === "settings" ? "" : resultBanner(run)}${TABS[tab].page.render(session)}</main>
     <nav class="tabbar">
       ${Object.entries(TABS).filter(([, t]) => !t.hidden).map(([key, t]) => `
         <a href="#/run/${code}/${key}" class="${key === tab ? "on" : ""}">

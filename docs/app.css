@@ -480,3 +480,12 @@ body:not([data-look="modern"]) .tile b { font-size: var(--fl); }
 .unit { align-items: flex-start; }
 .unit > .link { align-self: flex-start; margin-top: 20%; }
 .mini .mon .name, .mini .mon .species { white-space: normal; overflow-wrap: anywhere; }
+
+/* The end of a run */
+.result-banner { display: flex; align-items: center; gap: 14px; }
+.result-banner h2 { margin: 0 0 2px; }
+.result-banner p { margin: 0; }
+.result-icon { font-size: 40px; line-height: 1; }
+.result-banner.victory { box-shadow: inset 0 0 0 3px #f2c230; }
+.result-banner.defeat { box-shadow: inset 0 0 0 3px #8a8a96; }
+body[data-look="modern"] .result-banner.victory { background: linear-gradient(135deg, #3b3320, #262934); border-color: #f2c230; }

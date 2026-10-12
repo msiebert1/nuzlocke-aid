@@ -2,11 +2,11 @@
 // live updates of the team, badges, history, graveyard and box. It reads only
 // the run's view copy, so it never sees (or needs) the run's edit code.
 
-import * as R from "../rules.js?v=c89666fd";
-import { store } from "../store.js?v=c89666fd";
-import * as Sum from "../summary.js?v=c89666fd";
-import { applyTheme, badgeCount, badgeRow, esc, gameName, loadGame, monName, trainerImg } from "../ui.js?v=c89666fd";
-import { unitHTML } from "./units.js?v=c89666fd";
+import * as R from "../rules.js?v=6ca6e3da";
+import { store } from "../store.js?v=6ca6e3da";
+import * as Sum from "../summary.js?v=6ca6e3da";
+import { applyTheme, badgeCount, badgeRow, esc, gameName, loadGame, monName, resultBanner, trainerImg } from "../ui.js?v=6ca6e3da";
+import { unitHTML } from "./units.js?v=6ca6e3da";
 
 const TIMELINE_STEP = 25;
 
@@ -45,7 +45,7 @@ function header(session, now) {
       ${trainerImg(session.game, p.trainer, 72) || ""}<b>${esc(p.name)}</b></div>`).join(run.mode === "soul" ? `<span class="view-link">🔗</span>` : "")}</div>
     <h1>${esc(run.name)}</h1>
     <p class="muted">${esc(gameName(session))} · ${mode}${R.isRandomizer(run) ? " · Randomizer" : ""}</p>
-    <p class="view-live"><span class="live-dot"></span> Live · updated ${ago(run.updatedAt || now, now)}
+    <p class="view-live">${R.isOver(run) ? "Finished" : `<span class="live-dot"></span> Live`} · updated ${ago(run.updatedAt || now, now)}
       ${run.createdAt ? ` · started ${dateText(run.createdAt)}` : ""}</p>
   </div>`;
 }
@@ -161,6 +161,7 @@ export async function show(app, code) {
     app.innerHTML = `<div class="view">
       <div class="view-main">
         ${header(session, now)}
+        ${resultBanner(run)}
         ${teamBox(session)}
         ${journeyBox(session, state.shown)}
       </div>

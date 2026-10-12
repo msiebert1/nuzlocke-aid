@@ -192,6 +192,7 @@ export function logCatch(run, { location, player, species, nickname = "", status
  *  one shared status (soul link: both players log together).
  *  `catches` is [{player, species, nickname}]. Returns like logCatch. */
 export function logEncounter(run, { location, catches, status, id, now }) {
+  assertOpen(run);
   if (!STATUSES.includes(status)) throw new RuleError(`Bad status ${status}`);
   if (catches.length !== playerCount(run)) throw new RuleError("Log every player's Pokémon");
   if (status === "caught") {
@@ -213,6 +214,7 @@ export function logEncounter(run, { location, catches, status, id, now }) {
 /** Put a usable encounter in the party or box. Adding to a full party needs
  *  `swapWith`: that party member goes to the box and this one takes its slot. */
 export function place(run, id, target, swapWith = null, now) {
+  assertOpen(run);
   if (!["party", "box"].includes(target)) throw new RuleError(`Bad place ${target}`);
   run = clone(run);
   const enc = find(run, id);
@@ -240,6 +242,7 @@ export function place(run, id, target, swapWith = null, now) {
 
 /** A party member fainted: it (and its soul-linked partner) go to the graveyard. */
 export function faint(run, id, { where = "", now } = {}) {
+  assertOpen(run);
   run = clone(run);
   const enc = find(run, id);
   if (enc.place !== "party") throw new RuleError("Only party Pokémon can faint");
@@ -272,6 +275,7 @@ export function setPlace(run, id, target) {
 
 /** Move a party member up or down one slot. */
 export function movePartySlot(run, id, delta) {
+  assertOpen(run);
   run = clone(run);
   const members = party(run);
   const i = members.findIndex((e) => e.id === id);
@@ -348,6 +352,10 @@ export function sharePost(run, kind, { game, site }) {
     "",
     `📍 ${logged} encounter${logged === 1 ? "" : "s"} · ✅ ${caught} caught · 🪦 ${lost} lost`,
   ];
+  if (run.result?.outcome === "victory") lines.splice(1, 0, "🏆 Victory! Champion defeated.");
+  if (run.result?.outcome === "defeat") {
+    lines.splice(1, 0, run.result.reason === "abandoned" ? "🏳️ Run abandoned." : "💀 Defeat: wiped out.");
+  }
   if (site) lines.push(`Made with Nuzlocke Aid: ${site}`);
   return lines.join("\n");
 }
@@ -355,6 +363,7 @@ export function sharePost(run, kind, { game, site }) {
 /** Evolve one player's Pokémon: its species changes; the nickname, soul
  *  link and place stay. The species it was caught as is remembered. */
 export function evolveCatch(run, id, player, species) {
+  assertOpen(run);
   species = String(species || "").trim();
   if (!species) throw new RuleError("Choose what it evolved into");
   run = clone(run);
@@ -383,6 +392,7 @@ export function hasMilestone(run, key) {
 
 /** Earn (or un-earn, to fix a mistake) a badge or League milestone. */
 export function setMilestone(run, key, earned, now) {
+  assertOpen(run);
   run = clone(run);
   run.progress = { ...(run.progress || {}) };
   if (earned && !run.progress[key]) {
@@ -392,5 +402,55 @@ export function setMilestone(run, key, earned, now) {
     delete run.progress[key];
     dropEvents(run, (e) => e.type === "milestone" && e.key === key);
   }
+  return run;
+}
+
+// --- The end of a run ------------------------------------------------------------
+// run.result = {outcome: "victory" | "defeat", reason, t}
+//   victory  reason "champion": only once the Champion has been beaten
+//   defeat   reason "wipe": nobody left alive in the party or box
+//            reason "abandoned": the players gave up
+// An ended run is frozen (no logging, team moves, evolutions or badges)
+// until it's reopened.
+
+export function isOver(run) {
+  return !!run.result?.outcome;
+}
+
+function assertOpen(run) {
+  if (isOver(run)) throw new RuleError("This run has ended. Reopen it in Settings to make changes.");
+}
+
+export function canWin(run) {
+  return hasMilestone(run, "champion");
+}
+
+/** Nobody usable is left: the party and box are empty after a loss. */
+export function isWipedOut(run) {
+  return !party(run).length && !box(run).length && graveyard(run).length > 0;
+}
+
+export function endRun(run, outcome, reason, now) {
+  assertOpen(run);
+  if (outcome === "victory") {
+    if (!canWin(run)) throw new RuleError("Victory needs the Champion beaten first");
+    reason = "champion";
+  } else if (outcome === "defeat") {
+    if (!["wipe", "abandoned"].includes(reason)) throw new RuleError(`Bad reason ${reason}`);
+    if (reason === "wipe" && !isWipedOut(run)) throw new RuleError("There are still Pokémon left to battle with");
+  } else {
+    throw new RuleError(`Bad outcome ${outcome}`);
+  }
+  run = clone(run);
+  run.result = { outcome, reason, t: now ?? Date.now() };
+  addEvent(run, { type: "end", outcome, reason }, now);
+  return run;
+}
+
+/** Undo an ending recorded by mistake. */
+export function reopenRun(run) {
+  run = clone(run);
+  delete run.result;
+  dropEvents(run, (e) => e.type === "end");
   return run;
 }

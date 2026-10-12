@@ -1,9 +1,9 @@
 // Team, Box and Graveyard tabs, plus the shared "where does this catch go?" step.
 // A unit is one encounter: a single Pokémon, or a soul-linked pair.
 
-import * as R from "../rules.js?v=c89666fd";
-import { cellStyle, closeModal, confirmBox, esc, isModern, linkIcon, modal, monImage, monName, removeEncounter, spriteScale, toast, boxFit, badgeRow, badgeCount } from "../ui.js?v=c89666fd";
-import { prepareGraphic, shareGraphic, viewGraphic } from "../render.js?v=c89666fd";
+import * as R from "../rules.js?v=6ca6e3da";
+import { cellStyle, closeModal, confirmBox, esc, isModern, linkIcon, modal, monImage, monName, removeEncounter, spriteScale, toast, boxFit, badgeRow, badgeCount } from "../ui.js?v=6ca6e3da";
+import { prepareGraphic, shareGraphic, viewGraphic } from "../render.js?v=6ca6e3da";
 
 /** All sprite names on a page, for one shared scale. */
 function namesOf(encs) {
@@ -74,11 +74,11 @@ const SHARE_LABEL = { team: "Share team", box: "Share box", graveyard: "Share gr
 const VIEW_LABEL = { team: "View team image", box: "View box image", graveyard: "View graveyard image" };
 
 // Saving lives in the image viewer
-function graphicButton(kind) {
+function graphicButton(kind, over = false) {
   return `<div class="btn-row" style="margin-bottom:${kind === "graveyard" ? 12 : 6}px">
     <button class="primary" data-share="${kind}" title="Copies the picture and a post to paste into a chat">📋 ${SHARE_LABEL[kind]}</button>
     <button data-view="${kind}">🖼 ${VIEW_LABEL[kind]}</button></div>
-    ${kind === "graveyard" ? "" : `<p class="tap-hint"><small>Tap a Pokémon to evolve or remove it.</small></p>`}`;
+    ${kind === "graveyard" || over ? "" : `<p class="tap-hint"><small>Tap a Pokémon to evolve or remove it.</small></p>`}`;
 }
 
 // --- Evolving -----------------------------------------------------------------
@@ -93,6 +93,22 @@ document.addEventListener("submit", (e) => {
   closeModal(e.target.where.value.trim() || FAINT_NOWHERE);
 });
 
+/** Offer to record the end of the run when it looks over: a victory after
+ *  beating the Champion, a defeat when nobody's left. It always asks, in case
+ *  the log is just behind the game. */
+export async function offerEnding(session, run, outcome) {
+  const victory = outcome === "victory";
+  const ok = await modal(`<div style="text-align:center"><div class="result-icon">${victory ? "🏆" : "💀"}</div>
+    <h2>${victory ? "You're the Champion!" : "No Pokémon left"}</h2>
+    <p>${victory ? "Record a victory? This ends the run."
+      : "Nobody is left alive in the party or box. Record a defeat? This ends the run."}</p></div>
+    <div class="btn-row"><button data-value="">Not yet</button>
+      <button class="primary" data-value="yes">${victory ? "🏆 Record victory" : "💀 Record defeat"}</button></div>`);
+  if (ok !== "yes") return;
+  await session.update((r) => R.endRun(r, outcome, victory ? "champion" : "wipe"));
+  toast(victory ? "🏆 Victory recorded. Congratulations!" : "💀 Defeat recorded. Rest in peace.");
+}
+
 /** Earn a badge / League milestone, or take it back if tapped by mistake. */
 async function milestoneDialog(session, key) {
   const m = session.game.milestones.find((x) => x.key === key);
@@ -106,7 +122,8 @@ async function milestoneDialog(session, key) {
          : `Did you earn the <b>${esc(m.name)}</b>`}${m.leader ? ` (${esc(m.leader)})` : ""}?`,
     earned ? "Remove" : "Yes!");
   if (!ok) return;
-  await session.update((r) => R.setMilestone(r, key, !earned));
+  const { run } = await session.update((r) => R.setMilestone(r, key, !earned));
+  if (!earned && m.kind === "champion") await offerEnding(session, run, "victory");
   if (!earned) toast(m.kind === "champion" ? "🏆 Champion!" : m.kind === "elite4" ? "⭐ Elite Four beaten!" : `🏅 ${m.name} earned!`);
 }
 
@@ -169,29 +186,33 @@ function bindGraphic(root, session) {
 
 export const team = {
   render(session) {
+    const over = R.isOver(session.run);
     const party = R.party(session.run);
     const { earned, total } = badgeCount(session);
     const badges = session.game.milestones.length ? `<div class="box badges-box">
       <div class="badges-head"><h3>Badges <small class="muted">${earned}/${total}</small></h3>
-        <small class="muted">Tap one you've earned</small></div>
-      ${badgeRow(session, { tappable: true })}</div>` : "";
+        ${over ? "" : `<small class="muted">Tap one you've earned</small>`}</div>
+      ${badgeRow(session, { tappable: !over })}</div>` : "";
     if (!party.length) {
-      return `${badges}<div class="box"><h2>Team</h2><p>No one in your party yet. Log a catch and it
-        joins the party automatically.</p></div>`;
+      const text = over ? "Nobody was left in the party."
+        : R.graveyard(session.run).length || R.box(session.run).length
+          ? "No one in the party right now. Move someone in from the box, or log a new catch."
+          : "No one in your party yet. Log a catch and it joins the party automatically.";
+      return `${badges}<div class="box"><h2>Team</h2><p>${text}</p></div>`;
     }
     const soul = session.run.mode === "soul";
     const size = soul ? 120 : 100;
     const scale = spriteScale(session.game, namesOf(party), size);
     const names = namesOf(party); // one shared sprite scale per page, like the picture
-    return `${badges}${graphicButton("team")}
+    return `${badges}${graphicButton("team", over)}
       ${party.map((enc, i) => `<div class="box unit-card team-card ${soul ? "soul" : ""}">
-        ${unitHTML(session, enc, scale, size, { evolvable: true, fitNames: names })}
-        <div class="btn-row actions">
+        ${unitHTML(session, enc, scale, size, { evolvable: !over, fitNames: names })}
+        ${over ? "" : `<div class="btn-row actions">
           <button class="small" data-up="${esc(enc.id)}" ${i === 0 ? "disabled" : ""} aria-label="Move up">▲</button>
           <button class="small" data-down="${esc(enc.id)}" ${i === party.length - 1 ? "disabled" : ""} aria-label="Move down">▼</button>
           <button class="small" data-tobox="${esc(enc.id)}">To box</button>
           <button class="small" data-faint="${esc(enc.id)}">Fainted</button>
-        </div></div>`).join("")}`;
+        </div>`}</div>`).join("")}`;
   },
   bind(root, session) {
     bindGraphic(root, session);
@@ -219,7 +240,8 @@ export const team = {
           <div class="btn-row" style="margin-top:12px"><button type="button" data-value="">Cancel</button>
             <button class="primary" type="submit">Fainted</button></div></form>`);
         if (where === null || where === "") return;
-        await session.update((r) => R.faint(r, enc.id, { where: where === FAINT_NOWHERE ? "" : where }));
+        const { run } = await session.update((r) => R.faint(r, enc.id, { where: where === FAINT_NOWHERE ? "" : where }));
+        if (R.isWipedOut(run)) return offerEnding(session, run, "defeat");
         toast(`Rest in peace, ${who}`);
       }));
   },
@@ -229,17 +251,18 @@ export const team = {
 
 export const box = {
   render(session) {
+    const over = R.isOver(session.run);
     const boxed = R.box(session.run);
     if (!boxed.length) return `<div class="box"><h2>Box</h2><p>The box is empty.</p></div>`;
     const soul = session.run.mode === "soul";
     const size = soul ? 64 : 80;
     const scale = spriteScale(session.game, namesOf(boxed), size);
     const names = namesOf(boxed); // one shared sprite scale per page, like the picture
-    return `${graphicButton("box")}
+    return `${graphicButton("box", over)}
       <div class="grid ${soul ? "" : "single"}">
       ${boxed.map((enc) => `<div class="box unit-card">
-        ${unitHTML(session, enc, scale, size, { evolvable: true, fitNames: names })}
-        <div class="actions"><button class="small" style="width:100%" data-party="${esc(enc.id)}">To party</button></div>
+        ${unitHTML(session, enc, scale, size, { evolvable: !over, fitNames: names })}
+        ${over ? "" : `<div class="actions"><button class="small" style="width:100%" data-party="${esc(enc.id)}">To party</button></div>`}
       </div>`).join("")}</div>`;
   },
   bind(root, session) {
@@ -254,6 +277,7 @@ export const box = {
 
 export const grave = {
   render(session) {
+    const over = R.isOver(session.run);
     const dead = R.graveyard(session.run);
     if (!dead.length) return `<div class="box"><h2>Graveyard</h2><p>No losses yet. Keep it that way!</p></div>`;
     const soul = session.run.mode === "soul";
@@ -265,7 +289,7 @@ export const grave = {
       ${dead.map((enc) => `<div class="box unit-card">
         ${unitHTML(session, enc, scale, size, { grey: true, fitNames: names })}
         <div class="muted" style="text-align:center"><small>${esc(enc.location)}</small></div>
-        <div class="actions"><button class="small" style="width:100%" data-revive="${esc(enc.id)}">Undo (to box)</button></div>
+        ${over ? "" : `<div class="actions"><button class="small" style="width:100%" data-revive="${esc(enc.id)}">Undo (to box)</button></div>`}
       </div>`).join("")}</div>`;
   },
   bind(root, session) {
