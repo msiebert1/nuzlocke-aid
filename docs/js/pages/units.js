@@ -1,9 +1,9 @@
 // Team, Box and Graveyard tabs, plus the shared "where does this catch go?" step.
 // A unit is one encounter: a single Pokémon, or a soul-linked pair.
 
-import * as R from "../rules.js?v=a30f06c2";
-import { cellStyle, closeModal, confirmBox, esc, isModern, linkIcon, modal, monImage, monName, removeEncounter, spriteScale, toast, boxFit, badgeRow, badgeCount } from "../ui.js?v=a30f06c2";
-import { prepareGraphic, shareGraphic, viewGraphic } from "../render.js?v=a30f06c2";
+import * as R from "../rules.js?v=1863fb15";
+import { cellStyle, closeModal, confirmBox, esc, isModern, linkIcon, modal, monImage, monName, removeEncounter, spriteScale, toast, boxFit, badgeRow, badgeCount } from "../ui.js?v=1863fb15";
+import { prepareGraphic, shareGraphic, viewGraphic } from "../render.js?v=1863fb15";
 
 /** All sprite names on a page, for one shared scale. */
 function namesOf(encs) {

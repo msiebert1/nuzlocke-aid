@@ -1,7 +1,7 @@
 // What the shared summary page shows, worked out from a run: its stats and
 // its history as plain lines of text. Pure functions (tests/summary.test.js).
 
-import { graveyard, isUsable, party, tally } from "./rules.js?v=a30f06c2";
+import { graveyard, isUsable, party, tally } from "./rules.js?v=1863fb15";
 
 const DAY = 24 * 60 * 60 * 1000;
 
@@ -9,7 +9,9 @@ const DAY = 24 * 60 * 60 * 1000;
 export function stats(run, now = Date.now()) {
   const { logged, caught, lost } = tally(run);
   const failed = run.encounters.filter((e) => e.catches.some((c) => c.status !== "caught")).length;
-  const alive = caught - lost;
+  // an abandoned run's team didn't make it, even though it never fainted
+  const abandoned = run.result?.reason === "abandoned";
+  const alive = caught - lost - (abandoned ? party(run).length : 0);
   const start = run.createdAt || Math.min(now, ...run.encounters.map((e) => e.createdAt || now));
   return {
     logged, caught, lost, failed, alive,

@@ -76,3 +76,15 @@ test("stats", () => {
   assert.deepEqual([s.logged, s.caught, s.lost, s.alive, s.failed, s.party, s.survival, s.days],
                    [3, 2, 1, 1, 1, 1, 50, 3]);
 });
+
+test("an abandoned run's team doesn't count as still alive", () => {
+  let { run } = catchPair(soulRun(), "Starter", "Snivy", "Tepig", T0);
+  const boxed = R.logEncounter(run, { location: "Route 19", status: "caught",
+    catches: [{ player: 0, species: "Patrat" }, { player: 1, species: "Purrloin" }] });
+  run = R.place(boxed.run, boxed.id, "box");
+  assert.equal(Sum.stats(run).alive, 2);
+  run = R.endRun(run, "defeat", "abandoned");
+  const s = Sum.stats(run);
+  assert.deepEqual([s.caught, s.lost, s.alive, s.survival], [2, 0, 1, 50]); // the boxed pair is still alive
+  assert.equal(R.graveyard(run).length, 0); // the team isn't moved to the graveyard
+});

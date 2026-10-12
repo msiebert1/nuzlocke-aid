@@ -2,11 +2,11 @@
 // live updates of the team, badges, history, graveyard and box. It reads only
 // the run's view copy, so it never sees (or needs) the run's edit code.
 
-import * as R from "../rules.js?v=a30f06c2";
-import { store } from "../store.js?v=a30f06c2";
-import * as Sum from "../summary.js?v=a30f06c2";
-import { applyTheme, badgeCount, badgeRow, esc, gameName, loadGame, monName, resultBanner, trainerImg } from "../ui.js?v=a30f06c2";
-import { unitHTML } from "./units.js?v=a30f06c2";
+import * as R from "../rules.js?v=1863fb15";
+import { store } from "../store.js?v=1863fb15";
+import * as Sum from "../summary.js?v=1863fb15";
+import { applyTheme, badgeCount, badgeRow, esc, gameName, loadGame, monName, resultBanner, trainerImg } from "../ui.js?v=1863fb15";
+import { unitHTML } from "./units.js?v=1863fb15";
 
 const TIMELINE_STEP = 25;
 
@@ -66,10 +66,12 @@ function teamBox(session) {
   if (!party.length) return `<div class="box"><h2>Current team</h2><p class="muted">No one in the party right now.</p></div>`;
   const names = party.flatMap((e) => e.catches.map((c) => c.species));
   const soul = run.mode === "soul";
-  return `<div class="box"><h2>Current team <small class="muted">${party.length} / ${R.PARTY_SIZE}</small></h2>
+  // an abandoned run's team is shown greyed out, as it ended (not in the graveyard)
+  const abandoned = run.result?.reason === "abandoned";
+  return `<div class="box"><h2>${abandoned ? "Final team" : "Current team"} <small class="muted">${party.length} / ${R.PARTY_SIZE}</small></h2>
     <div class="view-team ${soul ? "soul" : ""}">
       ${party.map((enc) => `<div class="view-member">
-        ${unitHTML(session, enc, 1, 96, { fitNames: names })}
+        ${unitHTML(session, enc, 1, 96, { fitNames: names, grey: abandoned })}
         <div class="view-origin">${esc(enc.location)}${enc.catches.some((c) => c.caughtAs)
           ? ` · evolved from ${esc(enc.catches.filter((c) => c.caughtAs).map((c) => c.caughtAs).join(" & "))}` : ""}</div>
       </div>`).join("")}
