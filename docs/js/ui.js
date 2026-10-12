@@ -326,7 +326,7 @@ export function resultBanner(run) {
   const [icon, title, text] = r.outcome === "victory"
     ? ["🏆", "Victory!", "The Champion has been defeated. Congratulations!"]
     : r.reason === "abandoned"
-      ? ["🏳️", "Run abandoned", "The players called it a day."]
+      ? ["🏳️", "Run abandoned", r.note ? `“${esc(r.note)}”` : "The players called it a day."]
       : ["💀", "Defeat", "No Pokémon left alive to continue."];
   return `<div class="box result-banner ${esc(r.outcome)}">
     <span class="result-icon">${icon}</span>

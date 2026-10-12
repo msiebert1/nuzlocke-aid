@@ -354,7 +354,8 @@ export function sharePost(run, kind, { game, site }) {
   ];
   if (run.result?.outcome === "victory") lines.splice(1, 0, "🏆 Victory! Champion defeated.");
   if (run.result?.outcome === "defeat") {
-    lines.splice(1, 0, run.result.reason === "abandoned" ? "🏳️ Run abandoned." : "💀 Defeat: wiped out.");
+    lines.splice(1, 0, run.result.reason === "abandoned"
+      ? `🏳️ Run abandoned${run.result.note ? `: ${run.result.note}` : "."}` : "💀 Defeat: wiped out.");
   }
   if (site) lines.push(`Made with Nuzlocke Aid: ${site}`);
   return lines.join("\n");
@@ -430,7 +431,7 @@ export function isWipedOut(run) {
   return !party(run).length && !box(run).length && graveyard(run).length > 0;
 }
 
-export function endRun(run, outcome, reason, now) {
+export function endRun(run, outcome, reason, now, note = "") {
   assertOpen(run);
   if (outcome === "victory") {
     if (!canWin(run)) throw new RuleError("Victory needs the Champion beaten first");
@@ -442,8 +443,9 @@ export function endRun(run, outcome, reason, now) {
     throw new RuleError(`Bad outcome ${outcome}`);
   }
   run = clone(run);
-  run.result = { outcome, reason, t: now ?? Date.now() };
-  addEvent(run, { type: "end", outcome, reason }, now);
+  note = String(note || "").trim().slice(0, 80);
+  run.result = { outcome, reason, t: now ?? Date.now(), ...(note ? { note } : {}) };
+  addEvent(run, { type: "end", outcome, reason, ...(note ? { note } : {}) }, now);
   return run;
 }
 

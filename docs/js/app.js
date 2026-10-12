@@ -4,12 +4,12 @@
 //   #/run/<code>/<tab>     a run: log | team | box | grave | list | settings
 //   #/view/<code>          a run's read-only summary (its "share run" link)
 
-import { store, rememberRun, resetStore, storeError } from "./store.js?v=6ca6e3da";
-import { applyTheme, esc, loadGame, toast } from "./ui.js?v=6ca6e3da";
-import * as landing from "./pages/landing.js?v=6ca6e3da";
-import * as newRun from "./pages/newrun.js?v=6ca6e3da";
-import * as viewPage from "./pages/view.js?v=6ca6e3da";
-import * as runPages from "./pages/run.js?v=6ca6e3da";
+import { store, rememberRun, resetStore, storeError } from "./store.js?v=3438c4d6";
+import { applyTheme, esc, loadGame, toast } from "./ui.js?v=3438c4d6";
+import * as landing from "./pages/landing.js?v=3438c4d6";
+import * as newRun from "./pages/newrun.js?v=3438c4d6";
+import * as viewPage from "./pages/view.js?v=3438c4d6";
+import * as runPages from "./pages/run.js?v=3438c4d6";
 
 const app = document.getElementById("app");
 let session = null; // the open run: {code, run, game, db, me, update}

@@ -1,7 +1,7 @@
 // What the shared summary page shows, worked out from a run: its stats and
 // its history as plain lines of text. Pure functions (tests/summary.test.js).
 
-import { graveyard, isUsable, party, tally } from "./rules.js?v=6ca6e3da";
+import { graveyard, isUsable, party, tally } from "./rules.js?v=3438c4d6";
 
 const DAY = 24 * 60 * 60 * 1000;
 
@@ -56,7 +56,8 @@ export function describe(event, run, milestones = {}) {
     case "end":
       if (event.outcome === "victory") return { icon: "🏆", text: "Victory! The run is complete" };
       return { icon: event.reason === "abandoned" ? "🏳️" : "💀",
-               text: event.reason === "abandoned" ? "The run was abandoned" : "Defeat: no Pokémon left" };
+               text: event.reason === "abandoned"
+                 ? `The run was abandoned${event.note ? `: ${event.note}` : ""}` : "Defeat: no Pokémon left" };
     default: return null;
   }
 }

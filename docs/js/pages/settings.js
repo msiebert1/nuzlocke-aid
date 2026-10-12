@@ -1,12 +1,21 @@
 // Settings: share link, player names and sprites, wallpapers, link icon.
 
-import { canWin, endRun, isOver, isWipedOut, parseLocationList, reopenRun, setCustomLocations } from "../rules.js?v=6ca6e3da";
-import { forgetRun, newCode } from "../store.js?v=6ca6e3da";
-import { ART_CHOICES, MAX_CUSTOM_LOCATIONS, confirmBox, esc, resultBanner, toast, trainerImg } from "../ui.js?v=6ca6e3da";
+import { canWin, endRun, isOver, isWipedOut, parseLocationList, reopenRun, setCustomLocations } from "../rules.js?v=3438c4d6";
+import { forgetRun, newCode } from "../store.js?v=3438c4d6";
+import { ART_CHOICES, MAX_CUSTOM_LOCATIONS, closeModal, confirmBox, esc, modal, resultBanner, toast, trainerImg } from "../ui.js?v=3438c4d6";
 
 function shareLink(code) {
   return `${location.origin}${location.pathname}#/run/${code}/log`;
 }
+
+const NO_NOTE = "__none__";
+
+// The abandon form submits by closing the dialog with the reason (or a marker for none)
+document.addEventListener("submit", (e) => {
+  if (e.target.id !== "abandon-form") return;
+  e.preventDefault();
+  closeModal(e.target.note.value.trim() || NO_NOTE);
+});
 
 function viewLink(code) {
   return `${location.origin}${location.pathname}#/view/${code}`;
@@ -232,8 +241,17 @@ export function bind(root, session) {
     finish("victory", "champion", "Record a <b>victory</b>? This ends the run.", "🏆 Victory recorded. Congratulations!"));
   root.querySelector("#end-wipe")?.addEventListener("click", () =>
     finish("defeat", "wipe", "Nobody's left alive. Record a <b>defeat</b>? This ends the run.", "💀 Defeat recorded"));
-  root.querySelector("#end-abandon")?.addEventListener("click", () =>
-    finish("defeat", "abandoned", "<b>Abandon</b> this run? It's recorded as a defeat and ends the run.", "🏳️ Run abandoned"));
+  root.querySelector("#end-abandon")?.addEventListener("click", async () => {
+    const note = await modal(`<form id="abandon-form"><h2>🏳️ Abandon this run?</h2>
+      <p>It's recorded as a defeat and ends the run.</p>
+      <label for="abandon-note">Why? <small class="muted">(optional, shown in the history)</small></label>
+      <input id="abandon-note" name="note" maxlength="80" placeholder="e.g. Lost to the Champion">
+      <div class="btn-row" style="margin-top:12px"><button type="button" data-value="">Cancel</button>
+        <button class="primary" type="submit">Abandon run</button></div></form>`);
+    if (note === null || note === "") return;
+    await session.update((r) => endRun(r, "defeat", "abandoned", undefined, note === NO_NOTE ? "" : note));
+    toast("🏳️ Run abandoned");
+  });
   root.querySelector("#reopen")?.addEventListener("click", async () => {
     if (!(await confirmBox("Reopen this run? Its ending is removed.", "Reopen"))) return;
     await session.update((r) => reopenRun(r));

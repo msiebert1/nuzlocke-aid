@@ -303,3 +303,11 @@ test("defeat: wiped out only when nobody is left; abandoning any time", () => {
   assert.equal(R.endRun(newRun(), "defeat", "abandoned").result.reason, "abandoned");
   assert.equal(R.isWipedOut(newRun()), false); // nothing caught yet isn't a wipe
 });
+
+test("abandoning records an optional reason", () => {
+  const run = R.endRun(newRun(), "defeat", "abandoned", undefined, "  Lost to the Champion ");
+  assert.equal(run.result.note, "Lost to the Champion");
+  assert.equal(run.events.at(-1).note, "Lost to the Champion");
+  assert.match(R.sharePost(run, "team", { game: "X" }), /Run abandoned: Lost to the Champion/);
+  assert.equal(R.endRun(newRun(), "defeat", "abandoned").result.note, undefined);
+});
