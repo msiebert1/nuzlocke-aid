@@ -1,17 +1,18 @@
 // Start a run: name, game, single nuzlocke or soul link, players.
 // "Other game" runs any game: the players supply its name and locations.
 
-import { parseLocationList } from "../rules.js?v=61b824e3";
-import { store } from "../store.js?v=61b824e3";
+import { parseLocationList } from "../rules.js?v=d34b2750";
+import { store } from "../store.js?v=d34b2750";
 import {
-  ART_CHOICES, GENERIC, MAX_CUSTOM_LOCATIONS, applyTheme, esc, loadGame, loadStyles, toast, trainerImg,
-} from "../ui.js?v=61b824e3";
+  ART_CHOICES, GENERIC, MAX_CUSTOM_LOCATIONS, applyTheme, esc, hasGoalChoice, loadGame, loadStyles, toast, trainerImg,
+} from "../ui.js?v=d34b2750";
 
 export async function show(app) {
   const styles = await loadStyles();
   const keys = Object.keys(styles);
   const state = { game: "b2w2", mode: "single", name: "", players: ["", ""], trainers: [],
-                  look: "game", art: "sprites", gameName: "", locations: "", randomizer: false };
+                  look: "game", art: "sprites", gameName: "", locations: "", randomizer: false,
+                  goal: "johto" };
 
   async function render() {
     const game = await loadGame(state.game);
@@ -46,6 +47,13 @@ export async function show(app) {
             placeholder="Starter&#10;Route 1&#10;Route 2&#10;…">${esc(state.locations)}</textarea>
           <p class="muted"><small>Every Pokémon from all nine generations is available. Other games
             use the modern look with official artwork.</small></p>` : ""}
+        ${hasGoalChoice(game) ? `<label>Goal</label>
+        <div class="choice goal-choice">
+          <label><input type="radio" name="goal" value="johto" ${state.goal !== "full" ? "checked" : ""}>
+            <span>Johto League<small>8 Johto badges, Elite Four, Champion Lance</small></span></label>
+          <label><input type="radio" name="goal" value="full" ${state.goal === "full" ? "checked" : ""}>
+            <span>Full game<small>+ 8 Kanto badges, Elite Four &amp; Champion again, then Red</small></span></label>
+        </div>` : ""}
         <label>Mode</label>
         <div class="choice">
           <label><input type="radio" name="mode" value="single" ${state.mode === "single" ? "checked" : ""}><span>Nuzlocke</span></label>
@@ -84,6 +92,8 @@ export async function show(app) {
       state.trainers = [form.t0?.value ?? "", form.t1?.value ?? state.trainers[1] ?? ""];
       state.art = form.art.value;
       state.randomizer = form.randomizer.checked;
+      const goalPick = form.querySelector("[name=goal]:checked");
+      if (goalPick) state.goal = goalPick.value;
       if (form.gamename) state.gameName = form.gamename.value;
       if (form.locations) state.locations = form.locations.value;
     };
@@ -106,7 +116,8 @@ export async function show(app) {
           name: state.players[i].trim(), trainer: state.trainers[i] || "",
         })),
         options: { wallpapers: [...game.style.defaultWalls], link: "heart",
-                   look: generic ? "modern" : state.look, art: state.art, randomizer: state.randomizer },
+                   look: generic ? "modern" : state.look, art: state.art, randomizer: state.randomizer,
+                   ...(hasGoalChoice(game) ? { goal: state.goal } : {}) },
         customLocations: locations,
         encounters: [],
         createdAt: Date.now(),

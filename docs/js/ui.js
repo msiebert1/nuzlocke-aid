@@ -295,11 +295,23 @@ export function monName(c) {
   return c.nickname || c.species || "—";
 }
 
+/** The milestones a run is playing for: Johto games list the rest of the game
+ *  (Kanto, the League rematch, Red) only for a full-game goal. */
+export function milestonesFor(game, run) {
+  const goal = run?.options?.goal === "full" ? "full" : "johto";
+  return game.milestones.filter((m) => !m.goal || m.goal === goal);
+}
+
+/** Whether a game offers the Johto League / full game choice. */
+export function hasGoalChoice(game) {
+  return game.milestones.some((m) => m.goal === "full");
+}
+
 /** The run's badges and League progress as a row of icons; earned ones in
  *  colour, the rest greyed out. */
 export function badgeRow(session, { size = 34, tappable = false } = {}) {
   const { run, game } = session;
-  const items = game.milestones;
+  const items = milestonesFor(game, run);
   if (!items.length) return "";
   const icon = (m) => {
     const earned = !!run.progress?.[m.key];
@@ -314,7 +326,7 @@ export function badgeRow(session, { size = 34, tappable = false } = {}) {
 }
 
 export function badgeCount(session) {
-  const badges = session.game.milestones.filter((m) => m.kind === "badge");
+  const badges = milestonesFor(session.game, session.run).filter((m) => m.kind === "badge");
   return { earned: badges.filter((m) => session.run.progress?.[m.key]).length, total: badges.length };
 }
 

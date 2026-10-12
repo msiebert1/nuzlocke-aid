@@ -3,8 +3,12 @@
 
     python3 tools/build_badges.py
 
+Johto games (Gold/Silver/Crystal/HeartGold/SoulSilver) also list the rest of
+the game, marked "goal": "full": the Kanto badges, the Elite Four and Champion
+rematches, and Red. A run's goal setting decides which count.
+
 Writes docs/data/badges.json: {game: [{key, name, leader, kind, icon}]} in the
-order they're earned (kind is "badge", "elite4" or "champion"), and the
+order they're earned (kind is "badge", "elite4", "champion" or "red"), and the
 icons in docs/assets/badges/. Badge art is the official art from Bulbapedia;
 the Elite Four and Champion icons are drawn here in pixel art.
 """
@@ -136,6 +140,20 @@ def badge_art(name: str) -> Image.Image:
     return img.resize((max(1, round(img.width * scale)), max(1, round(img.height * scale))), Image.LANCZOS)
 
 
+def red_icon() -> Image.Image:
+    """Red's HeartGold/SoulSilver trainer sprite, for the final battle."""
+    dest = CACHE / "Spr_HGSS_Red.png"
+    if not dest.exists():
+        r = soullink.session.get(BULBAPEDIA_API, params=dict(
+            action="query", prop="imageinfo", iiprop="url", titles="File:Spr HGSS Red.png",
+            format="json", formatversion=2), timeout=30)
+        url = r.json()["query"]["pages"][0]["imageinfo"][0]["url"]
+        dest.write_bytes(soullink.session.get(url, timeout=30).content)
+    img = soullink._trim(Image.open(dest).convert("RGBA"))
+    k = max(1, SIZE // max(img.size))
+    return img.resize((img.width * k, img.height * k), Image.NEAREST)
+
+
 def slug(name):
     return re.sub(r"[^a-z0-9]+", "-", name.lower()).strip("-")
 
@@ -145,10 +163,11 @@ def main():
     pixel_icon(TROPHY).save(OUT / "champion.png", optimize=True)
     pixel_icon(STAR).save(OUT / "elite-four.png", optimize=True)
     pixel_icon(NUMBERED).save(OUT / "badge.png", optimize=True)
+    red_icon().save(OUT / "red.png", optimize=True)
     data = {}
     for game, (badges, e4, champion, after) in GAMES.items():
         items = []
-        def add_badges(lst, region=""):
+        def add_badges(lst, region="", goal=None):
             for name, leader in lst:
                 if game == "generic":
                     items.append({"key": f"badge{name}", "name": f"Badge {name}", "leader": "",
@@ -158,13 +177,20 @@ def main():
                 if not (DOCS / "assets" / file).exists():
                     badge_art(name).save(DOCS / "assets" / file, optimize=True)
                 items.append({"key": f"{region}{slug(name)}", "name": f"{name} Badge", "leader": leader,
-                              "kind": "badge", "icon": file})
+                              "kind": "badge", "icon": file, **({"goal": goal} if goal else {})})
         add_badges(badges)
         items.append({"key": "elite4", "name": "Elite Four", "leader": e4, "kind": "elite4",
                       "icon": "badges/elite-four.png"})
         items.append({"key": "champion", "name": "Champion", "leader": champion, "kind": "champion",
                       "icon": "badges/champion.png"})
-        add_badges(after, "kanto-")
+        if after:  # the rest of the game, for runs that go all the way to Red
+            add_badges(after, "kanto-", "full")
+            items.append({"key": "elite4-2", "name": "Elite Four rematch", "leader": e4, "kind": "elite4",
+                          "icon": "badges/elite-four.png", "goal": "full", "rematch": True})
+            items.append({"key": "champion-2", "name": "Champion rematch", "leader": champion, "kind": "champion",
+                          "icon": "badges/champion.png", "goal": "full", "rematch": True})
+            items.append({"key": "red", "name": "Red", "leader": "Red, at Mt. Silver", "kind": "red",
+                          "icon": "badges/red.png", "goal": "full"})
         data[game] = items
         print(f"{game:7} {sum(i['kind'] == 'badge' for i in items)} badges + League")
     (DOCS / "data" / "badges.json").write_text(json.dumps(data, indent=1, ensure_ascii=False))

@@ -1,9 +1,9 @@
 // Team, Box and Graveyard tabs, plus the shared "where does this catch go?" step.
 // A unit is one encounter: a single Pokémon, or a soul-linked pair.
 
-import * as R from "../rules.js?v=61b824e3";
-import { cellStyle, closeModal, confirmBox, esc, isModern, linkIcon, modal, monImage, monName, removeEncounter, spriteScale, toast, boxFit, badgeRow, badgeCount } from "../ui.js?v=61b824e3";
-import { prepareGraphic, shareGraphic, viewGraphic } from "../render.js?v=61b824e3";
+import * as R from "../rules.js?v=d34b2750";
+import { cellStyle, closeModal, confirmBox, esc, isModern, linkIcon, modal, monImage, monName, removeEncounter, spriteScale, toast, boxFit, badgeRow, badgeCount } from "../ui.js?v=d34b2750";
+import { prepareGraphic, shareGraphic, viewGraphic } from "../render.js?v=d34b2750";
 
 /** All sprite names on a page, for one shared scale. */
 function namesOf(encs) {
@@ -99,7 +99,7 @@ document.addEventListener("submit", (e) => {
 export async function offerEnding(session, run, outcome) {
   const victory = outcome === "victory";
   const ok = await modal(`<div style="text-align:center"><div class="result-icon">${victory ? "🏆" : "💀"}</div>
-    <h2>${victory ? "You're the Champion!" : "No Pokémon left"}</h2>
+    <h2>${victory ? (R.finalMilestone(run) === "red" ? "You defeated Red!" : "You're the Champion!") : "No Pokémon left"}</h2>
     <p>${victory ? "Record a victory? This ends the run."
       : "Nobody is left alive in the party or box. Record a defeat? This ends the run."}</p></div>
     <div class="btn-row"><button data-value="">Not yet</button>
@@ -114,17 +114,25 @@ async function milestoneDialog(session, key) {
   const m = session.game.milestones.find((x) => x.key === key);
   if (!m) return;
   const earned = R.hasMilestone(session.run, key);
-  const what = m.kind === "champion" ? "Champion" : m.kind === "elite4" ? "the Elite Four" : `the ${m.name}`;
+  const again = m.rematch ? " again" : "";
+  const what = m.kind === "red" ? "Red" : m.kind === "champion" ? `the Champion${again}` : m.kind === "elite4" ? `the Elite Four${again}` : `the ${m.name}`;
+  const question = m.kind === "red" ? "Did you defeat <b>Red</b> at Mt. Silver"
+    : m.kind === "champion" ? (m.rematch ? "Did you beat the <b>Champion</b> again" : "Did you become the <b>Champion</b>")
+      : m.kind === "elite4" ? `Did you beat the <b>Elite Four</b>${again}`
+        : `Did you earn the <b>${esc(m.name)}</b>`;
   const ok = await confirmBox(earned
     ? `Remove ${esc(what)} from your progress? (Only if it was marked by mistake.)`
-    : `<img src="assets/${esc(m.icon)}" alt="" style="width:56px;height:56px;display:block;margin:0 auto 8px">
-       ${m.kind === "champion" ? "Did you become the <b>Champion</b>" : m.kind === "elite4" ? "Did you beat the <b>Elite Four</b>"
-         : `Did you earn the <b>${esc(m.name)}</b>`}${m.leader ? ` (${esc(m.leader)})` : ""}?`,
+    : `<img src="assets/${esc(m.icon)}" alt="" style="width:56px;height:56px;display:block;margin:0 auto 8px;image-rendering:${m.kind === "red" ? "pixelated" : "auto"}">
+       ${question}${m.leader && m.kind !== "red" ? ` (${esc(m.leader)})` : ""}?`,
     earned ? "Remove" : "Yes!");
   if (!ok) return;
   const { run } = await session.update((r) => R.setMilestone(r, key, !earned));
-  if (!earned && m.kind === "champion") await offerEnding(session, run, "victory");
-  if (!earned) toast(m.kind === "champion" ? "🏆 Champion!" : m.kind === "elite4" ? "⭐ Elite Four beaten!" : `🏅 ${m.name} earned!`);
+  // the goal's final battle offers to record the victory
+  if (!earned && key === R.finalMilestone(run)) return offerEnding(session, run, "victory");
+  if (!earned) {
+    toast(m.kind === "red" ? "🔴 Red defeated!" : m.kind === "champion" ? `🏆 Champion${again}!`
+      : m.kind === "elite4" ? `⭐ Elite Four beaten${again}!` : `🏅 ${m.name} earned!`);
+  }
 }
 
 /** A Pokémon's menu: evolve it (its next stages in this game, or any other

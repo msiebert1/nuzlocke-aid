@@ -1,7 +1,7 @@
 // What the shared summary page shows, worked out from a run: its stats and
 // its history as plain lines of text. Pure functions (tests/summary.test.js).
 
-import { graveyard, isUsable, party, tally } from "./rules.js?v=61b824e3";
+import { graveyard, isUsable, party, tally } from "./rules.js?v=d34b2750";
 
 const DAY = 24 * 60 * 60 * 1000;
 
@@ -49,8 +49,12 @@ export function describe(event, run, milestones = {}) {
     case "milestone": {
       const m = milestones[event.key];
       const label = m?.name || event.key;
-      if (m?.kind === "champion") return { icon: "🏆", text: `Became the Champion!` };
-      if (m?.kind === "elite4") return { icon: "⭐", text: `Beat the Elite Four` };
+      if (m?.kind === "red") return { icon: "🔴", text: "Defeated Red at Mt. Silver!" };
+      if (m?.kind === "champion") {
+        return m.rematch ? { icon: "🏆", text: `Beat Champion ${m.leader || ""} again`.replace("  ", " ") }
+          : { icon: "🏆", text: "Became the Champion!" };
+      }
+      if (m?.kind === "elite4") return { icon: "⭐", text: m.rematch ? "Beat the Elite Four again" : "Beat the Elite Four" };
       return { icon: "🏅", text: `Earned the ${label}${m?.leader ? ` from ${m.leader}` : ""}` };
     }
     case "end":

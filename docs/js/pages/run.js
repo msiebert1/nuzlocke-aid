@@ -1,11 +1,11 @@
 // A run's pages: header, bottom tab bar, and the current tab.
 
-import * as R from "../rules.js?v=61b824e3";
-import { esc, gameName, resultBanner, resultLabel } from "../ui.js?v=61b824e3";
-import * as log from "./log.js?v=61b824e3";
-import * as units from "./units.js?v=61b824e3";
-import * as list from "./list.js?v=61b824e3";
-import * as settings from "./settings.js?v=61b824e3";
+import * as R from "../rules.js?v=d34b2750";
+import { esc, gameName, resultBanner, resultLabel } from "../ui.js?v=d34b2750";
+import * as log from "./log.js?v=d34b2750";
+import * as units from "./units.js?v=d34b2750";
+import * as list from "./list.js?v=d34b2750";
+import * as settings from "./settings.js?v=d34b2750";
 
 const TABS = {
   log: { label: "Log", page: log },

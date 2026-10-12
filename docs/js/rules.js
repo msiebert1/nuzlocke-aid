@@ -354,7 +354,9 @@ export function sharePost(run, kind, { game, site }) {
     "",
     `📍 ${logged} encounter${logged === 1 ? "" : "s"} · ✅ ${caught} caught · 🪦 ${lost} lost`,
   ];
-  if (run.result?.outcome === "victory") lines.splice(1, 0, "🏆 Victory! Champion defeated.");
+  if (run.result?.outcome === "victory") {
+    lines.splice(1, 0, goal(run) === "full" ? "🏆 Victory! Red defeated." : "🏆 Victory! Champion defeated.");
+  }
   if (run.result?.outcome === "defeat") {
     lines.splice(1, 0, run.result.reason === "abandoned"
       ? `🏳️ Run abandoned${run.result.note ? `: ${run.result.note}` : "."}` : "💀 Defeat: wiped out.");
@@ -424,8 +426,30 @@ function assertOpen(run) {
   if (isOver(run)) throw new RuleError("This run has ended. Reopen it in Settings to make changes.");
 }
 
+// Johto games can be won at the Johto League ("johto", the default) or only
+// after the rest of the game: Kanto, the League rematch and Red ("full").
+export const GOALS = ["johto", "full"];
+
+export function goal(run) {
+  return run.options?.goal === "full" ? "full" : "johto";
+}
+
+/** The milestone that wins the run: Red for a full-game run, else the Champion. */
+export function finalMilestone(run) {
+  return goal(run) === "full" ? "red" : "champion";
+}
+
 export function canWin(run) {
-  return hasMilestone(run, "champion");
+  return hasMilestone(run, finalMilestone(run));
+}
+
+/** Change a Johto game run's goal (progress already marked is kept). */
+export function setGoal(run, newGoal) {
+  assertOpen(run);
+  if (!GOALS.includes(newGoal)) throw new RuleError(`Bad goal ${newGoal}`);
+  run = clone(run);
+  run.options = { ...(run.options || {}), goal: newGoal };
+  return run;
 }
 
 /** Nobody usable is left: the party and box are empty after a loss. */
@@ -436,7 +460,9 @@ export function isWipedOut(run) {
 export function endRun(run, outcome, reason, now, note = "") {
   assertOpen(run);
   if (outcome === "victory") {
-    if (!canWin(run)) throw new RuleError("Victory needs the Champion beaten first");
+    if (!canWin(run)) {
+      throw new RuleError(goal(run) === "full" ? "Victory needs Red beaten first" : "Victory needs the Champion beaten first");
+    }
     reason = "champion";
   } else if (outcome === "defeat") {
     if (!["wipe", "abandoned"].includes(reason)) throw new RuleError(`Bad reason ${reason}`);

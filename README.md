@@ -92,6 +92,11 @@ app icon.
   caught as.
 - **Badges:** the Team page shows the game's badges (greyed out until
   earned), the Elite Four and the Champion. Tap one when you earn it.
+- **Johto games (Gold, Silver, Crystal, HeartGold, SoulSilver):** choose a
+  **Goal** when starting (or in Settings): the **Johto League** (8 badges,
+  Elite Four, Champion Lance) or the **Full game** (plus the 8 Kanto badges,
+  the Elite Four and Champion again, then Red). Victory comes at the goal's
+  final battle.
 - **Ending a run:** marking the Champion offers to record a **victory**; a
   faint that leaves nobody alive in the party or box offers to record a
   **defeat**; **Settings → Abandon** ends it any time. An ended run is frozen

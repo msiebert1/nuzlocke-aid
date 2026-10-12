@@ -319,3 +319,17 @@ test("an abandoned run's team counts as lost in the tally and share post", () =>
   assert.equal(R.graveyard(run).length, 0);
   assert.match(R.sharePost(run, "team", { game: "X" }), /🪦 1 lost/);
 });
+
+test("Johto games: a full-game goal wins only after Red", () => {
+  let run = R.setMilestone(newRun(), "champion", true);
+  assert.equal(R.canWin(run), true); // the Johto League is the default goal
+  run = R.setGoal(run, "full");
+  assert.equal(R.finalMilestone(run), "red");
+  assert.equal(R.canWin(run), false);
+  assert.throws(() => R.endRun(run, "victory"), /Red/);
+  run = R.setMilestone(run, "red", true);
+  run = R.endRun(run, "victory");
+  assert.match(R.sharePost(run, "team", { game: "HeartGold / SoulSilver" }), /Red defeated/);
+  assert.throws(() => R.setGoal(run, "johto"), /ended/);
+  assert.throws(() => R.setGoal(newRun(), "kanto"), R.RuleError);
+});

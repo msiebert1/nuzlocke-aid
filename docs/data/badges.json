@@ -291,56 +291,90 @@
    "name": "Boulder Badge",
    "leader": "Brock",
    "kind": "badge",
-   "icon": "badges/boulder.png"
+   "icon": "badges/boulder.png",
+   "goal": "full"
   },
   {
    "key": "kanto-cascade",
    "name": "Cascade Badge",
    "leader": "Misty",
    "kind": "badge",
-   "icon": "badges/cascade.png"
+   "icon": "badges/cascade.png",
+   "goal": "full"
   },
   {
    "key": "kanto-thunder",
    "name": "Thunder Badge",
    "leader": "Lt. Surge",
    "kind": "badge",
-   "icon": "badges/thunder.png"
+   "icon": "badges/thunder.png",
+   "goal": "full"
   },
   {
    "key": "kanto-rainbow",
    "name": "Rainbow Badge",
    "leader": "Erika",
    "kind": "badge",
-   "icon": "badges/rainbow.png"
+   "icon": "badges/rainbow.png",
+   "goal": "full"
   },
   {
    "key": "kanto-soul",
    "name": "Soul Badge",
    "leader": "Janine",
    "kind": "badge",
-   "icon": "badges/soul.png"
+   "icon": "badges/soul.png",
+   "goal": "full"
   },
   {
    "key": "kanto-marsh",
    "name": "Marsh Badge",
    "leader": "Sabrina",
    "kind": "badge",
-   "icon": "badges/marsh.png"
+   "icon": "badges/marsh.png",
+   "goal": "full"
   },
   {
    "key": "kanto-volcano",
    "name": "Volcano Badge",
    "leader": "Blaine",
    "kind": "badge",
-   "icon": "badges/volcano.png"
+   "icon": "badges/volcano.png",
+   "goal": "full"
   },
   {
    "key": "kanto-earth",
    "name": "Earth Badge",
    "leader": "Blue",
    "kind": "badge",
-   "icon": "badges/earth.png"
+   "icon": "badges/earth.png",
+   "goal": "full"
+  },
+  {
+   "key": "elite4-2",
+   "name": "Elite Four rematch",
+   "leader": "Will, Koga, Bruno & Karen",
+   "kind": "elite4",
+   "icon": "badges/elite-four.png",
+   "goal": "full",
+   "rematch": true
+  },
+  {
+   "key": "champion-2",
+   "name": "Champion rematch",
+   "leader": "Lance",
+   "kind": "champion",
+   "icon": "badges/champion.png",
+   "goal": "full",
+   "rematch": true
+  },
+  {
+   "key": "red",
+   "name": "Red",
+   "leader": "Red, at Mt. Silver",
+   "kind": "red",
+   "icon": "badges/red.png",
+   "goal": "full"
   }
  ],
  "c": [
@@ -419,56 +453,90 @@
    "name": "Boulder Badge",
    "leader": "Brock",
    "kind": "badge",
-   "icon": "badges/boulder.png"
+   "icon": "badges/boulder.png",
+   "goal": "full"
   },
   {
    "key": "kanto-cascade",
    "name": "Cascade Badge",
    "leader": "Misty",
    "kind": "badge",
-   "icon": "badges/cascade.png"
+   "icon": "badges/cascade.png",
+   "goal": "full"
   },
   {
    "key": "kanto-thunder",
    "name": "Thunder Badge",
    "leader": "Lt. Surge",
    "kind": "badge",
-   "icon": "badges/thunder.png"
+   "icon": "badges/thunder.png",
+   "goal": "full"
   },
   {
    "key": "kanto-rainbow",
    "name": "Rainbow Badge",
    "leader": "Erika",
    "kind": "badge",
-   "icon": "badges/rainbow.png"
+   "icon": "badges/rainbow.png",
+   "goal": "full"
   },
   {
    "key": "kanto-soul",
    "name": "Soul Badge",
    "leader": "Janine",
    "kind": "badge",
-   "icon": "badges/soul.png"
+   "icon": "badges/soul.png",
+   "goal": "full"
   },
   {
    "key": "kanto-marsh",
    "name": "Marsh Badge",
    "leader": "Sabrina",
    "kind": "badge",
-   "icon": "badges/marsh.png"
+   "icon": "badges/marsh.png",
+   "goal": "full"
   },
   {
    "key": "kanto-volcano",
    "name": "Volcano Badge",
    "leader": "Blaine",
    "kind": "badge",
-   "icon": "badges/volcano.png"
+   "icon": "badges/volcano.png",
+   "goal": "full"
   },
   {
    "key": "kanto-earth",
    "name": "Earth Badge",
    "leader": "Blue",
    "kind": "badge",
-   "icon": "badges/earth.png"
+   "icon": "badges/earth.png",
+   "goal": "full"
+  },
+  {
+   "key": "elite4-2",
+   "name": "Elite Four rematch",
+   "leader": "Will, Koga, Bruno & Karen",
+   "kind": "elite4",
+   "icon": "badges/elite-four.png",
+   "goal": "full",
+   "rematch": true
+  },
+  {
+   "key": "champion-2",
+   "name": "Champion rematch",
+   "leader": "Lance",
+   "kind": "champion",
+   "icon": "badges/champion.png",
+   "goal": "full",
+   "rematch": true
+  },
+  {
+   "key": "red",
+   "name": "Red",
+   "leader": "Red, at Mt. Silver",
+   "kind": "red",
+   "icon": "badges/red.png",
+   "goal": "full"
   }
  ],
  "hgss": [
@@ -547,56 +615,90 @@
    "name": "Boulder Badge",
    "leader": "Brock",
    "kind": "badge",
-   "icon": "badges/boulder.png"
+   "icon": "badges/boulder.png",
+   "goal": "full"
   },
   {
    "key": "kanto-cascade",
    "name": "Cascade Badge",
    "leader": "Misty",
    "kind": "badge",
-   "icon": "badges/cascade.png"
+   "icon": "badges/cascade.png",
+   "goal": "full"
   },
   {
    "key": "kanto-thunder",
    "name": "Thunder Badge",
    "leader": "Lt. Surge",
    "kind": "badge",
-   "icon": "badges/thunder.png"
+   "icon": "badges/thunder.png",
+   "goal": "full"
   },
   {
    "key": "kanto-rainbow",
    "name": "Rainbow Badge",
    "leader": "Erika",
    "kind": "badge",
-   "icon": "badges/rainbow.png"
+   "icon": "badges/rainbow.png",
+   "goal": "full"
   },
   {
    "key": "kanto-soul",
    "name": "Soul Badge",
    "leader": "Janine",
    "kind": "badge",
-   "icon": "badges/soul.png"
+   "icon": "badges/soul.png",
+   "goal": "full"
   },
   {
    "key": "kanto-marsh",
    "name": "Marsh Badge",
    "leader": "Sabrina",
    "kind": "badge",
-   "icon": "badges/marsh.png"
+   "icon": "badges/marsh.png",
+   "goal": "full"
   },
   {
    "key": "kanto-volcano",
    "name": "Volcano Badge",
    "leader": "Blaine",
    "kind": "badge",
-   "icon": "badges/volcano.png"
+   "icon": "badges/volcano.png",
+   "goal": "full"
   },
   {
    "key": "kanto-earth",
    "name": "Earth Badge",
    "leader": "Blue",
    "kind": "badge",
-   "icon": "badges/earth.png"
+   "icon": "badges/earth.png",
+   "goal": "full"
+  },
+  {
+   "key": "elite4-2",
+   "name": "Elite Four rematch",
+   "leader": "Will, Koga, Bruno & Karen",
+   "kind": "elite4",
+   "icon": "badges/elite-four.png",
+   "goal": "full",
+   "rematch": true
+  },
+  {
+   "key": "champion-2",
+   "name": "Champion rematch",
+   "leader": "Lance",
+   "kind": "champion",
+   "icon": "badges/champion.png",
+   "goal": "full",
+   "rematch": true
+  },
+  {
+   "key": "red",
+   "name": "Red",
+   "leader": "Red, at Mt. Silver",
+   "kind": "red",
+   "icon": "badges/red.png",
+   "goal": "full"
   }
  ],
  "rs": [

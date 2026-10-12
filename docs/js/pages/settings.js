@@ -1,8 +1,8 @@
 // Settings: share link, player names and sprites, wallpapers, link icon.
 
-import { canWin, endRun, isOver, isWipedOut, parseLocationList, reopenRun, setCustomLocations } from "../rules.js?v=61b824e3";
-import { forgetRun, newCode } from "../store.js?v=61b824e3";
-import { ART_CHOICES, MAX_CUSTOM_LOCATIONS, closeModal, confirmBox, esc, modal, resultBanner, toast, trainerImg } from "../ui.js?v=61b824e3";
+import { canWin, endRun, finalMilestone, isOver, isWipedOut, parseLocationList, reopenRun, setCustomLocations, setGoal } from "../rules.js?v=d34b2750";
+import { forgetRun, newCode } from "../store.js?v=d34b2750";
+import { ART_CHOICES, MAX_CUSTOM_LOCATIONS, closeModal, confirmBox, esc, hasGoalChoice, modal, resultBanner, toast, trainerImg } from "../ui.js?v=d34b2750";
 
 function shareLink(code) {
   return `${location.origin}${location.pathname}#/run/${code}/log`;
@@ -131,7 +131,17 @@ export function render(session) {
     ${isOver(run) ? `${resultBanner(run)}<div class="box">
         <p>Ended by mistake? Reopening lets you keep logging.</p>
         <button type="button" id="reopen" style="width:100%">↩ Reopen run</button></div>`
-      : `<div class="box" id="ending">
+      : `${hasGoalChoice(game) ? `<form class="box" id="goal">
+        <h2>Goal</h2>
+        <div class="choice goal-choice">
+          <label><input type="radio" name="goal" value="johto" ${run.options?.goal !== "full" ? "checked" : ""}>
+            <span>Johto League<small>8 Johto badges, Elite Four, Champion Lance</small></span></label>
+          <label><input type="radio" name="goal" value="full" ${run.options?.goal === "full" ? "checked" : ""}>
+            <span>Full game<small>+ 8 Kanto badges, Elite Four &amp; Champion again, then Red</small></span></label>
+        </div>
+        <p class="muted" style="margin-top:6px"><small>Decides which badges are tracked and what counts as victory.</small></p>
+      </form>` : ""}
+      <div class="box" id="ending">
         <h2>End the run</h2>
         <div class="btn-row">
           <button type="button" class="primary" id="end-victory" ${canWin(run) ? "" : "disabled"}>🏆 Victory</button>
@@ -139,8 +149,10 @@ export function render(session) {
           <button type="button" id="end-abandon">🏳️ Abandon</button>
         </div>
         <p class="muted" style="margin-top:6px"><small>${canWin(run)
-          ? "You've beaten the Champion: record your victory."
-          : "Victory unlocks once the Champion badge is marked on the Team page."}
+          ? `You've beaten ${finalMilestone(run) === "red" ? "Red" : "the Champion"}: record your victory.`
+          : finalMilestone(run) === "red"
+            ? "Victory unlocks once Red is marked on the Team page."
+            : "Victory unlocks once the Champion badge is marked on the Team page."}
           A defeat is offered when nobody's left alive; abandoning ends the run any time.</small></p>
       </div>`}
     <div class="box">
@@ -229,6 +241,13 @@ export function bind(root, session) {
     const on = rando.randomizer.checked;
     await session.update((r) => ({ ...r, options: { ...r.options, randomizer: on } }));
     toast(on ? "Randomizer on: route suggestions hidden" : "Randomizer off");
+  });
+
+  // --- the goal (Johto games): which badges count, and what wins
+  root.querySelector("#goal")?.addEventListener("change", async (e) => {
+    const g = e.target.value;
+    await session.update((r) => setGoal(r, g));
+    toast(g === "full" ? "Goal: the full game, through Red" : "Goal: the Johto League");
   });
 
   // --- ending the run
