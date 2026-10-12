@@ -4,12 +4,12 @@
 //   #/run/<code>/<tab>     a run: log | team | box | grave | list | settings
 //   #/view/<code>          a run's read-only summary (its "share run" link)
 
-import { store, rememberRun, resetStore, storeError } from "./store.js?v=19436aea";
-import { applyTheme, esc, loadGame, toast } from "./ui.js?v=19436aea";
-import * as landing from "./pages/landing.js?v=19436aea";
-import * as newRun from "./pages/newrun.js?v=19436aea";
-import * as viewPage from "./pages/view.js?v=19436aea";
-import * as runPages from "./pages/run.js?v=19436aea";
+import { store, rememberRun, resetStore, storeError } from "./store.js?v=c89666fd";
+import { applyTheme, esc, loadGame, toast } from "./ui.js?v=c89666fd";
+import * as landing from "./pages/landing.js?v=c89666fd";
+import * as newRun from "./pages/newrun.js?v=c89666fd";
+import * as viewPage from "./pages/view.js?v=c89666fd";
+import * as runPages from "./pages/run.js?v=c89666fd";
 
 const app = document.getElementById("app");
 let session = null; // the open run: {code, run, game, db, me, update}
@@ -59,8 +59,12 @@ function closeSession() {
 
 /** Keep the run's read-only view copy (its "share run" link) up to date. Best
  *  effort: the view is a convenience, so a failed sync never blocks a save. */
+let lastSynced = null; // the run version last copied to its view, from this device
 function syncView(db, run) {
   if (!db.saveView || !run.share?.on || !run.share.code) return;
+  const version = `${run.share.code}:${run.updatedAt}`;
+  if (version === lastSynced) return;
+  lastSynced = version;
   db.saveView(run.share.code, run).catch((err) => console.warn("Couldn't update the shared view:", err));
 }
 
@@ -153,6 +157,9 @@ async function openRun(code, tab) {
     current.run = run;
     rememberRun(code, run);
     renderRun();
+    // copy changes from either player to the shared view, so it stays current
+    // even if the other player's device can't update it yet
+    if (status.from === "server" || !db.shared) syncView(db, run);
     // this device can edit the run, so it may also update its shared view
     if (db.shared && db.uid && !(run.editors || []).includes(db.uid) && !current.joining) {
       current.joining = true;
