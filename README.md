@@ -51,15 +51,15 @@ site's data and art.
 ### 2. GitHub Pages (hosting)
 
 1. Create a **public** repository at <https://github.com/new> (e.g.
-   `nuzlocke-aid`), without a README.
+   `nuzlog`), without a README.
 2. Push this folder:
    ```bash
-   git remote add origin https://github.com/<your-username>/nuzlocke-aid.git
+   git remote add origin https://github.com/<your-username>/nuzlog.git
    git push -u origin main
    ```
 3. In the repository: **Settings → Pages → Build and deployment → Deploy from a
    branch → `main` / `/docs` → Save.** After a minute the site is live at
-   `https://<your-username>.github.io/nuzlocke-aid/`.
+   `https://<your-username>.github.io/nuzlog/`.
    (Firebase's "authorized domains" list doesn't need changing: it only
    applies to sign-in pop-ups, and this app signs in anonymously.)
 
