@@ -3,8 +3,8 @@
 // Everything is laid out at the game's native pixel size, scaled up by a whole
 // number, and then the sprites are drawn at one shared whole-number scale.
 
-import * as R from "./rules.js?v=1863fb15";
-import { artKind, artUrl, esc, gameName, isModern, modal, monName, toast } from "./ui.js?v=1863fb15";
+import * as R from "./rules.js?v=61b824e3";
+import { artKind, artUrl, esc, gameName, isModern, modal, monName, toast } from "./ui.js?v=61b824e3";
 
 const MARGIN = 8, COL_GAP = 4, ROW_GAP = 22, GRID_GAP = 14;
 const INK = "#383840", INK_SHADOW = "#d0d0d8", INK_LIGHT = "#686870";

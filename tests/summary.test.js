@@ -85,6 +85,6 @@ test("an abandoned run's team doesn't count as still alive", () => {
   assert.equal(Sum.stats(run).alive, 2);
   run = R.endRun(run, "defeat", "abandoned");
   const s = Sum.stats(run);
-  assert.deepEqual([s.caught, s.lost, s.alive, s.survival], [2, 0, 1, 50]); // the boxed pair is still alive
+  assert.deepEqual([s.caught, s.lost, s.alive, s.survival], [2, 1, 1, 50]); // team lost; the boxed pair is still alive
   assert.equal(R.graveyard(run).length, 0); // the team isn't moved to the graveyard
 });

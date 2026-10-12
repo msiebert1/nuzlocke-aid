@@ -311,3 +311,11 @@ test("abandoning records an optional reason", () => {
   assert.match(R.sharePost(run, "team", { game: "X" }), /Run abandoned: Lost to the Champion/);
   assert.equal(R.endRun(newRun(), "defeat", "abandoned").result.note, undefined);
 });
+
+test("an abandoned run's team counts as lost in the tally and share post", () => {
+  const res = R.logEncounter(newRun(), { location: "Starter", status: "caught", catches: [{ player: 0, species: "Snivy" }] });
+  let run = R.endRun(R.place(res.run, res.id, "party"), "defeat", "abandoned");
+  assert.equal(R.tally(run).lost, 1);
+  assert.equal(R.graveyard(run).length, 0);
+  assert.match(R.sharePost(run, "team", { game: "X" }), /🪦 1 lost/);
+});

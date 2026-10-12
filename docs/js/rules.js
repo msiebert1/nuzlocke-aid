@@ -323,7 +323,9 @@ export function tally(run) {
   return {
     logged: run.encounters.length,
     caught: run.encounters.filter((e) => isUsable(run, e)).length,
-    lost: graveyard(run).length,
+    // an abandoned run's team didn't make it either (though it isn't moved
+    // to the graveyard)
+    lost: graveyard(run).length + (run.result?.reason === "abandoned" ? party(run).length : 0),
   };
 }
 
